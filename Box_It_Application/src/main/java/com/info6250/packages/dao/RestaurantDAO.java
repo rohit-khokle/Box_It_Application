@@ -8,4 +8,6 @@ public interface RestaurantDAO {
 	
 	public List<Restaurant> getRestaurants();
 
+	public void saveRestaurant(Restaurant theRestaurant);
+
 }

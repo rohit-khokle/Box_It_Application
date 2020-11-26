@@ -22,10 +22,10 @@ public class RestaurantDAOImpl implements RestaurantDAO {
 	
 	
 	@Override
-	@Transactional
+//	@Transactional
 	public List<Restaurant> getRestaurants() {
 		
-		System.out.println("1 Control coming in the getRestaurants Method");
+		// System.out.println("1 Control coming in the getRestaurants Method");
 		
 		
 		// Get the current Hibernate Session
@@ -33,16 +33,25 @@ public class RestaurantDAOImpl implements RestaurantDAO {
 		Session currentSession = sessionFactory.openSession();
 		
 		
-		System.out.println("2. got currentSession");
+//		System.out.println("2. got currentSession");
 		// Create a query
 		Query<Restaurant> theQuery =
-				currentSession.createQuery("from Restaurant", Restaurant.class);
-		System.out.println("3. query object created");		
+				currentSession.createQuery("from Restaurant ORDER BY store_name", 
+						Restaurant.class);
+	//	System.out.println("3. query object created");		
 		// Execute query and get result list
 		List<Restaurant> restaurants = theQuery.getResultList();
 		System.out.println("got result");
 		// Return the results		
 		return restaurants;
+	}
+
+
+
+	@Override
+	public void saveRestaurant(Restaurant theRestaurant) {
+		Session currentSession = sessionFactory.openSession();	
+		currentSession.save(theRestaurant);
 	}
 
 }

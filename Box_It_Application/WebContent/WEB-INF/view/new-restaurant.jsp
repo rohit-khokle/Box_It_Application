@@ -7,51 +7,87 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Super-user Only</title>
+<title>Add New Restaurant</title>
+	<link type="text/css"
+		rel="stylesheet"
+		href="${pageContext.request.contextPath}/resources/css/style.css" />
+		<link type="text/css"
+		rel="stylesheet"
+		href="${pageContext.request.contextPath}/resources/css/add-customer-style.css" />
+	
+	
+	
 </head>
 <body>
 
 
 
-<div align="right">
+	<div id="wrapper">
+		<div id="header">
+			<h2> Add New Restaurant! </h2>
+		</div>	
+		<div id="container">
+			<h3> Restaurant details </h3>
+			<form:form action="saveRestaurant" modelAttribute="restaurant" method="POST">
+			<table>
+				<tbody>
+					<tr>
+						<td> <label>Store Name </label></td>
+						<td><form:input path="name" /></td>
+					</tr>
+				
+
+					<tr>
+						<td> <label>Zip Code </label></td>
+						<td><form:input path="zipCode" /></td>
+					</tr>
+				
+				
+				    <tr>
+						<td> <label>Manager Username </label></td>
+						<td><form:input path="manager" /></td>
+					</tr>
+				
+					<tr>
+						<td> <label>Address </label></td>
+						<td><form:input path="address" /></td>
+					</tr>	
+					
+									
+					<tr>
+						<td> <label></label></td>
+						<td>			
+							<button type="submit" class="btn btn-outline-success"> Submit </button>
+						</td>
+					</tr>	
+								
+				</tbody>
+			</table>
+		</form:form>
+		
+			
+			
+			
+		</div>
+		
+
+	</div>
+
+
+<span>
 <form:form  action="${pageContext.request.contextPath}/systems" 
  				method="GET">
  				<button type="submit" value="Logout"  class="btn btn-outline-warning"> back </button>
 </form:form>
 <form:form  action="${pageContext.request.contextPath}/logout" 
- 				method="GET">
+ 				method="POST">
  				<button type="submit" value="Logout"  class="btn btn-outline-danger"> Logout </button>
 </form:form>
-</div>
-
-<hr>
-<div align="center">
-	<p class="text-monospace">	Add new restaurant <br><br> 
- <!-- 		Role(s): <security:authentication property="principal.authorities"/> 
-
-<hr>
-<a href="${pageContext.request.contextPath}/employees"> Back to home page.  </a>
-<form:form  action="${pageContext.request.contextPath}/logout"  method="POST">
-<button type="submit" class="btn btn-primary btn-lg btn-block">Block level button</button>
-</form:form> -->
+</span>
 
 
 
-<form:form  action="${pageContext.request.contextPath}/systems/new-restaurant"  method="POST">
-<button type="submit" class="btn btn-primary btn-lg btn-block">Open a new restaurant</button>
-</form:form>
 
 
-<form:form  action="${pageContext.request.contextPath}/systems/view-restaurants"  method="POST">
-<button type="submit" class="btn btn-primary btn-lg btn-block">View all restaurants</button>
-</form:form>
-
-
-<form:form  action="${pageContext.request.contextPath}/systems/setup-view"  method="POST">
-<button type="submit" class="btn btn-primary btn-lg btn-block">Setup menu</button>
-</form:form>
-
-</p>
-</div>
 </body>
 </html>

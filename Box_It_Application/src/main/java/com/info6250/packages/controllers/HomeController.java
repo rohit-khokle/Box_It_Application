@@ -1,4 +1,4 @@
-package com.info6250.packages.controllers;
+ package com.info6250.packages.controllers;
 
 import java.util.List;
 
@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.info6250.packages.dao.RestaurantDAO;
 import com.info6250.packages.entities.Restaurant;
+import com.info6250.packages.service.RestaurantService;
 
 @Controller
 public class HomeController {
 
 	@Autowired
-	private RestaurantDAO restaurantDAO;
+	private RestaurantService restaurantService;
 	
 	@GetMapping("/")
 	public String showLandingPage() {
@@ -39,7 +40,7 @@ public class HomeController {
 		
 		
 		// Get Restaurants frpom the DAO
-		List<Restaurant> restaurants = restaurantDAO.getRestaurants();
+		List<Restaurant> restaurants = restaurantService.getRestaurants();
 
 		// Add the restaurants to the model
 		theModel.addAttribute("restaurants",restaurants);

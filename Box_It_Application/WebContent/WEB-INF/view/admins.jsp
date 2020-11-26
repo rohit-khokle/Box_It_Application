@@ -37,9 +37,9 @@
 
 
 
-<form:form  action="${pageContext.request.contextPath}/systems/new-restaurant"  method="POST">
-<button type="submit" class="btn btn-primary btn-lg btn-block">Open a new restaurant</button>
-</form:form>
+ <form:form  action="${pageContext.request.contextPath}/systems/new-restaurant"  method="GET"> 
+			<button type="submit" class="btn btn-primary btn-lg btn-block">Open a new restaurant</button>
+ </form:form>
 
 
 <form:form  action="${pageContext.request.contextPath}/systems/setup-menu"  method="POST">
