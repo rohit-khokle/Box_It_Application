@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.info6250.packages.dao.RestaurantDAO;
+import com.info6250.packages.entities.Menu;
 import com.info6250.packages.entities.Restaurant;
 
 
@@ -30,6 +31,41 @@ public class RestaurantServiceImpl implements RestaurantService {
 	@Transactional
 	public void saveRestaurant(Restaurant theRestaurant) {
 		restaurantDAO.saveRestaurant(theRestaurant);
+	}
+
+
+
+	@Override
+	@Transactional
+	public Restaurant getRestaurant(int theId) {
+		
+		return restaurantDAO.getRestaurant(theId);
+	}
+
+
+
+	@Override
+	@Transactional
+	public List<Menu> getAllMenu() {
+		// TODO Auto-generated method stub
+		return restaurantDAO.getAllMenu();
+	}
+
+
+
+	@Override
+	@Transactional
+	public void saveMenu(Menu theRestaurant) {
+		restaurantDAO.saveMenu(theRestaurant);
+		
+	}
+
+
+
+	@Override
+	@Transactional
+	public Menu getMenu(int theId) {
+		return restaurantDAO.getMenu(theId);
 	}
 
 }

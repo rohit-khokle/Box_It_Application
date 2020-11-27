@@ -17,13 +17,6 @@
 
 
 
-<div align="right">
-<form:form  action="${pageContext.request.contextPath}/logout" 
- 				method="POST">
- 				<button type="submit" value="Logout"  class="btn btn-outline-danger"> Logout </button>
-</form:form>
-</div>
-
 <hr>
 <div align="center">
 	<p class="text-monospace">	Welcome - <security:authentication property="principal.username"/> <br><br> 
@@ -35,17 +28,6 @@
 <button type="submit" class="btn btn-primary btn-lg btn-block">Block level button</button>
 </form:form> -->
 
-
-
- <form:form  action="${pageContext.request.contextPath}/systems/new-restaurant"  method="GET"> 
-			<button type="submit" class="btn btn-primary btn-lg btn-block">Open a new restaurant</button>
- </form:form>
-
-
-<form:form  action="${pageContext.request.contextPath}/systems/setup-menu"  method="POST">
-<button type="submit" class="btn btn-primary btn-lg btn-block">Setup menu</button>
-</form:form>
-
 <hr>
 <p class="text-monospace"> List of Restaurants </p>
 <table class="table table-hover">
@@ -56,17 +38,26 @@
       <th scope="col">Zip-Code</th>
       <th scope="col">Manager</th>
       <th scope="col">Address</th>
+      <th scope="col">Action</th>
     </tr>
   </thead>
   <tbody>
-  <c:set var="count" value="0" scope="page" />
+  <c:set var="count" value="1" scope="page" />
   <c:forEach var="tempRestaurant" items="${restaurants}" >
+  <c:url var="updateLink" value="/systems/showFormForUpdate">
+  	<c:param name = "restaurantID" value="${tempRestaurant.id}" />
+  </c:url>
+  
+  
     <tr>
       <th scope="row"><c:out value="${count}" /></th>
       <td>${tempRestaurant.name}</td>
       <td>${tempRestaurant.zipCode}</td>
       <td>${tempRestaurant.manager}</td>
       <td>${tempRestaurant.address}</td>
+  	  <td>
+  	<a href="${updateLink}">Update</a>
+  		</td>
     </tr>
     <c:set var="count" value="${count + 1}" scope="page"/>
     </c:forEach>
@@ -76,7 +67,24 @@
 
 
 
+ <form:form  action="${pageContext.request.contextPath}/systems/new-restaurant"  method="GET"> 
+			<button type="submit" class="btn btn-primary btn-lg btn-block">Open a new restaurant</button>
+ </form:form>
 
+
+<form:form  action="${pageContext.request.contextPath}/systems/setup-menu"  method="GET">
+<button type="submit" class="btn btn-primary btn-lg btn-block">Setup menu</button>
+</form:form>
+
+
+
+
+<div align="left">
+<form:form  action="${pageContext.request.contextPath}/logout" 
+ 				method="POST">
+ 				<button type="submit" value="Logout"  class="btn btn-outline-danger"> Logout </button>
+</form:form>
+</div>
 
 
 

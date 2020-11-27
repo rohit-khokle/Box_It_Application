@@ -15,28 +15,61 @@
 	    
        </head>
        <body>
-  <div align="center">
-          <h2><i>Box-it!</i></h2>
-          <hr>     
-        <br>       
-             Hungry? <br>
-             Login and choose <br>
-             We will Box-it for you :-)
-	          <hr>
+       
+   <div class="jumbotron">
+  <h1 class="display-4">Welcome to Box-it!</h1>
+  <p class="lead"> Healthy yumminess, boxed and delivered at your doorstep! </p>
+  <hr class="my-4">
+  <p> Box away! </p>
 	          <form:form action = "${pageContext.request.contextPath}/customerLogin">
 	            <button type="submit" class="btn btn-primary btn-lg">Customer Login</button> 
 	          </form:form>
 	          <p class="text-monospace"><i>Not a customer yet? </i><a href="${pageContext.request.contextPath}/register">Register</a>
 	          </p>
-        <hr>       
-        </div>
+	          
+	             
         <div align="right">
           <p class="text-monospace">
            <i> Employee? Login here -></i> <a href="${pageContext.request.contextPath}/employees">Employee Login</a>
           </p>
-          </div>
+      
+	          
+	          </div>
 
-          
-          
+       
+<div  class="carousel slide carousel-fade" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="${pageContext.request.contextPath}/resources/images/cover_2.jpg" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="${pageContext.request.contextPath}/resources/images/cover_2.jpg" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="${pageContext.request.contextPath}/resources/images/cover_3.jpg"class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="${pageContext.request.contextPath}/resources/images/cover_4.jpg"class="d-block w-100" alt="...">
+    </div>
+    
+    <div class="carousel-item">
+      <img src="${pageContext.request.contextPath}/resources/images/cover_5.jpg"class="d-block w-100" alt="...">
+    </div>
+    
+    
+    <div class="carousel-item">
+      <img src="${pageContext.request.contextPath}/resources/images/cover_6.jpg"class="d-block w-100" alt="...">
+    </div>
+   
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>      </div> 
        </body>
     </html>

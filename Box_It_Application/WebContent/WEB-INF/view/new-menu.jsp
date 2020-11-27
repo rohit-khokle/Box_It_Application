@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Add New Restaurant</title>
+<title>Manage Menu</title>
 	<link type="text/css"
 		rel="stylesheet"
 		href="${pageContext.request.contextPath}/resources/css/style.css" />
@@ -24,38 +24,53 @@
 
 	<div id="wrapper">
 		<div id="header">
-			<h2> Add New Restaurant! </h2>
+			<h2> Add new Item! </h2>
 		</div>	
 		<div id="container">
 			<h3> Restaurant details </h3>
-			<form:form action="saveRestaurant" modelAttribute="restaurant" method="POST">
+			<form:form action="saveMenu" modelAttribute="menu" method="POST">
 			<!--  associate the data with customer id -->
 			<form:hidden path="id" />
 			<table>
 				<tbody>
 					<tr>
-						<td> <label>Store Name </label></td>
-						<td><form:input path="name" /></td>
+						<td> <label>Dish Name </label></td>
+						<td><form:input path="dish_name" /></td>
 					</tr>
 				
 
 					<tr>
-						<td> <label>Zip Code </label></td>
-						<td><form:input path="zipCode" /></td>
+						<td> <label> Category </label></td>
+						<td><form:select path="dish_category">
+					        <form:option value="Salad" label="Salad"/>  
+					        <form:option value="Beverage" label="Beverage"/>  
+					        <form:option value="Soup" label="Soup"/>  
+					        <form:option value="Sides" label="Sides"/>  									
+					        <form:option value="Breakfast" label="Breakfast"/>
+						</form:select>
+						</td>
 					</tr>
 				
 				
 				    <tr>
-						<td> <label>Manager Username </label></td>
-						<td><form:input path="manager" /></td>
+						<td> <label> Description </label></td>
+						<td><form:input path="description" /></td>
 					</tr>
 				
 					<tr>
-						<td> <label>Address </label></td>
-						<td><form:input path="address" /></td>
+						<td> <label> Price </label></td>
+						<td><form:input path="price" /></td>
 					</tr>	
-					
-									
+					<tr>
+						<td> <label>Calories </label></td>
+						<td><form:input path="calories" /></td>
+					</tr>	
+										
+					<tr>
+						<td> <label>Remarks </label></td>
+						<td><form:input path="remarks" /></td>
+					</tr>	
+																
 					<tr>
 						<td> <label></label></td>
 						<td>			
