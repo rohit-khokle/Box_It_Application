@@ -2,14 +2,15 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page session="true" %>
 
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Customer Workspace</title>
 </head>
 <body>
 <h3> Something Something</h3>
@@ -19,12 +20,9 @@
 <p>
 		User : <security:authentication property="principal.username"/> <br><br>
 		Role(s): <security:authentication property="principal.authorities"/>
+		User name : <c:out value="${sessionScope.user.userName}"/> 
 </p>
 <hr>
-
-
-
-
 <security:authorize access="hasRole('MANAGER')">
 <hr>
 <p>

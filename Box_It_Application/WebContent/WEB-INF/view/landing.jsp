@@ -21,16 +21,16 @@
   <p class="lead"> Healthy yumminess, boxed and delivered at your doorstep! </p>
   <hr class="my-4">
   <p> Box away! </p>
-	          <form:form action = "${pageContext.request.contextPath}/customerLogin">
+	          <form:form action = "${pageContext.request.contextPath}/home"  method="GET" >
 	            <button type="submit" class="btn btn-primary btn-lg">Customer Login</button> 
 	          </form:form>
-	          <p class="text-monospace"><i>Not a customer yet? </i><a href="${pageContext.request.contextPath}/register">Register</a>
+	          <p class="text-monospace"><i>Not a customer yet? </i><a href="${pageContext.request.contextPath}/register/showRegistrationForm">Register</a>
 	          </p>
 	          
 	             
         <div align="right">
           <p class="text-monospace">
-           <i> Employee? Login here -></i> <a href="${pageContext.request.contextPath}/employees">Employee Login</a>
+           <i> Employee? Login here -></i> <a href="${pageContext.request.contextPath}/home">Employee Login</a>
           </p>
       
 	          

@@ -33,17 +33,13 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 @PropertySource("classpath:persistence-mysql.properties")
 public class DemoAppConfig  implements WebMvcConfigurer {
 	
-	// Set a variable to hold the properties
-	
+	// Set a variable to hold the properties	
 	@Autowired
 	private Environment env;
 	
-	// Setup a logger
-	
+	// Setup a logger	
 	private Logger logger = Logger.getLogger(getClass().getName());
 	
-	
-
 	@Bean
 	public ViewResolver viewResolver() {
 		
@@ -113,7 +109,6 @@ public class DemoAppConfig  implements WebMvcConfigurer {
 		return intPropVal;
 	}
 
-
 	// Hibernate and data source config below...
 	@Bean
 	public DataSource myDataSource() {
@@ -162,7 +157,7 @@ public class DemoAppConfig  implements WebMvcConfigurer {
 	@Bean
 	public LocalSessionFactoryBean sessionFactory(){
 		
-		// create session factorys
+		// create session factory
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		
 		// set the properties

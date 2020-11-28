@@ -22,9 +22,9 @@ public class HomeController {
 		return "landing";
 	}
 	
-	@GetMapping("/employees")
+	@GetMapping("/home")
 	public String showHome() {
-		return "employee-redirect";
+		return "redirect";
 		//	return "home";
 	}
 
@@ -47,6 +47,12 @@ public class HomeController {
 		
 		return "admins";
 	}
+	
+	@GetMapping("/my-box-it")
+	public String showCustomerWorkspace(Model theModel) {
+		return "home";
+	}
+	
 	
 	@GetMapping("/chef-dashboard")
 	public String showChef() {

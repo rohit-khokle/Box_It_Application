@@ -20,11 +20,12 @@ public class LoginController {
 	public String customerLoginPage() {
 		return "customer-login";
 	}
-	
+
+	/*
 	@GetMapping("/register")
 	public String showNewRegisterationPage() {
 		return "customer-register";
 	}
-	
+	*/
 	
 }
