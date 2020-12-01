@@ -48,7 +48,6 @@
 
 
 
-
 <p align="center" class="text-monospace"><b> Current Offerings </b></p>
 <table class="table table-hover">
   <thead>
