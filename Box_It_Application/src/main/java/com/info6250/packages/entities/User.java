@@ -39,8 +39,15 @@ public class User {
 	
 	@Column(name =  "email")
 	private String email;
+	
+	@Column(name =  "restaurant_name")
+	private String restaurantName;
+
+	@Column(name =  "staff_role")
+	private String staffRole;
 
 	
+		
 	
 	
 
@@ -72,17 +79,22 @@ public class User {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public String getRestaurantName() {
+		return restaurantName;
+	}
+
+	public void setRestaurantName(String restaurantName) {
+		this.restaurantName = restaurantName;
+	}
+
+	public String getStaffRole() {
+		return staffRole;
+	}
+
+	public void setStaffRole(String staffRole) {
+		this.staffRole = staffRole;
+	}
+
 	public Long getId() {
 		return id;
 	}

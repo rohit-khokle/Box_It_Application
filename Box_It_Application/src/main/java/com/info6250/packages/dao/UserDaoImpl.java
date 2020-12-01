@@ -6,6 +6,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.info6250.packages.entities.Restaurant;
 import com.info6250.packages.entities.User;
 
 
@@ -40,6 +41,27 @@ public class UserDaoImpl implements UserDao {
 		Session currentSession = sessionFactory.getCurrentSession();		
 		currentSession.saveOrUpdate(user);
 
+	}
+
+	@Override
+	public User getUserById(Long id) {
+		Session currentSession = sessionFactory.getCurrentSession();	
+		return currentSession.get(User.class,id);
+	}
+
+	@Override
+	public void deleteStaff(long theId) {
+		
+		// GEt the current hibernate session
+		Session currentSession = sessionFactory.getCurrentSession();	
+		
+		
+		// Delete object the primay key
+		
+		Query theQuery = currentSession.createQuery("DELETE FROM User WHERE id=:theUserId");
+		theQuery.setParameter("theUserId", theId);
+		
+		theQuery.executeUpdate();	
 	}
 
 }

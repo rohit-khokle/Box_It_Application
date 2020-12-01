@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.info6250.packages.entities.Menu;
 import com.info6250.packages.entities.Restaurant;
+import com.info6250.packages.entities.User;
 
 public interface RestaurantDAO {
 	
@@ -20,7 +21,8 @@ public interface RestaurantDAO {
 
 	public Menu getMenu(int theId);
 
+	public List<User> getAllStaff();
 	
-	
+	public List<String> getAllRestaurantNames();
 	
 }

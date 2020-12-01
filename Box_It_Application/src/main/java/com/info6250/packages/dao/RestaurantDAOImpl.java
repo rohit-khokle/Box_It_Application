@@ -2,7 +2,7 @@ package com.info6250.packages.dao;
 
 import java.util.List;
 
-
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.info6250.packages.entities.Menu;
 import com.info6250.packages.entities.Restaurant;
+import com.info6250.packages.entities.User;
 
 @Repository
 public class RestaurantDAOImpl implements RestaurantDAO {
@@ -34,6 +35,24 @@ public class RestaurantDAOImpl implements RestaurantDAO {
 		List<Restaurant> restaurants = theQuery.getResultList();
 		System.out.println("got result");
 		return restaurants;
+	}
+
+	@Override
+//	@Transactional
+	public List<User> getAllStaff() {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		SQLQuery<User> theQuery =
+				currentSession.createSQLQuery("SELECT * FROM USER WHERE restaurant_name IS NOT NULL ORDER BY restaurant_name");
+
+		theQuery.addEntity(User.class);
+//				currentSession.createQuery("from User u WHERE u.restaurantName IS NOT :temp", 
+//						User.class);
+	//	theQuery.setParameter("temp", null);
+		List<User> users = theQuery.getResultList();
+		System.out.println("got result");
+		return users;
 	}
 
 
@@ -93,6 +112,23 @@ public class RestaurantDAOImpl implements RestaurantDAO {
 	public Menu getMenu(int theId) {
 		Session currentSession = sessionFactory.getCurrentSession();	
 		return currentSession.get(Menu.class, theId);
+	}
+
+	@Override
+	public List<String> getAllRestaurantNames() {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		// Query<String> theQuery =
+		SQLQuery<String> query = 		currentSession.createSQLQuery("SELECT store_name FROM enterprise"); //,createQuery("SELECT name FROM Restaurant", 
+					//	String.class);
+	//	System.out.println("3. query object created");		
+		// Execute query and get result list
+		
+		List<String> restaurants = query.getResultList();
+		System.out.println("got result");
+		// Return the results			
+		
+		return restaurants;
 	}
 
 }

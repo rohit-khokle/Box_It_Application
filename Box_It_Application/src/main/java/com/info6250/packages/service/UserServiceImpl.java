@@ -72,6 +72,60 @@ public class UserServiceImpl implements UserService {
 	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
 		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
 	}
+
+	@Override
+	@Transactional
+	public void saveStaff(BoxItUser boxItUser) {
+		User user = new User();
+		
+		if(boxItUser.getId() != 0)
+			user.setId(boxItUser.getId());
+		
+		user.setUserName(boxItUser.getUserName());
+		user.setPassword(passwordEncoder.encode(boxItUser.getUserName()));
+		user.setFirstName(boxItUser.getFirstName());
+		user.setLastName(boxItUser.getLastName());
+		user.setEmail(boxItUser.getEmail());
+		user.setRestaurantName(boxItUser.getRestaurantName());
+		String roleType = boxItUser.getRole();
+		
+		/*
+		 * Manager, Chef, Delivery Executive
+		 * */
+		
+		if(roleType.equalsIgnoreCase("Manager"))
+			{
+			user.setStaffRole("Manager");
+			user.setRoles(Arrays.asList(new Role("ROLE_MANAGER"), new Role("ROLE_EMPLOYEE")));
+			}
+		else if(roleType.equalsIgnoreCase("Chef"))
+			{
+			user.setStaffRole("Chef");
+			user.setRoles(Arrays.asList(new Role("ROLE_CHEF"), new Role("ROLE_EMPLOYEE")));
+			
+			
+			}else if(roleType.equalsIgnoreCase("Delivery Executive")) {
+				user.setStaffRole("Delivery Executive");
+				user.setRoles(Arrays.asList(new Role("ROLE_DELIVERY_EXECUTIVES"), new Role("ROLE_EMPLOYEE")));			
+			
+			}
+		userDao.save(user);
+		
+	}
+
+	@Override
+	@Transactional
+	public User getUserById(Long id) {
+		// TODO Auto-generated method stub
+		return userDao.getUserById(id);
+	}
+
+	@Override
+	@Transactional
+	public void deleteStaff(long theId) {
+		 userDao.deleteStaff(theId);
+		
+	}
 	
 	
 

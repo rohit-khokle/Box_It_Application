@@ -12,7 +12,8 @@ import com.info6250.packages.validation.FieldMatch;
 		{@FieldMatch(first = "password", second = "matchingPassword", message = "The password fields must match")
 		})
 public class BoxItUser {
-	
+	private long id;
+
 	@NotNull(message = "is required")
 	@Size(min = 1, message= "is required")
 	private String userName;
@@ -39,8 +40,12 @@ public class BoxItUser {
 	@NotNull(message = "is required")
 	private String email;
 
+	
+	@NotNull(message = "is required")
 	private String role;
-
+	
+	@NotNull(message = "is required")
+	private String restaurantName;
 
 
 	public String getUserName() {
@@ -113,8 +118,6 @@ public class BoxItUser {
 		this.email = email;
 	}
 
-
-
 	public String getRole() {
 		return role;
 	}
@@ -127,9 +130,36 @@ public class BoxItUser {
 
 
 
+	public String getRestaurantName() {
+		return restaurantName;
+	}
+
+
+
+	public void setRestaurantName(String restaurantName) {
+		this.restaurantName = restaurantName;
+	}
+
+
+
 	public BoxItUser() {
 		
 	}
+
+
+
+	public long getId() {
+		return id;
+	}
+
+
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+
+
 	
 	
 	

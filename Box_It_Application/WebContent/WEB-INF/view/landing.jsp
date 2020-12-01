@@ -20,7 +20,6 @@
   <h1 class="display-4">Welcome to Box-it!</h1>
   <p class="lead"> Healthy yumminess, boxed and delivered at your doorstep! </p>
   <hr class="my-4">
-  <p> Box away! </p>
 	          <form:form action = "${pageContext.request.contextPath}/home"  method="GET" >
 	            <button type="submit" class="btn btn-primary btn-lg">Customer Login</button> 
 	          </form:form>

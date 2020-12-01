@@ -8,4 +8,8 @@ public interface UserDao {
 	
 	void save(User user);	
 	
+	User getUserById(Long id);
+
+	void deleteStaff(long theId);
+	
 }

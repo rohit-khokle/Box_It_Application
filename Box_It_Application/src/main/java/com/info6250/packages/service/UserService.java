@@ -9,5 +9,7 @@ public interface UserService extends UserDetailsService {
 
 	User findByUserName(String userName);
 	void save(BoxItUser boxItUser);
-	
+	void saveStaff(BoxItUser boxItUser);
+	User getUserById(Long id);
+	void deleteStaff(long theId);
 }

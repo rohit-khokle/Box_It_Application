@@ -1,13 +1,16 @@
  package com.info6250.packages.controllers;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 
-import com.info6250.packages.dao.RestaurantDAO;
 import com.info6250.packages.entities.Restaurant;
 import com.info6250.packages.service.RestaurantService;
 
@@ -16,6 +19,23 @@ public class HomeController {
 
 	@Autowired
 	private RestaurantService restaurantService;
+	
+	
+	
+	private Logger logger = Logger.getLogger(getClass().getName());
+	
+	
+    
+	@InitBinder
+	public void initBinder(WebDataBinder dataBinder) {
+		
+		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+		
+		dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+	}	
+	
+	
+	
 	
 	@GetMapping("/")
 	public String showLandingPage() {
@@ -50,6 +70,14 @@ public class HomeController {
 	
 	@GetMapping("/my-box-it")
 	public String showCustomerWorkspace(Model theModel) {
+		
+		// Get Restaurants frpom the DAO
+		List<Restaurant> restaurants = restaurantService.getRestaurants();
+
+		// Add the restaurants to the model
+		theModel.addAttribute("restaurants",restaurants);
+		
+		
 		return "home";
 	}
 	

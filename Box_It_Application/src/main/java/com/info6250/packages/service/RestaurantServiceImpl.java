@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.info6250.packages.dao.RestaurantDAO;
 import com.info6250.packages.entities.Menu;
 import com.info6250.packages.entities.Restaurant;
+import com.info6250.packages.entities.User;
 
 
 @Service
@@ -25,6 +26,12 @@ public class RestaurantServiceImpl implements RestaurantService {
 		return restaurantDAO.getRestaurants();
 	}
 
+
+	@Override
+	@Transactional
+	public List<User> getAllStaff() {
+		return restaurantDAO.getAllStaff();
+	}
 
 
 	@Override
@@ -66,6 +73,14 @@ public class RestaurantServiceImpl implements RestaurantService {
 	@Transactional
 	public Menu getMenu(int theId) {
 		return restaurantDAO.getMenu(theId);
+	}
+
+
+	@Override
+	@Transactional
+	public List<String> getAllRestaurantNames() {
+		// TODO Auto-generated method stub
+		return restaurantDAO.getAllRestaurantNames();
 	}
 
 }

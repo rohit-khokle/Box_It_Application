@@ -68,16 +68,14 @@
 
 
  <form:form  action="${pageContext.request.contextPath}/systems/new-restaurant"  method="GET"> 
-			<button type="submit" class="btn btn-primary btn-lg btn-block">Open a new restaurant</button>
+			<button type="submit" class="btn btn-success btn-lg btn-block">Open a new restaurant</button>
  </form:form>
-
-
+ <form:form  action="${pageContext.request.contextPath}/systems/manage-staff"  method="GET"> 
+			<button type="submit" class="btn btn-success btn-lg btn-block">Manage Staff</button>
+ </form:form>
 <form:form  action="${pageContext.request.contextPath}/systems/setup-menu"  method="GET">
-<button type="submit" class="btn btn-primary btn-lg btn-block">Setup menu</button>
+<button type="submit" class="btn btn-success btn-lg btn-block">Setup menu</button>
 </form:form>
-
-
-
 
 <div align="left">
 <form:form  action="${pageContext.request.contextPath}/logout" 
