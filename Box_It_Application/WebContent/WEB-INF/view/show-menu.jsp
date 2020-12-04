@@ -106,7 +106,7 @@
 			
 			
 			
-			<form:form  action="${pageContext.request.contextPath}/my-box-it/checkout" 
+			<form:form  action="${pageContext.request.contextPath}/my-box-it/step-3" 
 			 				method="POST">
 							<c:set var="myCart" value="${sessionScope.checkCart}" scope="session"/>
 							<c:set var = "restaurant" value="${restaurant}" scope="request" />

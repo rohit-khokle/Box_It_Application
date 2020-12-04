@@ -25,6 +25,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.info6250.packages.entities.MyCart;
+import com.info6250.packages.entities.Workspace;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 
@@ -197,4 +198,13 @@ public class DemoAppConfig  implements WebMvcConfigurer {
 //		return myCart;
 //	}
 
+    
+    
+	@Bean
+	@Autowired
+	public Workspace workspace() {		
+		Workspace workspace = new Workspace();
+		return workspace;
+	}
+    
 }

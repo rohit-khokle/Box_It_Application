@@ -40,6 +40,8 @@
 </nav>
 			<p align="left" class="display-2">
 				&#128523; <c:out value="${sessionScope.selectedRestaurant.name}" />
+				<hr>
+				User name :  <c:out value="${sessionScope.user.userName}"/>
 			</p>
 			
 			<h3 class="display-6">
@@ -111,8 +113,8 @@
 
 			
 			
-			<form:form  action="${pageContext.request.contextPath}/my-box-it/checkout" 
-			 				method="POST">
+			<form:form  action="${pageContext.request.contextPath}/my-box-it/place-order" 
+			 				method="GET">
 							<c:set var="myCart" value="${sessionScope.checkCart}" scope="session"/>
 			 				<button type="submit"  class="btn btn-outline-success"><p style="font-size:30px" > Place order!  &#128525;</p> </button>
 			</form:form>	
@@ -127,7 +129,7 @@
 					<form:form  action="${backLink}" 
 		 				method="GET">
 		 							<input type="hidden" name="restaurantID" value="${selectedRestaurant.id}" />
-					 <button type="submit"  class="btn btn-outline-warning"><p style="font-size:20px"  class="text-muted"> 
+					 <button type="submit"  class="btn btn-outline-warning"><p style="font-size:20px" > 
 					  Back &#128584;</p> </button>
 			</form:form> 
 			
@@ -135,7 +137,7 @@
 			
 			<form:form  action="${pageContext.request.contextPath}/logout" 
 			 				method="POST">
-			 				<button type="submit"  class="btn btn-outline-danger"> <p style="font-size:20px"  class="text-muted"> Logout &#128586;</p> </button>
+			 				<button type="submit"  class="btn btn-outline-danger"> <p style="font-size:20px" > Logout &#128586;</p> </button>
 			</form:form> 
 
 </div>

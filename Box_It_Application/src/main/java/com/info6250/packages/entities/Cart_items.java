@@ -1,19 +1,20 @@
 package com.info6250.packages.entities;
 
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "menu")
-public class Menu {
+@Table(name = "cart_items")
+public class Cart_items {
 
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "dish_id")
@@ -41,7 +42,17 @@ public class Menu {
 	@Transient
 	private int quantity;
 	
-
+	
+	
+	@ManyToOne(cascade= {
+			CascadeType.PERSIST, CascadeType.MERGE,
+			CascadeType.DETACH, CascadeType.REFRESH 
+	})
+	@JoinColumn(name="workspace_id")
+	private Workspace workspace;
+	
+	
+	
 	
 	public int getId() {
 		return id;
@@ -84,6 +95,20 @@ public class Menu {
 	}
 
 	
+	
+	
+	
+	
+
+
+	public Workspace getWorkspace() {
+		return workspace;
+	}
+
+	public void setWorkspace(Workspace workspace) {
+		this.workspace = workspace;
+	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -99,6 +124,9 @@ public class Menu {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
+	
+	
+	
 	
 
 	public int getQuantity() {
@@ -141,7 +169,7 @@ public class Menu {
 	@Override
 	public boolean equals(Object obj) {
 
-		Menu other = (Menu) obj;
+		Cart_items other = (Cart_items) obj;
 
 		if (dish_category == null) {
 			if (other.dish_category != null)
@@ -158,5 +186,5 @@ public class Menu {
 		return true;
 	}
 
-	public Menu() {}
+	public Cart_items() {}
 }
