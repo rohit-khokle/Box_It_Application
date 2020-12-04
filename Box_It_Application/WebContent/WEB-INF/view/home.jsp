@@ -30,21 +30,19 @@
 <div class="jumbotron" align="center">
 
 
-
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page"><a href="${pageContext.request.contextPath}/home">Home</a></li>
-        <li class="breadcrumb-item"><a href="#">My Order</a></li>
-    <li class="breadcrumb-item"><a href="#">My Profile</a></li>
+        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/order-History">My Order</a></li>
+    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/my-Profile">My Profile</a></li>
   </ol>
 </nav>
 
 
-
   <h2 class="display-3">Hungry, <c:out value="${sessionScope.user.userName}"/>?</h2>
  <p class="lead"> Order in 3 easy steps!</p>
-	<h3  class="display-4">  </h3>
-	  <hr class="my-4"> <h3 class="display-6">
+
+ 	<h3 class="display-6">
 		<span style="text-decoration:underline;">
 	  					<b>Step 1 - Choose the Box-it store!</b> </span></h3>
 	  	<p class="text-muted"> <i> Hint: Pick the nearest to your address for quicker delivery ;)</i></p>
@@ -85,13 +83,10 @@
 		</table>
 
 	
-	
-	 
- 	<form:form  action="${pageContext.request.contextPath}/logout" 
-	 				method="POST">
-	 				<input type="submit" class="btn btn-success btn-lg" value="Logout" />
-	</form:form>
-
+			<form:form  action="${pageContext.request.contextPath}/logout" 
+			 				method="POST">
+			 				<button type="submit"  class="btn btn-outline-danger"> <p style="font-size:20px"  class="text-muted"> Logout &#128586;</p> </button>
+			</form:form> 
 
 </div>
 </body>

@@ -44,86 +44,98 @@
 			
 			<h3 class="display-6">
 			<span style="text-decoration:underline;">
-	  					<b>Step 2 - Pick your meal! &#127835; </b> </span></h3>
-	  		<p class="text-muted"> <i> Pick anything. We serve only healthy stuff &#128170; </i></p>
+	  					<b>Step 3 - Place the order! &#127835; </b> </span></h3>
+	  		<p class="text-muted"> <i> Easiest step of all! &#128170; </i></p>
 			<hr>
-		
-			<c:if test="${promptThis.dish_category eq 'Salad'}" >
-					<div class="alert alert-success alert-dismissible fade in">
-						    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-						    <strong>Nice!</strong> ${promptThis.dish_name} is added in your cart! Add a Beverage, maybe?
-				  	</div>
- 			</c:if> 
-			<c:if test="${promptThis.dish_category eq 'Beverage'}" >
-					<div class="alert alert-primary alert-dismissible fade in">
-						    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-						    <strong>${promptThis.dish_name}</strong> takes care of the thirst. Excellent!
-				  	</div>
- 			</c:if> 		
-
 			
-			<p align="center" class="display-4"><b> Current Offerings </b></p>
+			
+
 			<table class="table table-hover">
 			  <thead>
 			    <tr>
 			      <th scope="col">#</th>
-			      <th scope="col">Dish</th>
-			      <th scope="col">Dish Category</th>
+			      <th scope="col">Items</th>
+			      <th scope="col">Category</th>
+			      <th scope="col">Quantity</th>
 			      <th scope="col">Price</th>
-			      <th scope="col">Calories</th>
+			      <th scope="col">Calories/Item</th>
 				   <th scope="col">Select</th>
 			    </tr>
 			  </thead>
 			  <tbody>
 			  <c:set var="count" value="1" scope="page" />
-			  <c:forEach var="menu" items="${allMenu}" >
-			  <c:url var="addIntoCart" value="/my-box-it/add-into-cart">
-			  	<c:param name = "restaurantID" value="${restaurant.id}" />
-			  	<c:param name = "menuID" value="${menu.id}" />
-			  	<c:param name = "checkCart" value="${myCart}" />
-			  </c:url>
-			  
-			  
-			    <tr>
-			      <th scope="row"><c:out value="${count}" /></th>
-			      <td>${menu.dish_name}</td>
-			      <td>${menu.dish_category}</td>
-			      <td>${menu.price}</td>
-			      <td>${menu.calories}</td>  
-			  	  <td>
+			  <c:forEach var="myCart" items="${sessionScope.myCart.myItems}" >
+			  <c:url var="refreshCart" value="/my-box-it/refresh-cart">
+			  	<c:param name = "restaurant" value="${restaurant}" />
+			  	<c:param name = "menuID" value="${myCart.id}" />
 			  	  
-			  	<a href="${addIntoCart}" > Add in my &#128722;</a>
-			  	
+			  </c:url>
+		
+			   <c:if test="${myCart.dish_category eq 'Salad'}">	  
+			  
+				    <tr  class="table-success">
+						      <th scope="row"><c:out value="${count}" /></th>
+						      <td>${myCart.dish_name}</td>
+	    				      <td>${myCart.dish_category}</td>
+						      <td>${myCart.quantity}</td>
+						      <td>${myCart.price}</td>
+						      <td>${myCart.calories}</td>
+						  	  <td><a href="${refreshCart}"> Remove </a></td> 
+				  	 </tr>
+				    
+			   </c:if>
 
-			  		</td>
-			    </tr>
+			   <c:if test="${myCart.dish_category eq 'Beverage'}">	  
+			  
+				    <tr  class="table-primary">
+						      <th scope="row"><c:out value="${count}" /></th>
+						      <td>${myCart.dish_name}</td>
+	    				      <td>${myCart.dish_category}</td>
+						      <td>${myCart.quantity}</td>
+						      <td>${myCart.price}</td>
+						      <td>${myCart.calories}</td>
+						  	  <td><a href="${refreshCart}"> Remove </a></td> 
+				  	 </tr>
+				    
+			   </c:if>
+
+
+			   
+			    
 			    <c:set var="count" value="${count + 1}" scope="page"/>
 			    </c:forEach>
 			  
 			  </tbody>
 			</table>
 			
-			
+
 			
 			
 			<form:form  action="${pageContext.request.contextPath}/my-box-it/checkout" 
 			 				method="POST">
 							<c:set var="myCart" value="${sessionScope.checkCart}" scope="session"/>
-							<c:set var = "restaurant" value="${restaurant}" scope="request" />
-
-			 				<button type="submit"  class="btn btn-outline-success"><p style="font-size:30px" > Checkout  &#128513;</p> </button>
+			 				<button type="submit"  class="btn btn-outline-success"><p style="font-size:30px" > Place order!  &#128525;</p> </button>
 			</form:form>	
 			
 
-						
 			
-			<form:form  action="${pageContext.request.contextPath}/home" 
-			 				method="GET">
-			 				<button type="submit"  class="btn btn-outline-warning"><p style="font-size:20px" >  Back &#128584;</p> </button>
-			</form:form>	
+
+	
+			  <c:url var="backLink" value="/my-box-it/step-2">
+				  	<c:param name = "restaurantID" value="${restaurant.id}" />			  	  
+			  </c:url>				
+					<form:form  action="${backLink}" 
+		 				method="GET">
+		 							<input type="hidden" name="restaurantID" value="${selectedRestaurant.id}" />
+					 <button type="submit"  class="btn btn-outline-warning"><p style="font-size:20px"  class="text-muted"> 
+					  Back &#128584;</p> </button>
+			</form:form> 
+			
+			
+			
 			<form:form  action="${pageContext.request.contextPath}/logout" 
 			 				method="POST">
-			 				<button type="submit"  class="btn btn-outline-danger"> <p style="font-size:20px" > Logout &#128586;</p> </button>
+			 				<button type="submit"  class="btn btn-outline-danger"> <p style="font-size:20px"  class="text-muted"> Logout &#128586;</p> </button>
 			</form:form> 
 
 </div>

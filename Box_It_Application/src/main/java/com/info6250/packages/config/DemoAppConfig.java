@@ -4,6 +4,7 @@ import java.beans.PropertyVetoException;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import com.info6250.packages.entities.MyCart;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 
@@ -185,6 +188,13 @@ public class DemoAppConfig  implements WebMvcConfigurer {
           .addResourceHandler("/resources/**")
           .addResourceLocations("/resources/"); 
     }	
-
+    
+    
+//	@Bean
+//	@Autowired
+//	public MyCart myCart() {		
+//		MyCart myCart = new MyCart();
+//		return myCart;
+//	}
 
 }

@@ -43,8 +43,14 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${springframework.version}</version>
 		</dependency>
-
-
+		
+			<!--  For Session Scope stuff -->
+			<dependency>
+			    <groupId>org.springframework</groupId>
+			    <artifactId>spring-context-support</artifactId>
+			    <version>${springframework.version}</version>
+			</dependency>
+	
 		<!--  MySQL and C3P0 Support -->
 		<dependency>
 			<groupId>mysql</groupId>

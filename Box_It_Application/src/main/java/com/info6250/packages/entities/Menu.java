@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "menu")
@@ -35,11 +36,12 @@ public class Menu {
 	@Column(name = "dish_desc")
 	private String description;
 
-	
-	
 	@Column(name = "remarks")
 	private String remarks;
 
+	@Transient
+	private int quantity;
+	
 	
 	public int getId() {
 		return id;
@@ -101,10 +103,67 @@ public class Menu {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
+	
+	
+	
+	
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
 	@Override
-	public String toString() { return "Menu [id=" + id + ", dish_name=" + dish_name + ", dish_category=" + dish_category + ", price=" + price
-				+ ", calories=" + calories + "]"; }
+	public String toString() {
+		return "Menu [dish_name=" + dish_name + ", dish_category=" + dish_category + ", price=" + price
+				+ ",  quantity="
+				+ quantity + "]";
+	}
+
+	
+	
+	
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(calories);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((dish_category == null) ? 0 : dish_category.hashCode());
+		result = prime * result + ((dish_name == null) ? 0 : dish_name.hashCode());
+		result = prime * result + id;
+		temp = Double.doubleToLongBits(price);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + quantity;
+		result = prime * result + ((remarks == null) ? 0 : remarks.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+
+		Menu other = (Menu) obj;
+
+		if (dish_category == null) {
+			if (other.dish_category != null)
+				return false;
+		} else if (!dish_category.equals(other.dish_category))
+			return false;
+		if (dish_name == null) {
+			if (other.dish_name != null)
+				return false;
+		} else if (!dish_name.equals(other.dish_name))
+			return false;
+
+
+		return true;
+	}
 
 	public Menu() {}
 }

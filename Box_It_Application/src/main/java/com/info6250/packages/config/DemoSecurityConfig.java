@@ -26,9 +26,7 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	// Add a reference to our security data source
 	
-	@Autowired
-	private DataSource securityDataSource;
-	
+
 	@Autowired
 	private UserService userService;
     @Autowired
@@ -70,7 +68,7 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers("/register").permitAll()
 	        .antMatchers("/something").permitAll()
 	        .antMatchers("/home").hasAnyRole("CUSTOMER", "EMPLOYEE", "MANAGER", "ADMIN", "DELIVERY_EXECUTIVES", "CHEF")
-	        .antMatchers("/my-box-it").hasRole("CUSTOMER")
+	        .antMatchers("/my-box-it/**").hasRole("CUSTOMER")
 	        .antMatchers("/employees").hasRole("EMPLOYEE")
 	        .antMatchers("/managers/**").hasRole("MANAGER")
 	        .antMatchers("/systems/**").hasRole("ADMIN")
@@ -83,7 +81,7 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
 		        .successHandler(customAuthenticationSuccessHandler)
 		        .permitAll()
 		        .and()
-		        .logout()
+		        .logout().permitAll()
 		        .logoutSuccessUrl("/")  // after logout then redirect to landing page (root)
 		        .permitAll()
 		        .and()
