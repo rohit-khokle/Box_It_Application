@@ -9,21 +9,11 @@ import org.springframework.stereotype.Component;
 
 public class MyCart {
 	
-//	@OneToMany(mappedBy="MyCart",
-//			cascade= {
-//					CascadeType.PERSIST,
-//					CascadeType.MERGE,
-//					CascadeType.DETACH,
-//					CascadeType.REFRESH
-//					}
-//			)
-
-	
 	private List<Menu> myItems;
 	
-	
-//	@Column(name = "quantity")
 	private int quantity;
+	
+	private double total_value;
 
 	public List<Menu> getMyItems() {
 		return myItems;
@@ -41,6 +31,15 @@ public class MyCart {
 	public MyCart() { 
 		this.myItems = new ArrayList<Menu>();
 		}
+	
+	public double getTotal_value() {
+		return total_value;
+	}
+	public void setTotal_value(double total_value) {
+		this.total_value = total_value;
+	}
+	
+	
 	
 	public void addItemInCart(Menu menu) {
 			if(myItems.contains(menu))
@@ -64,6 +63,7 @@ public class MyCart {
 				menu.setQuantity(1);
 				myItems.add(menu);
 			}
+			
 		
 	}
 	public void removeFromCart(Menu selectedItem) {
@@ -72,7 +72,7 @@ public class MyCart {
 			if(tempMenu.equals(selectedItem)) {
 				int quantity = tempMenu.getQuantity();
 				if(quantity == 1) {
-					myItems.remove(tempMenu);					
+					myItems.remove(tempMenu);
 					break;
 				}
 				else {
@@ -87,6 +87,7 @@ public class MyCart {
 				}
 			}
 		}
+		
 	}
 	
 }

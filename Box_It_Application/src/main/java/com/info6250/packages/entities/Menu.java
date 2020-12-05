@@ -159,4 +159,13 @@ public class Menu {
 	}
 
 	public Menu() {}
+
+	public Cart_items convertIntoCartItems(Cart_items cart_items) {
+		cart_items.setDish_name(this.dish_name);
+		cart_items.setDish_category(this.dish_category);
+		cart_items.setQuantity(this.quantity);
+		cart_items.setCalories(this.calories);
+		
+		return cart_items;
+	}
 }

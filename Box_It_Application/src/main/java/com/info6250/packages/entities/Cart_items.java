@@ -33,13 +33,13 @@ public class Cart_items {
 	private double calories;
 
 	
-	@Column(name = "dish_desc")
+	@Transient
 	private String description;
 
 	@Column(name = "remarks")
 	private String remarks;
 
-	@Transient
+	@Column(name = "quantity")
 	private int quantity;
 	
 	
@@ -144,10 +144,7 @@ public class Cart_items {
 				+ quantity + "]";
 	}
 
-	
-	
-	
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

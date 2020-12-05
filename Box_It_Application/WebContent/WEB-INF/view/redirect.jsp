@@ -19,7 +19,7 @@
 	</jsp:forward> 
 </security:authorize>
 <security:authorize access="hasRole('CUSTOMER')">
-	<jsp:forward page="/my-box-it"> 
+	<jsp:forward page="/my-box-it/home"> 
 		<jsp:param name="username" value="principal.username" />
 		<jsp:param name="role" value="principal.authorities" />
 	</jsp:forward> 

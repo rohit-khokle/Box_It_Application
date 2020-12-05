@@ -27,7 +27,7 @@ public class Workspace {
 	private int restaurant_id;
 	
 	@Column(name = "customer_id")
-	private int customer_id;
+	private long customer_id;
 	
 	@Column(name = "total_value")
 	private Double total_value;
@@ -40,7 +40,7 @@ public class Workspace {
 	private String date;
 	
 	@Column(name = "assigned_user")
-	private int assigned_user;
+	private long assigned_user;
 	
 	@OneToMany(mappedBy = "workspace",
 			cascade= {
@@ -66,11 +66,11 @@ public class Workspace {
 		this.restaurant_id = restaurant_id;
 	}
 
-	public int getCustomer_id() {
+	public long getCustomer_id() {
 		return customer_id;
 	}
 
-	public void setCustomer_id(int customer_id) {
+	public void setCustomer_id(long customer_id) {
 		this.customer_id = customer_id;
 	}
 
@@ -98,11 +98,11 @@ public class Workspace {
 		this.date = date;
 	}
 
-	public int getAssigned_user() {
+	public long getAssigned_user() {
 		return assigned_user;
 	}
 
-	public void setAssigned_user(int assigned_user) {
+	public void setAssigned_user(long assigned_user) {
 		this.assigned_user = assigned_user;
 	}
 

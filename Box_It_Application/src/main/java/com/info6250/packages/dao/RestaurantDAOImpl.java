@@ -24,7 +24,6 @@ public class RestaurantDAOImpl implements RestaurantDAO {
 	
 	
 	@Override
-//	@Transactional
 	public List<Restaurant> getRestaurants() {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -38,7 +37,6 @@ public class RestaurantDAOImpl implements RestaurantDAO {
 	}
 
 	@Override
-//	@Transactional
 	public List<User> getAllStaff() {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -96,9 +94,7 @@ public class RestaurantDAOImpl implements RestaurantDAO {
 	@Override
 	public void saveMenu(Menu theMenu) {
 		Session currentSession = sessionFactory.getCurrentSession();	
-		
-		System.out.println(theMenu);
-		
+	
 		if(theMenu.getId() ==  0)
 			currentSession.save(theMenu);
 		else

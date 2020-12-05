@@ -15,8 +15,7 @@
                         
         
         <property name="java-output-path" value="/Box_It_Application/build/classes"/>
-                
-        <property name="context-root" value="Box_It_Appliication"/>
+        <property name="context-root" value="Box_It_Application"/>
                     
     
     </wb-module>

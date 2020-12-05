@@ -40,8 +40,6 @@ public class RestaurantServiceImpl implements RestaurantService {
 		restaurantDAO.saveRestaurant(theRestaurant);
 	}
 
-
-
 	@Override
 	@Transactional
 	public Restaurant getRestaurant(int theId) {

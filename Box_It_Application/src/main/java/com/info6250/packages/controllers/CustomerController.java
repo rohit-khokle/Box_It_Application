@@ -1,10 +1,9 @@
 package com.info6250.packages.controllers;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -19,16 +18,20 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.info6250.packages.entities.Cart_items;
 import com.info6250.packages.entities.Menu;
 import com.info6250.packages.entities.MyCart;
+import com.info6250.packages.entities.Payment_Details;
 import com.info6250.packages.entities.Restaurant;
 import com.info6250.packages.entities.User;
+import com.info6250.packages.entities.User_Address;
 import com.info6250.packages.entities.Workspace;
+import com.info6250.packages.service.CustomerService;
 import com.info6250.packages.service.RestaurantService;
 import com.info6250.packages.service.UserService;
+import com.info6250.packages.user.BoxItUserAddress;
+import com.info6250.packages.user.BoxitPaymentDetails;
 
 @Controller
 @RequestMapping("/my-box-it")
@@ -37,18 +40,65 @@ public class CustomerController {
 	RestaurantService restaurantService;
 	
 	@Autowired
-	private UserService userService;
-	
+	private CustomerService customerService;
 	
 	@Autowired
-	private Workspace workspace;
+	private Cart_items cart_items;
 	
+	@Autowired
+	private List<Cart_items> cart_list;
+	
+	@Autowired
+	private  Workspace workspace;
+	
+	@GetMapping("/home")
+	public String showCustomerWorkspace( HttpSession session, Model theModel) {
+		
+		
+		User user = (User)session.getAttribute("user");
+		
+		System.out.println("Login Issue check user : "+user);
+		
+		User_Address address = customerService.getAddress(user);
+		Payment_Details payment =  customerService.getPayment(user);
+		
+		if(address != null) { 
+			session.setAttribute("address", address);
+		//	theModel.addAttribute("addressPrompt", "Address is added.");
+		
+		}else
+		{	
+			BoxItUserAddress myAddress = new BoxItUserAddress();	
+			myAddress.setUser_id(user.getId());
+			session.setAttribute("addressPrompt", "No address");
+		}
+		if(payment != null) 
+		{	
+		//	theModel.addAttribute("payment_details", payment);
+			session.setAttribute("payment_details", payment);
+		
+		}
+		else
+		{	
+			BoxitPaymentDetails paymentDetails = new BoxitPaymentDetails();
+			paymentDetails.setId(user.getId());	
+		//	theModel.addAttribute("payment_details", paymentDetails);
+			session.setAttribute("paymentPrompt", "No payment");
+
+		}
+		
+		// Get Restaurants fpom the DAO
+		List<Restaurant> restaurants = restaurantService.getRestaurants();
+	
+		// Add the restaurants to the model
+		theModel.addAttribute("restaurants",restaurants);
+		
+		
+		return "home";
+	}
 	
 	private Logger logger = Logger.getLogger(getClass().getName());
-	
-	
-	
-    
+	 
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
 		
@@ -70,19 +120,17 @@ public class CustomerController {
 	public String showMyProfile(
 			HttpSession session,  
 			Model theModel) {
+		User user = (User)session.getAttribute("user");
+		System.out.println("My-Profile details :"+user.getFirstName());
+		Payment_Details payment =  customerService.getPayment(user);
+		if(payment != null) 
+			theModel.addAttribute("payment_details", payment);
+		
+		else
+			theModel.addAttribute("payment_details", new BoxitPaymentDetails());
+
 		return "my-profile";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	@GetMapping("/step-2")
@@ -96,9 +144,7 @@ public class CustomerController {
 		//  Set restaurant
 		theModel.addAttribute("restaurant", theRestaurant);
 		session.setAttribute("selectedRestaurant", theRestaurant);
-		
-		
-		
+			
 		// Get Restaurants from the DAO
 		List<Menu> allMenu = restaurantService.getAllMenu();
 
@@ -108,10 +154,7 @@ public class CustomerController {
 		return "show-menu";
 	}
 	
-	
-	
-	
-	
+
 	@GetMapping("/add-into-cart")
 	public String addIntoCart( HttpSession session,	 HttpServletResponse  response,		
 			@ModelAttribute("checkCart") MyCart checkCart,
@@ -121,7 +164,6 @@ public class CustomerController {
 				
     	Menu selectedItem = restaurantService.getMenu(theMenuId);
     	checkCart.addItemInCart(selectedItem);
-    
     	
     	if(session.getAttribute("checkCart") != null) {
     		MyCart currentCart = (MyCart) session.getAttribute("checkCart");
@@ -134,8 +176,8 @@ public class CustomerController {
     		session.setAttribute("checkCart", checkCart);
     	}
     	
+    	
 
-    
     	
   /*  	
     	if(myCart.getMyItems() != null) {
@@ -158,17 +200,13 @@ public class CustomerController {
     	//request.getSession().setAttribute("random", "Something");
      	theModel.addAttribute("myCart",myCart);
    */
-    
-
+    	
     	// Show Alert Prompt
     	theModel.addAttribute("promptThis", selectedItem);
     	
     	
-    	//  Load restaurant 
-//		Restaurant theRestaurant = restaurantService.getRestaurant(theId);
-//		theModel.addAttribute("restaurant", theRestaurant);
-//		session.setAttribute("selectedRestaurant", theRestaurant);
-		
+    
+
     	// Load Menu 
 		List<Menu> allMenu = restaurantService.getAllMenu();
 		theModel.addAttribute("allMenu",allMenu);
@@ -220,15 +258,34 @@ public class CustomerController {
     	Restaurant selectedRestaurant = (Restaurant)session.getAttribute("selectedRestaurant");
     	User user = (User)session.getAttribute("user");
     	
-    	System.out.println("############## XXXCHECKXXX ##############");
     	System.out.println("My Cart items are : "+myCart);
     	System.out.println("Selected Restaurant : "+selectedRestaurant);
     	System.out.println("The logged in user : "+user);
     	
+   
+      	Double total_value = 0.0;   	
+    	for(Menu temp : myCart.getMyItems()) {
+    			cart_items = temp.convertIntoCartItems(this.cart_items);
+    			workspace.add(cart_items);
+    			cart_list.add(cart_items);
+    			total_value = total_value+ temp.getPrice();
+    	} 
+    	theModel.addAttribute("Total_Value", total_value);
     	
+    	workspace.setCartItems(cart_list);  	
+    	workspace.setRestaurant_id(selectedRestaurant.getId());
+    	workspace.setCustomer_id(user.getId());
+    	workspace.setStatus("ORDER PLACED");
+    	workspace.setTotal_value(total_value);
     	
-    	System.out.println("something");
-    	return "checkout";
+    	Date todayDate = new Date();
+    	workspace.setDate(todayDate.toString());
+    	
+    	System.out.println("CART LIST" + cart_list);
+    	customerService.creatWorkspace(workspace);
+    //	customerService.addItems(cart_list);
+    	
+    	return "order_placed";
 	}
 		
 	

@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="true" %>
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
  
@@ -41,9 +42,18 @@
 			<p align="left" class="display-2">
 				&#128523; <c:out value="${sessionScope.selectedRestaurant.name}" />
 				<hr>
-				User name :  <c:out value="${sessionScope.user.userName}"/>
 			</p>
-			
+		
+			<c:if test="${sessionScope.addressPrompt eq 'No address'}" >
+					<div class="alert alert-warning" role="alert">
+					  Looks like we don't know where to box you the delicious meals. <a href="${pageContext.request.contextPath}/my-box-it/my-Profile" class="alert-link">Go to Profile</a> to add it.
+					</div>
+			</c:if>
+			<c:if test="${sessionScope.paymentPrompt eq 'No payment'}" >
+					<div class="alert alert-warning" role="alert">
+					  OH! Card details are missing. <a href="${pageContext.request.contextPath}/my-box-it/my-Profile" class="alert-link">Go to Profile</a> to add that for quicker orders. 
+					</div>
+			</c:if>
 			<h3 class="display-6">
 			<span style="text-decoration:underline;">
 	  					<b>Step 3 - Place the order! &#127835; </b> </span></h3>
@@ -110,7 +120,17 @@
 			  </tbody>
 			</table>
 			
-
+			
+			<!-- Cart Value -->
+											<c:set var="total" value="${0}"/>
+											<c:forEach var="item" items="${sessionScope.checkCart.myItems}">
+											    	<c:set var="total" value="${total + item.price}" />
+											</c:forEach>
+											<div align = "right"  class="font-weight-bold">
+													  Cart Value :  <fmt:formatNumber value = "${total}" type = "currency"/> 
+											</div>		
+			
+			
 			
 			
 			<form:form  action="${pageContext.request.contextPath}/my-box-it/place-order" 

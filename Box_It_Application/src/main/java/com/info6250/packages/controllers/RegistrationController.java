@@ -16,10 +16,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.info6250.packages.entities.Menu;
+
 import com.info6250.packages.entities.User;
 import com.info6250.packages.service.UserService;
 import com.info6250.packages.user.BoxItUser;
+import com.info6250.packages.user.BoxitPaymentDetails;
 
 
 @Controller
@@ -57,6 +58,11 @@ public class RegistrationController {
 			String userName = theCrmUser.getUserName();
 			logger.info("Processing registration form for: " + userName);
 			
+	        theCrmUser.setRole("customer");
+	        String restaurantName = "Customer_Restaurant";
+	        theCrmUser.setRestaurantName(restaurantName); // ("customer");
+	        
+	        
 			// form validation
 			 if (theBindingResult.hasErrors()){
 				 return "registration-form";
@@ -72,7 +78,11 @@ public class RegistrationController {
 	        	return "registration-form";
 	        }
 	     // create user account 
-	        theCrmUser.setRole("customer");
+
+	        
+	        
+	        System.out.println("CRM USER : "+theCrmUser);
+	        
 	        userService.save(theCrmUser);
 	        
 	        logger.info("Successfully created user: " + userName);
@@ -80,6 +90,20 @@ public class RegistrationController {
 	        return "registration-confirmation";		
 		}
 	
+		
+		
+		@PostMapping("/processPaymentDetailsForm")
+		public String processRegistrationForm(
+					@Valid @ModelAttribute("payment_details") BoxitPaymentDetails payment_details, 
+					BindingResult theBindingResult, 
+					Model theModel) {
 	
+			 if (theBindingResult.hasErrors()){
+				 return "my-profile";
+		        }
+
+	        return "registration-confirmation";		
+		}
+		
 	
 }

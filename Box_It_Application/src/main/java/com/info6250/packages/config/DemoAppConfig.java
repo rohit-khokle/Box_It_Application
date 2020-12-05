@@ -1,6 +1,8 @@
 package com.info6250.packages.config;
 
 import java.beans.PropertyVetoException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -24,6 +26,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import com.info6250.packages.entities.Cart_items;
 import com.info6250.packages.entities.MyCart;
 import com.info6250.packages.entities.Workspace;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
@@ -55,8 +58,6 @@ public class DemoAppConfig  implements WebMvcConfigurer {
 		
 		return viewResolver;
 	}
-	
-	// Define a bean for our security datasource
 	
 	@Bean
 	public DataSource securityDataSource() {
@@ -102,7 +103,7 @@ public class DemoAppConfig  implements WebMvcConfigurer {
 		return securityDataSource;
 	}
 	
-	// need a helper method. Read environment property and convert to int
+	//  helper method
 	
 	private int getIntProperty(String propName) {
 		
@@ -113,7 +114,6 @@ public class DemoAppConfig  implements WebMvcConfigurer {
 		return intPropVal;
 	}
 
-	// Hibernate and data source config below...
 	@Bean
 	public DataSource myDataSource() {
 		
@@ -157,7 +157,6 @@ public class DemoAppConfig  implements WebMvcConfigurer {
 		return props;				
 	}
 
-	
 	@Bean
 	public LocalSessionFactoryBean sessionFactory(){
 		
@@ -206,5 +205,24 @@ public class DemoAppConfig  implements WebMvcConfigurer {
 		Workspace workspace = new Workspace();
 		return workspace;
 	}
+	
+	
+	
+	@Bean
+	@Autowired
+	public Cart_items cart_items() {		
+		Cart_items cart_items = new Cart_items();
+		return cart_items;
+	}
+	
+	
+	@Bean
+	@Autowired
+	public List<Cart_items> cart_list() {		
+		List<Cart_items> cart_list = new ArrayList<Cart_items>();
+		return cart_list;
+	}
+	
+		
     
 }

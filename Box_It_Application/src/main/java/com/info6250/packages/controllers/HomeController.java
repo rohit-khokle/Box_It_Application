@@ -44,6 +44,7 @@ public class HomeController {
 	
 	@GetMapping("/home")
 	public String showHome() {
+		System.out.println("Home controller");
 		return "redirect";
 		//	return "home";
 	}
@@ -68,18 +69,8 @@ public class HomeController {
 		return "admins";
 	}
 	
-	@GetMapping("/my-box-it")
-	public String showCustomerWorkspace(Model theModel) {
-		
-		// Get Restaurants frpom the DAO
-		List<Restaurant> restaurants = restaurantService.getRestaurants();
 
-		// Add the restaurants to the model
-		theModel.addAttribute("restaurants",restaurants);
-		
-		
-		return "home";
-	}
+
 	
 	
 	@GetMapping("/chef-dashboard")

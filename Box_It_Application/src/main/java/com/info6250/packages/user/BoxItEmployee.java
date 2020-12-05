@@ -11,7 +11,7 @@ import com.info6250.packages.validation.FieldMatch;
 @FieldMatch.List(
 		{@FieldMatch(first = "password", second = "matchingPassword", message = "The password fields must match")
 		})
-public class BoxItUser {
+public class BoxItEmployee {
 	private long id;
 
 	@NotNull(message = "is required")
@@ -40,10 +40,10 @@ public class BoxItUser {
 	private String email;
 
 	
-//	@NotNull(message = "is required")
+	@NotNull(message = "is required")
 	private String role;
 	
-//	@NotNull(message = "is required")
+	@NotNull(message = "is required")
 	private String restaurantName;
 
 
@@ -141,7 +141,7 @@ public class BoxItUser {
 
 
 
-	public BoxItUser() {
+	public BoxItEmployee() {
 		
 	}
 

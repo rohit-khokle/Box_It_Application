@@ -6,7 +6,7 @@
 
 <head>
 	
-	<title>Payment Details</title>
+	<title>Address Details</title>
 	
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -39,8 +39,8 @@
 
 				<div style="padding-top: 30px" class="panel-body">
 
-					<form:form action="${pageContext.request.contextPath}/register/processPaymentDetailsForm" 
-						  	   modelAttribute="payment_details"
+					<form:form action="${pageContext.request.contextPath}/register/processAddressDetailsForm" 
+						  	   modelAttribute="address"
 						  	   class="form-horizontal">
 					    <div class="form-group">
 					        <div class="col-xs-15">
@@ -57,26 +57,26 @@
 						<!-- Name on card -->
 						<div style="margin-bottom: 25px" class="input-group">
 							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> 
-							<form:errors path="card_name" cssClass="error" />
-							<form:input path="card_name" placeholder="Name on Card (*)" class="form-control" />
+							<form:errors path="userName" cssClass="error" />
+							<form:input path="userName" placeholder="Name" class="form-control" />
 						</div>
 
 						<div style="margin-bottom: 25px" class="input-group">
 							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span> 
-							<form:errors path="card_number" cssClass="error" />
-							<form:password path="card_number" placeholder="Card Number (*)" class="form-control" />
+							<form:errors path="zipCode" cssClass="error" />
+							<form:input path="zipCode" placeholder="zipCode" class="form-control" />
 						</div>
 						
 						<!-- Confirm Password -->
 						<div style="margin-bottom: 25px" class="input-group">
 							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span> 
-							<form:errors path="cvv" cssClass="error" />
-							<form:password path="cvv" placeholder="CVV (*)" class="form-control" />
+							<form:errors path="contactInfo" cssClass="error" />
+							<form:input path="contactInfo" placeholder="Contact Information" class="form-control" />
 						</div>
 					
 						<div style="margin-top: 10px" class="form-group">						
 							<div class="col-sm-6 controls">
-								<button type="submit" class="btn btn-primary">Save Payment Details</button>
+								<button type="submit" class="btn btn-primary">Save My Address</button>
 							</div>
 						</div>
 						

@@ -14,7 +14,6 @@ public interface RestaurantService {
 
 	public Restaurant getRestaurant(int theId);
 	
-	
 	public List<Menu> getAllMenu();
 
 	public void saveMenu(Menu theRestaurant);
@@ -24,7 +23,5 @@ public interface RestaurantService {
 	public List<User> getAllStaff();
 	
 	public List<String> getAllRestaurantNames();
-	
-	
 	
 }

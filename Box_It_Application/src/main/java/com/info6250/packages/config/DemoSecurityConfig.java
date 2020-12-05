@@ -66,8 +66,8 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
 	//        .antMatchers("/customerLogin").permitAll()  // allow public access to home page
 	        .antMatchers("/register").permitAll()
-	        .antMatchers("/something").permitAll()
 	        .antMatchers("/home").hasAnyRole("CUSTOMER", "EMPLOYEE", "MANAGER", "ADMIN", "DELIVERY_EXECUTIVES", "CHEF")
+	        .antMatchers("/my-box-it").hasRole("CUSTOMER")
 	        .antMatchers("/my-box-it/**").hasRole("CUSTOMER")
 	        .antMatchers("/employees").hasRole("EMPLOYEE")
 	        .antMatchers("/managers/**").hasRole("MANAGER")
