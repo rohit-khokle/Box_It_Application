@@ -1,28 +1,35 @@
 package com.info6250.packages.entities;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-
+@Entity
+@Table(name = "payment_details")
 public class Payment_Details {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private long id;
 	
-	@NotNull(message = "is required")
-	@Pattern(regexp = "^[A-Za-z]{3,50}$", message="Must only be alphabets and the name length can be between 3 and 50 characters")
+	@Column(name = "card_name")
 	private String card_name;
 	
-	@NotNull(message = "is required")
-	@Pattern(regexp = "^\\d{10}$", message="Must be only 10 digits")
+	@Column(name = "card_number")
 	private String card_number;
 	
-	
-
-	@NotNull(message = "is required")										// @Pattern(regexp = "^\\d{3}$", message="Must be only 3 digits")
+	@Column(name = "card_cvv")
 	private String cvv;
 	
-	
+	@Column(name = "date")
 	private String date;
 	
+	
+	@Column(name = "user_id")
 	private long user_id;
 
 	public long getId() {

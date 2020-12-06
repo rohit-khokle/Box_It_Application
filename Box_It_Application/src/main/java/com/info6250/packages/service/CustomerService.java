@@ -11,6 +11,7 @@ public interface CustomerService {
 	void addItems(Workspace workspace);
 	User_Address  getAddress(User user);
 	Payment_Details getPayment(User user);
-	
+	void addAddress(User_Address address);
+	void addPayment(Payment_Details payment);
 
 }

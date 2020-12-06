@@ -3,6 +3,8 @@ package com.info6250.packages.user;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import com.info6250.packages.entities.Payment_Details;
+
 
 public class BoxitPaymentDetails {
 	private long id;
@@ -23,6 +25,7 @@ public class BoxitPaymentDetails {
 	
 	private String date;
 	
+	@NotNull(message = "is required")	
 	private long user_id;
 
 	public long getId() {
@@ -79,7 +82,13 @@ public class BoxitPaymentDetails {
 				+ cvv + ", date=" + date + ", user_id=" + user_id + "]";
 	}
 	
-	
-	
-	
+	public void convert(Payment_Details payments) {
+		this.setId(payments.getId());
+		this.setCard_name(payments.getCard_name());
+		this.setCard_number(payments.getCard_number());
+		this.setCvv(payments.getCvv());
+		this.setDate(payments.getDate());
+		this.setUser_id(payments.getUser_id());
+		
+	}
 }

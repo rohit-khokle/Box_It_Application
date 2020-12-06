@@ -79,10 +79,6 @@ public class RegistrationController {
 	        }
 	     // create user account 
 
-	        
-	        
-	        System.out.println("CRM USER : "+theCrmUser);
-	        
 	        userService.save(theCrmUser);
 	        
 	        logger.info("Successfully created user: " + userName);
@@ -91,19 +87,6 @@ public class RegistrationController {
 		}
 	
 		
-		
-		@PostMapping("/processPaymentDetailsForm")
-		public String processRegistrationForm(
-					@Valid @ModelAttribute("payment_details") BoxitPaymentDetails payment_details, 
-					BindingResult theBindingResult, 
-					Model theModel) {
-	
-			 if (theBindingResult.hasErrors()){
-				 return "my-profile";
-		        }
-
-	        return "registration-confirmation";		
-		}
 		
 	
 }

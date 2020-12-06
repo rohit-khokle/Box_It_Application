@@ -31,16 +31,35 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	@Transactional
 	public User_Address getAddress(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		return customerDAO.getAddress(user);
 	}
 
 	@Override
 	@Transactional
 	public Payment_Details getPayment(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		return customerDAO.getPaymentDetails(user);
 	}
+
+	@Override
+	@Transactional
+	public void addAddress(User_Address address) {
+		customerDAO.addAddress(address);
+		
+	}
+
+	@Override
+	@Transactional
+	public void addPayment(Payment_Details payment) {
+		customerDAO.addPayment(payment);
+	}
+	
+
+	
+	
+	
+	
+	
+	
 	
 	
 }

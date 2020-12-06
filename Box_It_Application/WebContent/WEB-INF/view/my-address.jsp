@@ -34,12 +34,12 @@
 			<div class="panel panel-primary">
 
 				<div class="panel-heading">
-					<div class="panel-title">Add Payment Details</div>
+					<div class="panel-title">Add Address Details</div>
 				</div>
 
 				<div style="padding-top: 30px" class="panel-body">
 
-					<form:form action="${pageContext.request.contextPath}/register/processAddressDetailsForm" 
+					<form:form action="${pageContext.request.contextPath}/update/processAddressDetailsForm" 
 						  	   modelAttribute="address"
 						  	   class="form-horizontal">
 					    <div class="form-group">
@@ -53,8 +53,9 @@
 					            </div>
 					        </div>
 					    </div>
-
-						<!-- Name on card -->
+						
+						<form:hidden path="id"/>
+			
 						<div style="margin-bottom: 25px" class="input-group">
 							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> 
 							<form:errors path="userName" cssClass="error" />
@@ -62,24 +63,52 @@
 						</div>
 
 						<div style="margin-bottom: 25px" class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span> 
+							<span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span> 
 							<form:errors path="zipCode" cssClass="error" />
-							<form:input path="zipCode" placeholder="zipCode" class="form-control" />
+							<form:input path="zipCode" placeholder="Zip Code" class="form-control" />
 						</div>
 						
-						<!-- Confirm Password -->
 						<div style="margin-bottom: 25px" class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span> 
+							<span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span> 
 							<form:errors path="contactInfo" cssClass="error" />
 							<form:input path="contactInfo" placeholder="Contact Information" class="form-control" />
 						</div>
+
+
+
+				
+											
+						<div style="margin-bottom: 25px" class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span> 
+							<form:errors path="address" cssClass="error" />
+							<form:input path="address" placeholder="Address" class="form-control" />
+						</div>
 					
+					
+					
+					
+
+				<c:choose >
+					<c:when test="${address_Prompt eq 'address_not_present'}">
 						<div style="margin-top: 10px" class="form-group">						
 							<div class="col-sm-6 controls">
 								<button type="submit" class="btn btn-primary">Save My Address</button>
 							</div>
 						</div>
-						
+					</c:when>
+					<c:when test="${address_Prompt eq 'address_present'}">
+					
+						<div style="margin-top: 10px" class="form-group">						
+							<div class="col-sm-6 controls">
+								<button type="submit" class="btn btn-primary">Update My Address</button>
+							</div>
+						</div>
+										
+					</c:when>
+				</c:choose>	
+				
+				
+							<a href="${pageContext.request.contextPath}/my-box-it/my-profile"> Back </a>	
 					</form:form>
 
 				</div>

@@ -32,7 +32,6 @@ public class RestaurantDAOImpl implements RestaurantDAO {
 				currentSession.createQuery("from Restaurant ORDER BY store_name", 
 						Restaurant.class);
 		List<Restaurant> restaurants = theQuery.getResultList();
-		System.out.println("got result");
 		return restaurants;
 	}
 
@@ -81,7 +80,7 @@ public class RestaurantDAOImpl implements RestaurantDAO {
 		Query<Menu> theQuery =
 				currentSession.createQuery("from Menu ORDER BY dish_category", 
 						Menu.class);
-	//	System.out.println("3. query object created");		
+	
 		// Execute query and get result list
 		List<Menu> restaurants = theQuery.getResultList();
 		System.out.println("got result");

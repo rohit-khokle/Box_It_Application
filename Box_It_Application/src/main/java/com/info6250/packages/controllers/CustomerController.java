@@ -29,7 +29,6 @@ import com.info6250.packages.entities.User_Address;
 import com.info6250.packages.entities.Workspace;
 import com.info6250.packages.service.CustomerService;
 import com.info6250.packages.service.RestaurantService;
-import com.info6250.packages.service.UserService;
 import com.info6250.packages.user.BoxItUserAddress;
 import com.info6250.packages.user.BoxitPaymentDetails;
 
@@ -53,38 +52,54 @@ public class CustomerController {
 	
 	@GetMapping("/home")
 	public String showCustomerWorkspace( HttpSession session, Model theModel) {
-		
-		
-		User user = (User)session.getAttribute("user");
-		
-		System.out.println("Login Issue check user : "+user);
-		
-		User_Address address = customerService.getAddress(user);
-		Payment_Details payment =  customerService.getPayment(user);
-		
-		if(address != null) { 
-			session.setAttribute("address", address);
-		//	theModel.addAttribute("addressPrompt", "Address is added.");
-		
+		User_Address address;
+		Payment_Details payment;
+		User user;
+		try {
+			 user = (User)session.getAttribute("user");		
+			 address = customerService.getAddress(user);
+			 payment =  customerService.getPayment(user);
+		}
+		catch(Exception e)
+		{
+			return "redirect:/logout";	
+		}
+		if(address.getId() != 0) { 
+			
+			// Put into Session.
+			BoxItUserAddress boxitaddress = new BoxItUserAddress();
+			boxitaddress.convert(address);
+			System.out.println(boxitaddress);
+			System.out.println("boxitaddress" + boxitaddress);
+			session.setAttribute("address", boxitaddress);
+			session.setAttribute("addressPrompt", "address_present");		
 		}else
 		{	
-			BoxItUserAddress myAddress = new BoxItUserAddress();	
-			myAddress.setUser_id(user.getId());
+			BoxItUserAddress boxitaddress = new BoxItUserAddress();
+			boxitaddress.setUser_id(user.getId());
+			session.setAttribute("address", boxitaddress);
+			// No address. Show prompt
 			session.setAttribute("addressPrompt", "No address");
 		}
-		if(payment != null) 
+		if(payment.getId() != 0) 
 		{	
-		//	theModel.addAttribute("payment_details", payment);
-			session.setAttribute("payment_details", payment);
-		
+			BoxitPaymentDetails boxitpayment = new BoxitPaymentDetails();
+			boxitpayment.convert(payment);
+	
+			// Put payment into Session
+			session.setAttribute("payment_details", boxitpayment);
+			session.setAttribute("paymentPrompt", "payment_present");
 		}
 		else
-		{	
-			BoxitPaymentDetails paymentDetails = new BoxitPaymentDetails();
-			paymentDetails.setId(user.getId());	
-		//	theModel.addAttribute("payment_details", paymentDetails);
+		{
+			
+			BoxitPaymentDetails boxitPayment = new BoxitPaymentDetails();
+			boxitPayment.setUser_id(user.getId());
+			
+			session.setAttribute("payment_details", boxitPayment);
+					
+			// Put into prompt
 			session.setAttribute("paymentPrompt", "No payment");
-
 		}
 		
 		// Get Restaurants fpom the DAO
@@ -97,7 +112,6 @@ public class CustomerController {
 		return "home";
 	}
 	
-	private Logger logger = Logger.getLogger(getClass().getName());
 	 
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
@@ -107,7 +121,6 @@ public class CustomerController {
 		dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
 	}	
 	
-
 	@GetMapping("/order-History")
 	public String showOrderHistory(
 			HttpSession session,  
@@ -115,15 +128,121 @@ public class CustomerController {
 		return "my-orders";
 	}
 	
-	
 	@GetMapping("/my-Profile")
 	public String showMyProfile(
+			HttpSession session,  
+			Model theModel) {
+		User_Address address;
+		Payment_Details payment;
+		User user;
+		try {
+			 user = (User)session.getAttribute("user");		
+			 address = customerService.getAddress(user);
+			 payment =  customerService.getPayment(user);
+		}
+		catch(Exception e)
+		{
+			return "redirect:/logout";	
+		}
+		if(address.getId() != 0) { 
+			
+			// Put into Session.
+			BoxItUserAddress boxitaddress = new BoxItUserAddress();
+			boxitaddress.convert(address);
+			System.out.println(boxitaddress);
+			System.out.println("boxitaddress" + boxitaddress);
+			session.setAttribute("address", boxitaddress);
+			session.setAttribute("addressPrompt", "address_present");		
+		}else
+		{	
+			BoxItUserAddress boxitaddress = new BoxItUserAddress();
+			boxitaddress.setUser_id(user.getId());
+			session.setAttribute("address", boxitaddress);
+			// No address. Show prompt
+			session.setAttribute("addressPrompt", "No address");
+		}
+		if(payment.getId() != 0) 
+		{	
+			BoxitPaymentDetails boxitpayment = new BoxitPaymentDetails();
+			boxitpayment.convert(payment);
+	
+			// Put payment into Session
+			session.setAttribute("payment_details", boxitpayment);
+			session.setAttribute("paymentPrompt", "payment_present");
+		}
+		else
+		{
+			
+			BoxitPaymentDetails boxitPayment = new BoxitPaymentDetails();
+			boxitPayment.setUser_id(user.getId());
+			
+			session.setAttribute("payment_details", boxitPayment);
+					
+			// Put into prompt
+			session.setAttribute("paymentPrompt", "No payment");
+		}
+		
+//		}
+		return "my-profile";
+	}
+	
+	@GetMapping("/my-payment")
+	public String showMyPayment(
+			HttpSession session,  
+			Model theModel) {
+		User user = (User)session.getAttribute("user");
+		BoxitPaymentDetails payment = (BoxitPaymentDetails) session.getAttribute("payment_details");
+		
+		if(payment.getId() != 0) 
+		{	
+			theModel.addAttribute("payment_details", payment);
+			theModel.addAttribute("payment_Prompt", "payment_present");
+		}		
+		else
+		{
+			BoxitPaymentDetails tempPayment = new BoxitPaymentDetails();
+			tempPayment.setUser_id(user.getId());
+			theModel.addAttribute("payment_details",tempPayment);
+			theModel.addAttribute("payment_Prompt", "payment_not_present");
+		}
+		return "my-payment";
+	}
+	
+	@GetMapping("/my-address")
+	public String showMyAddress(
+			HttpSession session,  
+			Model theModel) {
+		
+		User user = (User)session.getAttribute("user");
+		BoxItUserAddress address = (BoxItUserAddress)session.getAttribute("address");
+		System.out.println("showMyAddress "+address);
+
+		if(address.getId() != 0) 
+		{	
+			theModel.addAttribute("address", address);
+			theModel.addAttribute("address_Prompt", "address_present");
+		}		
+		else
+		{
+			
+			BoxItUserAddress tempAddress = new BoxItUserAddress();
+		//	tempAddress.setUser_id(user.getId());
+			
+			theModel.addAttribute("address",tempAddress);
+			theModel.addAttribute("address_Prompt", "address_not_present");
+		}
+
+		return "my-address";
+	}
+	
+	@GetMapping("/my-profile")
+	public String updateMyProfile(
 			HttpSession session,  
 			Model theModel) {
 		User user = (User)session.getAttribute("user");
 		System.out.println("My-Profile details :"+user.getFirstName());
 		Payment_Details payment =  customerService.getPayment(user);
-		if(payment != null) 
+		if(payment.getId() != 0) 
 			theModel.addAttribute("payment_details", payment);
 		
 		else
@@ -131,7 +250,6 @@ public class CustomerController {
 
 		return "my-profile";
 	}
-	
 	
 	@GetMapping("/step-2")
 	public String showMenu(
@@ -154,7 +272,6 @@ public class CustomerController {
 		return "show-menu";
 	}
 	
-
 	@GetMapping("/add-into-cart")
 	public String addIntoCart( HttpSession session,	 HttpServletResponse  response,		
 			@ModelAttribute("checkCart") MyCart checkCart,
@@ -214,8 +331,7 @@ public class CustomerController {
 		
 		return "show-menu";
 	}
-	
-	
+		
 	@PostMapping("/step-3")
 	public String checkoutProcess(HttpSession session,
 			@ModelAttribute("restaurant") Restaurant theRestaurant,
@@ -248,7 +364,6 @@ public class CustomerController {
       	session.setAttribute("myCart", myCart);
 		return "checkout";
 	}
-	
 	
 	@GetMapping("/place-order")
 	public String placeOrder(HttpSession session,
