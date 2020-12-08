@@ -71,10 +71,10 @@
 			  </thead>
 			  <tbody>
 			  <c:set var="count" value="1" scope="page" />
-			  <c:forEach var="myCart" items="${sessionScope.myCart.myItems}" >
+			  <c:forEach var="myCart" items="${sessionScope.myCart.cartItems}" >
 			  <c:url var="refreshCart" value="/my-box-it/refresh-cart">
 			  	<c:param name = "restaurant" value="${restaurant}" />
-			  	<c:param name = "menuID" value="${myCart.id}" />
+			  	<c:param name = "menuID" value="${myCart.menu_id}" />
 			  	  
 			  </c:url>
 		
@@ -118,7 +118,7 @@
 			
 			<!-- Cart Value -->
 											<c:set var="total" value="${0}"/>
-											<c:forEach var="item" items="${sessionScope.checkCart.myItems}">
+											<c:forEach var="item" items="${sessionScope.checkCart.cartItems}">
 											    	<c:set var="total" value="${total + item.price}" />
 											</c:forEach>
 											<div align = "right"  class="font-weight-bold">

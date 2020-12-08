@@ -35,6 +35,9 @@ public class Cart_items {
 	
 	@Transient
 	private String description;
+	
+	@Transient
+	private int menu_id;
 
 	@Column(name = "remarks")
 	private String remarks;
@@ -201,6 +204,14 @@ public class Cart_items {
 		this.description = description;
 		this.remarks = remarks;
 		this.quantity = quantity;
+	}
+
+	public int getMenu_id() {
+		return menu_id;
+	}
+
+	public void setMenu_id(int menu_id) {
+		this.menu_id = menu_id;
 	}
 
 

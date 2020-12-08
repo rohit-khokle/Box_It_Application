@@ -126,14 +126,63 @@ public class Workspace {
 	}
 	
 	
-	public void add(Cart_items tempMenu) {
-		
-		if(cartItems == null) {
+	public void add(Cart_items selectedItem) {
+		if(cartItems != null)
+			addItemInCart(selectedItem);
+		else
+		{
 			cartItems = new ArrayList<Cart_items>();
+			addItemInCart(selectedItem);
+			
 		}
-		cartItems.add(tempMenu);
+	}
+	
+	public void addItemInCart(Cart_items menu) {
+		if(cartItems.contains(menu))
+		{
+			for(Cart_items tempMenu : cartItems) {
+				if(tempMenu.equals(menu)) {
+					int quantity = tempMenu.getQuantity();
+					quantity++;
+					Double price = tempMenu.getPrice()+menu.getPrice();
+					menu.setPrice(price);
+					menu.setQuantity(quantity);
+					cartItems.remove(tempMenu);
+					cartItems.add(menu);
+					break;
+				}
+			}
+			
+		}
+		else
+		{
+			menu.setQuantity(1);
+			cartItems.add(menu);
+		}
 		
-	//	tempMenu.setWorkspace(this);		
+	
+}
+
+	public void removeFromCart(Cart_items convertIntoCartItems) {
+		for(Cart_items tempMenu : cartItems) {
+			if(tempMenu.equals(convertIntoCartItems)) {
+				int quantity = tempMenu.getQuantity();
+				if(quantity == 1) {
+					cartItems.remove(tempMenu);
+					break;
+				}
+				else {
+					quantity--;
+					Double price = convertIntoCartItems.getPrice();
+					price = price * quantity;
+					convertIntoCartItems.setPrice(price);
+					convertIntoCartItems.setQuantity(quantity);
+					cartItems.remove(tempMenu);					
+					cartItems.add(convertIntoCartItems);
+					break;
+				}
+			}
+		}
 	}
 
 }

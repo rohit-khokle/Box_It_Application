@@ -83,6 +83,7 @@
 			      <th scope="col">Dish Category</th>
 			      <th scope="col">Price</th>
 			      <th scope="col">Calories</th>
+			      <th scope="col">Quantity</th>
 				   <th scope="col">Select</th>
 			    </tr>
 			  </thead>
@@ -92,7 +93,7 @@
 			  <c:url var="addIntoCart" value="/my-box-it/add-into-cart">
 				  	<c:param name = "restaurantID" value="${restaurant.id}" />
 				  	<c:param name = "menuID" value="${menu.id}" />
-				  	<c:param name = "checkCart" value="${myCart}" />
+				  	<c:param name = "checkCart" value="${Workspace}" />
 			  </c:url>
 			  
 			  
@@ -102,6 +103,13 @@
 			      <td>${menu.dish_category}</td>
 			      <td>${menu.price}</td>
 			      <td>${menu.calories}</td>  
+			      <td>
+							<c:forEach var="item" items="${sessionScope.myCart.cartItems}" >
+								<c:if test="${item.menu_id eq menu.id}">
+										<c:out value="${item.quantity}" />
+								</c:if>
+							</c:forEach>
+			      </td> 			      
 			  	  <td>
 			  	  
 			  	<a href="${addIntoCart}" > Add in my &#128722;</a>
@@ -118,7 +126,7 @@
 			
 			<!-- Cart Value -->
 											<c:set var="total" value="${0}"/>
-											<c:forEach var="item" items="${sessionScope.checkCart.myItems}">
+											<c:forEach var="item" items="${sessionScope.checkCart.cartItems}">
 											    	<c:set var="total" value="${total + item.price}" />
 											</c:forEach>
 											<div align = "right"  class="font-weight-bold">
