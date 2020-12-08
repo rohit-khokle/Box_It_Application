@@ -48,6 +48,7 @@ public class UserManagementController {
 					Model theModel) {
 	
 			 if (theBindingResult.hasErrors()){
+				
 				 return "my-payment";
 		        }
 
@@ -65,9 +66,8 @@ public class UserManagementController {
 			 customerService.addPayment(payment);
 			 
 			theModel.addAttribute("show_alert", "Alright! Payment Details Updated");    
-			session.setAttribute("payment_details", payment_details);
 			
-			return "my-profile";		
+			return "redirect:/my-box-it/my-profile";		
 		}
 		
 		@PostMapping("/processAddressDetailsForm")
@@ -92,9 +92,8 @@ public class UserManagementController {
 			 userAddress.setContactInfo(address.getContactInfo());
 
 			customerService.addAddress(userAddress);
-			session.setAttribute("address", address);
 			theModel.addAttribute("show_alert", "Hoorah! Address Details Updated"); 
-	        return "my-profile";		
+	        return "redirect:/my-box-it/my-profile";		
 
 		}
 	

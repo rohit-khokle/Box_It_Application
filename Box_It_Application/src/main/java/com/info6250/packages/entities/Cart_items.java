@@ -42,18 +42,27 @@ public class Cart_items {
 	@Column(name = "quantity")
 	private int quantity;
 	
+//	@Column(name = "workspace_id")
+//	private int workspace_id;
+//	
 	
+//	@ManyToOne(cascade= {
+//			CascadeType.PERSIST, CascadeType.MERGE,
+//			CascadeType.DETACH, CascadeType.REFRESH 
+//	})
+//	@JoinColumn(name="workspace_id")
+	@Transient
+	private Workspace workspace_id;
 	
-	@ManyToOne(cascade= {
-			CascadeType.PERSIST, CascadeType.MERGE,
-			CascadeType.DETACH, CascadeType.REFRESH 
-	})
-	@JoinColumn(name="workspace_id")
-	private Workspace workspace;
-	
-	
-	
-	
+
+	public Workspace getWorkspace_id() {
+		return workspace_id;
+	}
+
+	public void setWorkspace_id(Workspace workspace_id) {
+		this.workspace_id = workspace_id;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -94,20 +103,13 @@ public class Cart_items {
 		this.calories = calories;
 	}
 
-	
-	
-	
-	
-	
-
-
-	public Workspace getWorkspace() {
-		return workspace;
-	}
-
-	public void setWorkspace(Workspace workspace) {
-		this.workspace = workspace;
-	}
+//	public Workspace getWorkspace() {
+//		return workspace;
+//	}
+//
+//	public void setWorkspace(Workspace workspace) {
+//		this.workspace = workspace;
+//	}
 
 	public String getDescription() {
 		return description;
@@ -124,10 +126,6 @@ public class Cart_items {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-	
-	
-	
-	
 
 	public int getQuantity() {
 		return quantity;
@@ -144,6 +142,14 @@ public class Cart_items {
 				+ quantity + "]";
 	}
 
+
+//	public int getWorkspace_id() {
+//		return workspace_id;
+//	}
+//
+//	public void setWorkspace_id(int workspace_id) {
+//		this.workspace_id = workspace_id;
+//	}
 
 	@Override
 	public int hashCode() {
@@ -184,4 +190,19 @@ public class Cart_items {
 	}
 
 	public Cart_items() {}
+	
+	public Cart_items(String dish_name, String dish_category, double price, double calories, String description,
+			String remarks, int quantity) {
+	
+		this.dish_name = dish_name;
+		this.dish_category = dish_category;
+		this.price = price;
+		this.calories = calories;
+		this.description = description;
+		this.remarks = remarks;
+		this.quantity = quantity;
+	}
+
+
+
 }

@@ -23,10 +23,9 @@
 </head>
 <body>
 
+
+
 <div class="jumbotron" align="center">
-
-
-
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page"><a href="${pageContext.request.contextPath}/home">Home</a></li>
@@ -37,7 +36,8 @@
 </nav>
 <hr>
 
-
+ <h2 class="display-2">Hey, <c:out value="${sessionScope.user.firstName}"/>! </h2>
+ <p class="lead"> Manage your profile here! </p>
 	<c:if test="${(show_alert eq 'Alright! Payment Details Updated') or (show_alert eq 'Hoorah! Address Details Updated')}">		
 		<div class="alert alert-success" role="alert">
 		  <h4 class="alert-heading">Well done!</h4>
@@ -47,7 +47,7 @@
 		</div>
 	</c:if>
 
-
+<hr>
 
  <form:form  action="${pageContext.request.contextPath}/my-box-it/my-address"  method="GET"> 
 			<button type="submit" class="btn btn-success btn-lg btn-block">Manage My Address Details</button>
@@ -58,7 +58,15 @@
 <form:form  action="${pageContext.request.contextPath}/my-box-it/update-profile"  method="GET">
 <button type="submit" class="btn btn-success btn-lg btn-block">Update my profile</button>
 </form:form>
-
+<hr>
+			<form:form  action="${pageContext.request.contextPath}/home" 
+			 				method="GET">
+			 				<button type="submit"  class="btn btn-outline-warning"><p style="font-size:20px" >  Back &#128584;</p> </button>
+			</form:form>	
+			<form:form  action="${pageContext.request.contextPath}/logout" 
+			 				method="POST">
+			 				<button type="submit"  class="btn btn-outline-danger"> <p style="font-size:20px" > Logout &#128586;</p> </button>
+			</form:form> 
 
 
 </div>

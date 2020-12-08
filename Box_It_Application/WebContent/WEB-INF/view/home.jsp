@@ -39,7 +39,7 @@
   </ol>
 </nav>
 
-  <h2 class="display-3">Hungry, <c:out value="${sessionScope.user.userName}"/>?</h2>
+  <h2 class="display-3">Hungry, <c:out value="${sessionScope.user.firstName}"/>?</h2>
  <p class="lead"> Order in 3 easy steps!</p>
 
 

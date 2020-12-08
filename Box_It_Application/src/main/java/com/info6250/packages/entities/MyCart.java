@@ -66,6 +66,8 @@ public class MyCart {
 			
 		
 	}
+	
+	
 	public void removeFromCart(Menu selectedItem) {
 		
 		for(Menu tempMenu : myItems) {
@@ -89,6 +91,14 @@ public class MyCart {
 		}
 		
 	}
+	@Override
+	public String toString() {
+		return "MyCart [myItems=" + myItems + ", quantity=" + quantity + ", total_value=" + total_value + "]";
+	}
+	
+	
+	
+	
 	
 }
 	

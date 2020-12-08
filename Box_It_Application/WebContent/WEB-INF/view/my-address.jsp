@@ -89,14 +89,14 @@
 					
 
 				<c:choose >
-					<c:when test="${address_Prompt eq 'address_not_present'}">
+					<c:when test="${sessionScope.addressPrompt eq 'no_address'}">
 						<div style="margin-top: 10px" class="form-group">						
 							<div class="col-sm-6 controls">
 								<button type="submit" class="btn btn-primary">Save My Address</button>
 							</div>
 						</div>
 					</c:when>
-					<c:when test="${address_Prompt eq 'address_present'}">
+					<c:when test="${sessionScope.addressPrompt eq 'address_present'}">
 					
 						<div style="margin-top: 10px" class="form-group">						
 							<div class="col-sm-6 controls">

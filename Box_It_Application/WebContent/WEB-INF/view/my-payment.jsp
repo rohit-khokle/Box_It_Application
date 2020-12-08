@@ -79,14 +79,14 @@
 						
 						
 				<c:choose>		
-							<c:when test="${payment_Prompt ne 'payment_not_present'}">
+							<c:when test="${sessionScope.paymentPrompt eq 'no_payment'}">
 								<div style="margin-top: 10px" class="form-group">						
 									<div class="col-sm-6 controls">
 										<button type="submit" class="btn btn-primary">Save Payment Details</button>
 									</div>
 								</div>
 							</c:when>
-							<c:when test="${payment_Prompt ne 'payment_present'}">
+							<c:when test="${sessionScope.paymentPrompt eq 'payment_present'}">
 								<div style="margin-top: 10px" class="form-group">						
 									<div class="col-sm-6 controls">
 										<button type="submit" class="btn btn-primary">Update Payment Details</button>

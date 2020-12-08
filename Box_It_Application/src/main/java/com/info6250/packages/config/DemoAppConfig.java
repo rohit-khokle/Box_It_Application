@@ -189,15 +189,7 @@ public class DemoAppConfig  implements WebMvcConfigurer {
           .addResourceLocations("/resources/"); 
     }	
     
-    
-//	@Bean
-//	@Autowired
-//	public MyCart myCart() {		
-//		MyCart myCart = new MyCart();
-//		return myCart;
-//	}
 
-    
     
 	@Bean
 	@Autowired

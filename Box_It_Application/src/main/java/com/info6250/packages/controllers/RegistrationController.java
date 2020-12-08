@@ -23,6 +23,10 @@ import com.info6250.packages.user.BoxItUser;
 import com.info6250.packages.user.BoxitPaymentDetails;
 
 
+/**
+ * @author Rohit
+ *
+ */
 @Controller
 @RequestMapping("/register")
 public class RegistrationController {

@@ -23,19 +23,20 @@ public class CustomerDAOImpl implements CustomerDAO {
 	private SessionFactory sessionFactory;
 
 	@Override
-	@Transactional
-	public void createWorkspace(Workspace workspace) {
+	public Integer createWorkspace(Workspace workspace) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		currentSession.saveOrUpdate(workspace);
-	//a	addItems(workspace);
+		return (Integer) currentSession.save(workspace);
+
 	}
 
+	// addItems can be removed.
+	
 	@Override
 	public void addItems(Workspace workspace) {
-		Session currentSession = sessionFactory.getCurrentSession();
-		for(Cart_items myCart : workspace.getCartItems()) {	
-			currentSession.save(myCart);
-		}
+//		Session currentSession = sessionFactory.getCurrentSession();
+//		for(Cart_items myCart : workspace.getCartItems()) {	
+//			currentSession.save(myCart);
+//		}
 	}
 
 	@Override
@@ -78,6 +79,15 @@ public class CustomerDAOImpl implements CustomerDAO {
 	public void addPayment(Payment_Details payment) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		currentSession.saveOrUpdate(payment);
+	}
+
+	@Override
+	@Transactional
+	public void addToCart(List<Cart_items> cart_list) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		for(Cart_items myCart :cart_list) {	
+			currentSession.save(myCart);
+		}
 	}
 
 

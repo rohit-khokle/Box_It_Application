@@ -32,6 +32,10 @@ import com.info6250.packages.service.RestaurantService;
 import com.info6250.packages.user.BoxItUserAddress;
 import com.info6250.packages.user.BoxitPaymentDetails;
 
+/**
+ * @author Rohit
+ *
+ */
 @Controller
 @RequestMapping("/my-box-it")
 public class CustomerController {
@@ -62,15 +66,14 @@ public class CustomerController {
 		}
 		catch(Exception e)
 		{
-			return "redirect:/logout";	
+			return "redirect:/BoxItLoginPage";	
 		}
 		if(address.getId() != 0) { 
 			
 			// Put into Session.
 			BoxItUserAddress boxitaddress = new BoxItUserAddress();
 			boxitaddress.convert(address);
-			System.out.println(boxitaddress);
-			System.out.println("boxitaddress" + boxitaddress);
+
 			session.setAttribute("address", boxitaddress);
 			session.setAttribute("addressPrompt", "address_present");		
 		}else
@@ -139,18 +142,12 @@ public class CustomerController {
 			 user = (User)session.getAttribute("user");		
 			 address = customerService.getAddress(user);
 			 payment =  customerService.getPayment(user);
-		}
-		catch(Exception e)
-		{
-			return "redirect:/logout";	
-		}
+
 		if(address.getId() != 0) { 
 			
 			// Put into Session.
 			BoxItUserAddress boxitaddress = new BoxItUserAddress();
 			boxitaddress.convert(address);
-			System.out.println(boxitaddress);
-			System.out.println("boxitaddress" + boxitaddress);
 			session.setAttribute("address", boxitaddress);
 			session.setAttribute("addressPrompt", "address_present");		
 		}else
@@ -159,7 +156,7 @@ public class CustomerController {
 			boxitaddress.setUser_id(user.getId());
 			session.setAttribute("address", boxitaddress);
 			// No address. Show prompt
-			session.setAttribute("addressPrompt", "No address");
+			session.setAttribute("addressPrompt", "no_address");
 		}
 		if(payment.getId() != 0) 
 		{	
@@ -179,10 +176,14 @@ public class CustomerController {
 			session.setAttribute("payment_details", boxitPayment);
 					
 			// Put into prompt
-			session.setAttribute("paymentPrompt", "No payment");
+			session.setAttribute("paymentPrompt", "no_payment");
 		}
 		
-//		}
+		}
+		catch(Exception e)
+		{
+			return "redirect:/BoxItLoginPage";	
+		}
 		return "my-profile";
 	}
 	
@@ -191,7 +192,11 @@ public class CustomerController {
 			HttpSession session,  
 			Model theModel) {
 		User user = (User)session.getAttribute("user");
-		BoxitPaymentDetails payment = (BoxitPaymentDetails) session.getAttribute("payment_details");
+		
+
+		Payment_Details paymentDetails =  customerService.getPayment(user);		
+		BoxitPaymentDetails payment =  new BoxitPaymentDetails();   //(BoxitPaymentDetails) session.getAttribute("payment_details");
+		payment.convert(paymentDetails);
 		
 		if(payment.getId() != 0) 
 		{	
@@ -214,9 +219,13 @@ public class CustomerController {
 			Model theModel) {
 		
 		User user = (User)session.getAttribute("user");
-		BoxItUserAddress address = (BoxItUserAddress)session.getAttribute("address");
-		System.out.println("showMyAddress "+address);
+		
+		
+		User_Address addressDetails = customerService.getAddress(user);
+		BoxItUserAddress address = new BoxItUserAddress();    //(BoxItUserAddress)session.getAttribute("address");
+		address.convert(addressDetails);
 
+		
 		if(address.getId() != 0) 
 		{	
 			theModel.addAttribute("address", address);
@@ -376,29 +385,40 @@ public class CustomerController {
     	System.out.println("My Cart items are : "+myCart);
     	System.out.println("Selected Restaurant : "+selectedRestaurant);
     	System.out.println("The logged in user : "+user);
+    
     	
+    	// Fill in workspace object..
+    	
+    	workspace.setRestaurant_id(selectedRestaurant.getId());
+    	workspace.setCustomer_id(user.getId());
+    	workspace.setStatus("ORDER PLACED"); 	
    
       	Double total_value = 0.0;   	
     	for(Menu temp : myCart.getMyItems()) {
-    			cart_items = temp.convertIntoCartItems(this.cart_items);
-    			workspace.add(cart_items);
-    			cart_list.add(cart_items);
-    			total_value = total_value+ temp.getPrice();
+    		cart_items.setId(temp.getId()); 		
+    		cart_items.setDish_name(temp.getDish_name());
+    		cart_items.setDish_category(temp.getDish_category());
+    		cart_items.setQuantity(temp.getQuantity());
+    		cart_items.setCalories(temp.getCalories());
+//    		cart_items = temp.convertIntoCartItems(this.cart_items);
+    //		workspace.add(cart_items);
+    	//	cart_list.add(cart_items); // Can we remove this?
+    		total_value = total_value+ temp.getPrice();
     	} 
     	theModel.addAttribute("Total_Value", total_value);
     	
-    	workspace.setCartItems(cart_list);  	
-    	workspace.setRestaurant_id(selectedRestaurant.getId());
-    	workspace.setCustomer_id(user.getId());
-    	workspace.setStatus("ORDER PLACED");
+  //  	workspace.setCartItems(cart_list);  	
+
     	workspace.setTotal_value(total_value);
-    	
+    	workspace.setCartItems(cart_list);
     	Date todayDate = new Date();
     	workspace.setDate(todayDate.toString());
     	
-    	System.out.println("CART LIST" + cart_list);
-    	customerService.creatWorkspace(workspace);
-    //	customerService.addItems(cart_list);
+    	
+    	
+    	
+    //	Integer workspace_id = customerService.createWorkspace(workspace);
+
     	
     	return "order_placed";
 	}

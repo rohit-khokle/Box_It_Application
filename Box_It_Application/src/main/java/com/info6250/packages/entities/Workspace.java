@@ -1,16 +1,20 @@
 package com.info6250.packages.entities;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name = "workspace")
@@ -42,14 +46,14 @@ public class Workspace {
 	@Column(name = "assigned_user")
 	private long assigned_user;
 	
-	@OneToMany(mappedBy = "workspace",
-			cascade= {
-			CascadeType.PERSIST, CascadeType.MERGE,
-			CascadeType.DETACH, CascadeType.REFRESH})
+	@OneToMany(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
+	@JoinColumn(name="workspace_id")
 	private List<Cart_items> cartItems;
-	
-	
 
+	public Workspace() {
+		
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -129,7 +133,7 @@ public class Workspace {
 		}
 		cartItems.add(tempMenu);
 		
-		tempMenu.setWorkspace(this);		
+	//	tempMenu.setWorkspace(this);		
 	}
 
 }
