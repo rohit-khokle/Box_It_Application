@@ -66,7 +66,7 @@ public class UserManagementController {
 			 customerService.addPayment(payment);
 			 
 			theModel.addAttribute("show_alert", "Alright! Payment Details Updated");    
-			
+			session.setAttribute("warningPrompt", 0); 
 			return "redirect:/my-box-it/my-profile";		
 		}
 		
@@ -93,7 +93,8 @@ public class UserManagementController {
 
 			customerService.addAddress(userAddress);
 			theModel.addAttribute("show_alert", "Hoorah! Address Details Updated"); 
-	        return "redirect:/my-box-it/my-profile";		
+			session.setAttribute("warningPrompt", 0); 
+			return "redirect:/my-box-it/my-profile";		
 
 		}
 	

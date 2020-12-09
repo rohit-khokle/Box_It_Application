@@ -46,6 +46,34 @@
 		  <p class="mb-0">FYI! You can change these details any time!</p>
 		</div>
 	</c:if>
+	
+	<c:if test="${show_alert eq 'Hoorah! Address Details Updated'}">		
+		<div class="alert alert-success" role="alert">
+		  <h4 class="alert-heading">Well done!</h4>
+		  <p> <c:out value="${show_alert}" /> </p>
+		  <hr>
+		  <p class="mb-0">FYI! You can change these details any time!</p>
+		</div>
+	</c:if>	
+	
+	<c:if test="${show_alert eq 'Alright! Payment Details Updated'}">		
+		<div class="alert alert-success" role="alert">
+		  <h4 class="alert-heading">Well done!</h4>
+		  <p> <c:out value="${show_alert}" /> </p>
+		  <hr>
+		  <p class="mb-0">FYI! You can change these details any time!</p>
+		</div>
+	</c:if>
+		
+	
+	<c:if test="${sessionScope.warningPrompt eq 1}">		
+		<div class="alert alert-warning" role="alert">
+		  <h4 class="alert-heading">Whoops!</h4>
+		  <p class="mb-0">Looks like your account is not setup..But we got you covered. Add your details here.</p>
+		</div>
+	</c:if>
+	
+	
 
 <hr>
 

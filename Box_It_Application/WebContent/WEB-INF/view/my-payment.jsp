@@ -78,23 +78,14 @@
 						
 						
 						
-				<c:choose>		
-							<c:when test="${sessionScope.paymentPrompt eq 'no_payment'}">
-								<div style="margin-top: 10px" class="form-group">						
-									<div class="col-sm-6 controls">
-										<button type="submit" class="btn btn-primary">Save Payment Details</button>
-									</div>
-								</div>
-							</c:when>
-							<c:when test="${sessionScope.paymentPrompt eq 'payment_present'}">
+						
 								<div style="margin-top: 10px" class="form-group">						
 									<div class="col-sm-6 controls">
 										<button type="submit" class="btn btn-primary">Update Payment Details</button>
 									</div>
 								</div>
-							</c:when>
 							
-					</c:choose>
+			
 						
 							<a href="${pageContext.request.contextPath}/my-box-it/my-profile"> Back </a>
 					</form:form>

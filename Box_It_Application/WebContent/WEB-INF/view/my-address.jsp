@@ -88,15 +88,6 @@
 					
 					
 
-				<c:choose >
-					<c:when test="${sessionScope.addressPrompt eq 'no_address'}">
-						<div style="margin-top: 10px" class="form-group">						
-							<div class="col-sm-6 controls">
-								<button type="submit" class="btn btn-primary">Save My Address</button>
-							</div>
-						</div>
-					</c:when>
-					<c:when test="${sessionScope.addressPrompt eq 'address_present'}">
 					
 						<div style="margin-top: 10px" class="form-group">						
 							<div class="col-sm-6 controls">
@@ -104,8 +95,7 @@
 							</div>
 						</div>
 										
-					</c:when>
-				</c:choose>	
+		
 				
 				
 							<a href="${pageContext.request.contextPath}/my-box-it/my-profile"> Back </a>	

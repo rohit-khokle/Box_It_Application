@@ -14,6 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.validator.constraints.br.CPF;
 
 
 @Entity
@@ -45,6 +48,10 @@ public class Workspace {
 	
 	@Column(name = "assigned_user")
 	private long assigned_user;
+	
+	@Column(name= "restaurant_name")
+	private String restaurantName;
+	
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
 	@JoinColumn(name="workspace_id")
@@ -108,6 +115,14 @@ public class Workspace {
 
 	public void setAssigned_user(long assigned_user) {
 		this.assigned_user = assigned_user;
+	}
+
+	public String getRestaurantName() {
+		return restaurantName;
+	}
+
+	public void setRestaurantName(String restaurantName) {
+		this.restaurantName = restaurantName;
 	}
 
 	@Override

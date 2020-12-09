@@ -27,6 +27,7 @@ import com.info6250.packages.entities.User_Address;
 import com.info6250.packages.entities.Workspace;
 import com.info6250.packages.service.CustomerService;
 import com.info6250.packages.service.RestaurantService;
+import com.info6250.packages.service.WorkspaceService;
 import com.info6250.packages.user.BoxItUserAddress;
 import com.info6250.packages.user.BoxitPaymentDetails;
 
@@ -42,6 +43,10 @@ public class CustomerController {
 	
 	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private WorkspaceService workspaceService;
+	
 	
 	@GetMapping("/home")
 	public String showCustomerWorkspace( HttpSession session, Model theModel) {
@@ -341,64 +346,30 @@ public class CustomerController {
 	
 	@GetMapping("/add-into-cart")
 	public String addIntoCart( HttpSession session,	 HttpServletResponse  response,		
-	//		@ModelAttribute("checkCart") List<Cart_items> cartList,
 			@ModelAttribute("checkCart") Workspace checkCart,
-//			@ModelAttribute("restaurantID") int theId,
-			@ModelAttribute("menuID") int theMenuId, 
+        	@ModelAttribute("menuID") int theMenuId, 
 			Model theModel) {	
 				
     	Menu selectedItem = restaurantService.getMenu(theMenuId);
-   // 	cartList.add(selectedItem.convertIntoCartItems(new Cart_items())); // 
-    	checkCart.add(selectedItem.convertIntoCartItems(new Cart_items()));  // addItemInCart(selectedItem);
     	 
     	if(session.getAttribute("checkCart") != null) {
     		Workspace currentCart = (Workspace) session.getAttribute("checkCart");
-    	//	List<Cart_items> currentCart = (List<Cart_items>) session.getAttribute("checkCart");
     		currentCart.add(selectedItem.convertIntoCartItems(new Cart_items()));
-    	//	currentCart.addItemInCart(selectedItem); // getMyItems().add(selectedItem);
         	session.setAttribute("checkCart", currentCart);
     		
     	}
     	else
     	{
+    		checkCart.add(selectedItem.convertIntoCartItems(new Cart_items()));  // addItemInCart(selectedItem);
     		session.setAttribute("checkCart", checkCart);
     	}
-    	
-    	
-
-    	
-  	/*
-    	if(myCart.getMyItems() != null) {
-    		myCart.getMyItems().add(selectedItem);
-    		session.setAttribute("selectedItem", selectedItem);
-
-    	}
-    	else {
-    		session.setAttribute("selectedItem", selectedItem);
-	    	myCart.getMyItems().add(selectedItem);
-	//    	session.setAttribute("myCart",  myCart);
-	  	
-	    	
-	    	//request.getSession().setAttribute("array_of_selectedItem", items);
-	    	//request.getSession().setAttribute("Random", "Check If this comes");
-	    	
-    	
-    	} */
-	    
-    	//request.getSession().setAttribute("random", "Something");
-     	// theModel.addAttribute("myCart",checkCart);
-   
-    	
+    	 	
     	// Show Alert Prompt
     	theModel.addAttribute("promptThis", selectedItem);
-    	
-    	
-    
 
     	// Load Menu 
 		List<Menu> allMenu = restaurantService.getAllMenu();
 		theModel.addAttribute("allMenu",allMenu);
-		
 		
 		return "show-menu";
 	}	
@@ -410,8 +381,6 @@ public class CustomerController {
 			Model theModel) 
 	{
 		Workspace myCart = (Workspace)session.getAttribute("myCart");
-		System.out.println("My values : "+myCart);	
-      
 		
 		Restaurant selectedRestaurant = (Restaurant)session.getAttribute("selectedRestaurant");
 //		System.out.println("My Restaurant : "+selectedRestaurant);	
@@ -469,13 +438,19 @@ public class CustomerController {
     	System.out.println("Selected Restaurant : "+selectedRestaurant);
     	System.out.println("The logged in user : "+user);
     
+    	try {
+	    	// Fill in workspace object..    	
+	    	myCart.setRestaurant_id(selectedRestaurant.getId());
+	    	Restaurant theRestaurant = (Restaurant)session.getAttribute("selectedRestaurant");
+	    	myCart.setRestaurantName(theRestaurant.getName());
+	    	myCart.setCustomer_id(user.getId());
+	    	myCart.setStatus("ORDER PLACED"); 	
+    	}
+    	catch(Exception e) {
+    		return "redirect:/BoxItLoginPage";		
+    	}
     	
-    	// Fill in workspace object..
     	
-    	myCart.setRestaurant_id(selectedRestaurant.getId());
-    	myCart.setCustomer_id(user.getId());
-    	myCart.setStatus("ORDER PLACED"); 	
-   
       	Double total_value = 0.0;   	
       	for(Cart_items temp : myCart.getCartItems()) {
      		total_value = total_value+ temp.getPrice();
@@ -484,34 +459,96 @@ public class CustomerController {
       	Date todayDate = new Date();
       	myCart.setDate(todayDate.toString());
       	
-      	
-      	
-      	/*
-      	for(Menu temp : myCart.getMyItems()) {
-    		cart_items.setId(temp.getId()); 		
-    		cart_items.setDish_name(temp.getDish_name());
-    		cart_items.setDish_category(temp.getDish_category());
-    		cart_items.setQuantity(temp.getQuantity());
-    		cart_items.setCalories(temp.getCalories());
-//    		cart_items = temp.convertIntoCartItems(this.cart_items);
-    //		workspace.add(cart_items);
-    	//	cart_list.add(cart_items); // Can we remove this?
-    		total_value = total_value+ temp.getPrice();
-    	} 
-    	
-    	*/
     	theModel.addAttribute("Total_Value", total_value);
     	
-  //  	workspace.setCartItems(cart_list);  	
-
-    	//workspace.setCartItems(cart_list);
     	
-    	customerService.createWorkspace(myCart);
-
     	
-    	return "order_placed";
+    	BoxItUserAddress address = (BoxItUserAddress)session.getAttribute("address");
+    	BoxitPaymentDetails payment = (BoxitPaymentDetails)session.getAttribute("payment_details");
+    	
+    	if((address.getId() != 0) && (payment.getId() != 0))
+    			{
+    				customerService.createWorkspace(myCart);
+    				return "redirect:/my-box-it/my-orders";
+    			}
+    	else {
+    		session.setAttribute("warningPrompt", 1);  
+    		return "redirect:/my-box-it/my-profile";	
+    	}
 	}
 		
+	@GetMapping("/my-orders")
+	public String goToOrders(HttpSession session,
+			Model theModel) {
+		User user;
+		try {
+	    	user = (User)session.getAttribute("user");
+    		long userid = user.getId();
+    	}
+    	catch(Exception e) {
+    		return "redirect:/BoxItLoginPage";		
+    	}
+		
+		// get current orders
+		List<Workspace> currentOrders = workspaceService.getCurrentOrders(user);
+		
+		// get past history
+		List<Workspace> allOrders =workspaceService.getAllOrders(user);
+		
+		theModel.addAttribute("currentOrders", currentOrders);
+		theModel.addAttribute("allOrders", allOrders);		
+		
+		return "my-orders";
+	}	
+
+	@GetMapping("/checkOrder")
+	public String checkOrderItems(HttpSession session,
+			Model theModel) {
+		User user;
+		try {
+	    	user = (User)session.getAttribute("user");
+    		long userid = user.getId();
+    	}
+    	catch(Exception e) {
+    		return "redirect:/BoxItLoginPage";		
+    	}
+		
+		// get current orders
+		List<Workspace> currentOrders = workspaceService.getCurrentOrders(user);	
+		// get past history
+		List<Workspace> allOrders =workspaceService.getAllOrders(user);
+				
+		theModel.addAttribute("currentOrders", currentOrders);
+		theModel.addAttribute("allOrders", allOrders);		
+		
+		return "my-orders";
+	}	
 	
+	@GetMapping("/my-cart")
+	public String checkOrder(HttpSession session, 
+			@ModelAttribute("orderID") int checkCartId
+			,Model theModel) {
+		
+		User user = (User)session.getAttribute("user");
+		try {
+			if(workspaceService.checkValidity(user.getId(), checkCartId))
+			{
+				Restaurant theRestaurant = restaurantService.getRestaurant(checkCartId);
+				List<Cart_items> theCart =workspaceService.getMyCart(checkCartId);
+				theModel.addAttribute("currentCart", theCart);
+				theModel.addAttribute("currentRestaurant", theRestaurant);
+				
+				return "my-cart";
+			}
+			else 
+				return "access-denied";	
+		}
+		catch(Exception e)
+		{
+			
+			return "/home";
+		}
+
+	}
 	
 }
