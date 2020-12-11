@@ -64,7 +64,7 @@ public class SystemController {
 	public String saveRestaurant(@ModelAttribute("restaurant") Restaurant theRestaurant){
 		
 		restaurantService.saveRestaurant(theRestaurant);
-		return "redirect:/employees";
+		return "redirect:/systems";
 	}
 	
 	

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.info6250.packages.dao.WorkspaceDAO;
 import com.info6250.packages.entities.Cart_items;
+import com.info6250.packages.entities.Restaurant;
 import com.info6250.packages.entities.User;
 import com.info6250.packages.entities.Workspace;
 
@@ -52,6 +53,70 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 	@Transactional
 	public boolean checkValidity(Long id, int checkCartId) {
 		return workspaceDAO.checkValidity(id, checkCartId);
+	}
+
+
+
+	@Override
+	@Transactional
+	public List<Workspace> getRestaurantWorkspaces(Restaurant theRestaurant) {
+		int id = theRestaurant.getId();
+		return workspaceDAO.getRestaurantWorkspaces(id);
+	}
+
+
+
+	@Override
+	@Transactional
+	public List<User> getChefs(Restaurant theRestaurant) {
+		return workspaceDAO.getChefs(theRestaurant);
+	}
+
+
+
+	@Override
+	public List<User> getDeliveryExecs(Restaurant theRestaurant) {
+		return workspaceDAO.getDeliveryExecs(theRestaurant);
+	}
+
+
+
+	@Override
+	@Transactional
+	public void assignToChef(Workspace theWorkspace, long id) {
+		workspaceDAO.assignToChef( theWorkspace, id);	
+	}
+
+
+
+	@Override
+	@Transactional
+	public void assignToDelivery(Workspace theWorkspace, long id) {
+			workspaceDAO.assignToDelivery(theWorkspace, id);	
+	}
+
+
+
+	@Override
+	@Transactional
+	public void addStatusOnWorkspace(Workspace theWorkspace, String status) {
+		workspaceDAO.addStatusOnWorkspace(theWorkspace,status);
+	}
+
+
+
+	@Override
+	@Transactional
+	public User getCustomerDetails(long customerId) {
+		return workspaceDAO.getCustomer(customerId);
+		
+	}
+
+
+	@Override
+	@Transactional
+	public Workspace getWorkspace(int theId) {
+		return  workspaceDAO.getWorkspace(theId);
 	}
 
 	

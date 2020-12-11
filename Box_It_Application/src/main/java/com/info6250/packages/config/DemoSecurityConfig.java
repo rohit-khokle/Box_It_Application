@@ -67,10 +67,12 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
 	//        .antMatchers("/customerLogin").permitAll()  // allow public access to home page
 	        .antMatchers("/register").permitAll()
 	        .antMatchers("/home").hasAnyRole("CUSTOMER", "EMPLOYEE", "MANAGER", "ADMIN", "DELIVERY_EXECUTIVES", "CHEF")
+	        .antMatchers("/myworkspace").hasAnyRole("EMPLOYEE", "MANAGER", "ADMIN", "DELIVERY_EXECUTIVES", "CHEF")
+	        .antMatchers("/myworkspace/**").hasAnyRole("EMPLOYEE", "MANAGER", "ADMIN", "DELIVERY_EXECUTIVES", "CHEF") 
 	        .antMatchers("/my-box-it").hasRole("CUSTOMER")
 	        .antMatchers("/my-box-it/**").hasRole("CUSTOMER")
 	        .antMatchers("/employees").hasRole("EMPLOYEE")
-	        .antMatchers("/managers/**").hasRole("MANAGER")
+	        .antMatchers("/myworkspace/managers/**").hasRole("MANAGER")
 	        .antMatchers("/systems/**").hasRole("ADMIN")
 	        .antMatchers("/deliveryExecWorkspace/**").hasRole("DELIVERY_EXECUTIVES")
 	        .antMatchers("/chefWorkspace/**").hasRole("CHEF")

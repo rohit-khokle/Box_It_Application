@@ -14,17 +14,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import org.hibernate.validator.constraints.br.CPF;
 
 
 @Entity
 @Table(name = "workspace")
 public class Workspace {
-	
-	
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -46,8 +41,11 @@ public class Workspace {
 	@Column(name = "date")
 	private String date;
 	
-	@Column(name = "assigned_user")
-	private long assigned_user;
+	@Column(name = "assigned_chef")
+	private long assigned_chef;
+
+	@Column(name = "assigned_delivery_exec")
+	private long assigned_delivery_exec;
 	
 	@Column(name= "restaurant_name")
 	private String restaurantName;
@@ -109,12 +107,21 @@ public class Workspace {
 		this.date = date;
 	}
 
-	public long getAssigned_user() {
-		return assigned_user;
+
+	public long getAssigned_chef() {
+		return assigned_chef;
 	}
 
-	public void setAssigned_user(long assigned_user) {
-		this.assigned_user = assigned_user;
+	public void setAssigned_chef(long assigned_chef) {
+		this.assigned_chef = assigned_chef;
+	}
+
+	public long getAssigned_delivery_exec() {
+		return assigned_delivery_exec;
+	}
+
+	public void setAssigned_delivery_exec(long assigned_delivery_exec) {
+		this.assigned_delivery_exec = assigned_delivery_exec;
 	}
 
 	public String getRestaurantName() {
@@ -125,11 +132,16 @@ public class Workspace {
 		this.restaurantName = restaurantName;
 	}
 
+
+	
+	
+	
 	@Override
 	public String toString() {
 		return "Workspace [id=" + id + ", restaurant_id=" + restaurant_id + ", customer_id=" + customer_id
-				+ ", total_value=" + total_value + ", status=" + status + ", date=" + date + ", assigned_user="
-				+ assigned_user + "]";
+				+ ", total_value=" + total_value + ", status=" + status + ", date=" + date + ", assigned_chef="
+				+ assigned_chef + ", assigned_delivery_exec=" + assigned_delivery_exec + ", restaurantName="
+				+ restaurantName + "]";
 	}
 
 	public List<Cart_items> getCartItems() {

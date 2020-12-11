@@ -444,6 +444,8 @@ public class CustomerController {
 	    	Restaurant theRestaurant = (Restaurant)session.getAttribute("selectedRestaurant");
 	    	myCart.setRestaurantName(theRestaurant.getName());
 	    	myCart.setCustomer_id(user.getId());
+	    	myCart.setAssigned_chef(0);
+	    	myCart.setAssigned_delivery_exec(0);
 	    	myCart.setStatus("ORDER PLACED"); 	
     	}
     	catch(Exception e) {

@@ -76,4 +76,80 @@ public class WorkspaceDAOImpl implements WorkspaceDAO {
 		else
 			return true;
 	}
+
+	@Override
+	public List<Workspace> getRestaurantWorkspaces(int id) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<Workspace> theQuery =
+				currentSession.createQuery("from Workspace WHERE restaurant_id=:res_id", 
+						Workspace.class);
+		theQuery.setParameter("res_id", id);
+		List<Workspace> workspaces = theQuery.getResultList();
+		return workspaces;
+	}
+
+	@Override
+	public List<User> getChefs(Restaurant theRestaurant) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<User> theQuery =
+				currentSession.createQuery("from User WHERE restaurantName=:name AND "
+						+ "staffRole=:role", 
+						User.class);
+		theQuery.setParameter("name", theRestaurant.getName());
+		theQuery.setParameter("role", "Chef");
+			
+	
+		List<User> chefs = theQuery.getResultList();
+		return chefs;
+	}
+
+	@Override
+	public List<User> getDeliveryExecs(Restaurant theRestaurant) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<User> theQuery =
+				currentSession.createQuery("from User WHERE restaurantName=:name "
+						+ "staffRole='Delivery Executive'", 
+						User.class);
+		theQuery.setParameter("name", theRestaurant.getName());
+		List<User> delivery_execs = theQuery.getResultList();
+		return delivery_execs;
+	}
+
+	@Override
+	public void assignToChef( Workspace theWorkspace, long id) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		theWorkspace.setAssigned_chef(id);
+		theWorkspace.setStatus("ACCEPTED");
+		currentSession.saveOrUpdate(theWorkspace);
+	}
+
+	@Override
+	public void assignToDelivery( Workspace theWorkspace, long id) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		theWorkspace.setAssigned_delivery_exec(id);
+		theWorkspace.setStatus("PICKED");
+		currentSession.saveOrUpdate(theWorkspace);
+		
+	}
+
+	@Override
+	public void addStatusOnWorkspace(Workspace theWorkspace, String status) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		theWorkspace.setStatus(status);
+		currentSession.saveOrUpdate(theWorkspace);	
+		
+	}
+
+	@Override
+	public User getCustomer(long customerId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		return (User)currentSession.get(User.class, customerId);
+	}
+
+	@Override
+	public Workspace getWorkspace(int theId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		return (Workspace)currentSession.get(Workspace.class, theId);
+	}
 }

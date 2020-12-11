@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity(name = "Restaurant")
 @Table(name = "enterprise")
@@ -28,6 +29,14 @@ public class Restaurant {
 	
 	@Column(name = "address")
 	private String address;
+	
+	@Column(name = "revenue")
+	private Double revenue;
+	
+	
+	@Transient
+	private long ordersServed;
+	
 	
 	
 	public int getId() {
@@ -61,6 +70,18 @@ public class Restaurant {
 	
 	
 	
+	public long getOrdersServed() {
+		return ordersServed;
+	}
+	public void setOrdersServed(long ordersServed) {
+		this.ordersServed = ordersServed;
+	}
+	public Double getRevenue() {
+		return revenue;
+	}
+	public void setRevenue(Double revenue) {
+		this.revenue = revenue;
+	}
 	public String getAddress() {
 		return address;
 	}

@@ -52,10 +52,10 @@ public class HomeController {
 		//	return "home";
 	}
 
-	@GetMapping("/managers")
+	@GetMapping("/myworkspace1")
 	public String showManagers() {
-	
-		return "managers";
+		
+		return "managers_home";
 	}
 	
 

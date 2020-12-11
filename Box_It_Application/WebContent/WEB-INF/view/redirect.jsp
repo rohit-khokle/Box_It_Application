@@ -26,7 +26,7 @@
 </security:authorize>
 
 <security:authorize access="hasRole('MANAGER')">
-	<jsp:forward page="/managers"> 
+	<jsp:forward page="/manager/myworkspace"> 
 		<jsp:param name="username" value="principal.username" />
 		<jsp:param name="role" value="principal.authorities" />
 	</jsp:forward> 

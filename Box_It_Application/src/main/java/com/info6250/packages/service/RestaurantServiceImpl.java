@@ -81,4 +81,12 @@ public class RestaurantServiceImpl implements RestaurantService {
 		return restaurantDAO.getAllRestaurantNames();
 	}
 
+
+	@Override
+	@Transactional
+	public Restaurant getRestaurant(String name) {
+		
+		return restaurantDAO.getRestaurant(name);
+	}
+
 }

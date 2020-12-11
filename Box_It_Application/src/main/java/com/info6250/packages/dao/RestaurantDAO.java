@@ -24,5 +24,7 @@ public interface RestaurantDAO {
 	public List<User> getAllStaff();
 	
 	public List<String> getAllRestaurantNames();
+
+	public Restaurant getRestaurant(String name);
 	
 }

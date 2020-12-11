@@ -72,6 +72,20 @@ public class RestaurantDAOImpl implements RestaurantDAO {
 		return currentSession.get(Restaurant.class,	 theId);
 	}
 
+	@Override
+	public Restaurant getRestaurant(String name) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<Restaurant> theQuery =
+				currentSession.createQuery("from Restaurant WHERE store_name =:storeName", 
+						Restaurant.class);
+		theQuery.setParameter("storeName", name);
+		
+		return theQuery.getSingleResult();
+	}
+
+	
+	
 
 
 	@Override
