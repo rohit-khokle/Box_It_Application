@@ -43,7 +43,7 @@
   <tbody>
   <c:set var="count" value="1" scope="page" />
   <c:forEach var="menu" items="${allMenu}" >
-  <c:url var="updateLink" value="/systems/showFormForUpdate">
+  <c:url var="updateLink" value="/systems/showMenuForUpdate">
   	<c:param name = "menuID" value="${menu.id}" />
   </c:url>
   

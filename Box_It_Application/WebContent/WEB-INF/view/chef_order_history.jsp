@@ -13,15 +13,8 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Home</title>
+<title>Let's Box-It!</title>
 
-
-<style>
-html,body, div{
-height:100%;
- min-height:100%; 
-}
-</style>
 	          	
 		<!-- Reference Bootstrap files -->
 		<link rel="stylesheet"
@@ -36,8 +29,7 @@ height:100%;
 
 </head>
 <body>
-<fmt:formatDate  var="year" value="${now}"  pattern="dd-MM-yyyy" />
-<div class="p-3 mb-2 bg-light text-dark" align="center" class="p-3 mb-2 bg-light text-dark">
+<div class="p-3 mb-2 bg-light text-dark" align="center">
 <h2 class="display-4" align="left"><c:out value="${sessionScope.workspaceRestaurant.name}"/></h2>
 <h4  class="display-5" align="left"><i>${sessionScope.workspaceRestaurant.address}</i></h4> 
 <hr>
@@ -45,67 +37,55 @@ height:100%;
 <nav aria-label="breadcrumb" class="p-3 mb-2 bg-info text-white">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page"><a href="${pageContext.request.contextPath}/home">Home</a></li>
-    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/chef/OrderHistory">Work History</a>
-    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/chef/my-Profile">My Profile</a>
+    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/delivery/OrderHistory">Work History</a>
+    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/delivery/my-Profile">My Profile</a>
     </li>
   </ol>
 </nav>
- <p class="lead"> <u> Pending Orders </u></p> <h2 align='right'>${year}</h2>
 
- 
+<!--  Dashboard name -->
+ <p class="lead"> 
+<b> ${sessionScope.user.firstName} ${sessionScope.user.lastName}'s order history</b>  
+</p>
+
+ <b> Completed Deliveries </b> <h2 align='right'>${year}</h2>
+
+
 			<table class="table table-hover">
 			  <thead>
 			    <tr>
 			      <th scope="col">#</th>
 			      <th scope="col">Date</th>
+			      <th scope="col">Total Value</th>
 			      <th scope="col">Status</th>
-			      <th scope="col">Actions</th>
-			      
+			     
 			    </tr>
 			  </thead>
 			  <tbody>
 			  <c:set var="count" value="1" scope="page" />
 			  <c:forEach var="order" items="${currentRestaurantOrders}" >
-			  <c:url var="checkOrder" value="/chef/checkOrder">
+			 <c:url var="declineOrder" value="/manager/decline">
 				  	<c:param name = "orderID" value="${order.id}" />
 			  </c:url>
-			 <c:url var="completeOrder" value="/chef/completeOrder">
-				  	<c:param name = "orderID" value="${order.id}" />
-			  </c:url>
-			   <c:url var="checkItems" value="/chef/checkItems">
-					  	<c:param name = "orderID" value="${order.id}" />
-			  </c:url>
-
-
-
-			  
 						    <tr>
 						      <th scope="row"><c:out value="${count}" /></th>
 							  <c:set var="date" value="${order.date}"/>  
     						  	<td> ${fn:substring(date,0, 16)}</td>
-						      <td>${fn:toUpperCase(order.status)}</td> 
-					
-						  	  <c:if test="${order.status eq 'ACCEPTED'}">
-								<td>
-									<a href="${checkOrder}">Check Order</a>
-						  	  	</td>
-						  	  </c:if>
-						  	  <c:if test="${order.status eq 'PREP'}">
-								<td>
-									<a href="${completeOrder}" onclick="if(!(confirm('Is the order complete?'))) return false">
-									Completed?</a>
-						  	  	</td>
-						  	  	<td>
-									  <a href="${checkItems}">Check Items</a> 
-								</td>	
-						  	  </c:if>
-						  	  
-						    </tr>
+						      <td>${order.total_value}</td>
+						      <td>${fn:toLowerCase(order.status)}</td> 
+						</tr>
 						    	<c:set var="count" value="${count + 1}" scope="page"/>	  	
 				</c:forEach>
 			 </tbody>
 			</table>
-
+			<hr>
+					
+					
+					
+					
+					
+					
+<h2 align='right'>${year}</h2>
 
 
 

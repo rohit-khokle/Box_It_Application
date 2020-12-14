@@ -5,6 +5,7 @@ import java.util.List;
 import com.info6250.packages.entities.Menu;
 import com.info6250.packages.entities.Restaurant;
 import com.info6250.packages.entities.User;
+import com.info6250.packages.user.BoxItMenu;
 
 public interface RestaurantDAO {
 	
@@ -34,5 +35,10 @@ public interface RestaurantDAO {
 	public List<User> getAllStaffPagnination(Integer firstCount);
 
 	public Long getAllStaffCountPagnination();
+
+
+	public List<User> getAllStaffPagnination(Integer pageNumber, Restaurant restaurant);
+
+	public Long getAllStaffCountPagnination(Restaurant restaurant);
 	
 }

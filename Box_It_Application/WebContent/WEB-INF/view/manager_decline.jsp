@@ -12,25 +12,35 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Allocate Work</title>
+<title>Decline Order</title>
 </head>
+
+		<!-- Reference Bootstrap files -->
+		<link rel="stylesheet"
+			 href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+		
+		<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	   
+
 <body>
 
-<div class="jumbotron" align="center">
-<fmt:formatDate  var="year" value="${now}"  pattern="dd-MM-yyyy" />
-
+<div class="p-3 mb-2 bg-light text-dark" align="center" class="p-3 mb-2 bg-light text-dark">
 <h2 class="display-4" align="left"><c:out value="${sessionScope.workspaceRestaurant.name}"/></h2>
-<h4  class="display-5" align="left"><i>${sessionScope.workspaceRestaurant.address}</i></h4>
+<h4  class="display-5" align="left"><i>${sessionScope.workspaceRestaurant.address}</i></h4> 
 <hr>
-<nav aria-label="breadcrumb">
+
+<nav aria-label="breadcrumb" class="p-3 mb-2 bg-info text-white">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page"><a href="${pageContext.request.contextPath}/home">Home</a></li>
-        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/checkOrder">Manage Staff</a></li>
-    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/my-Profile">Restaurant Statistics</a>
-    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/my-Profile">My Profile</a>
+        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manager/manageStaff?pageCount=0">Manage Staff</a></li>
+    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manager/OrderHistory">Order History</a>
+    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manager/my-Profile">My Profile</a>
     </li>
   </ol>
 </nav>
+
 		<hr>	
 			
 <div align="center">
@@ -87,11 +97,10 @@
 			</div>
 			<div align="left">
 			
-				<form:form  action="${pageContext.request.contextPath}/home" 
-				 				method="GET">
-				 				<button type="submit"  class="btn btn-outline-warning"> <p style="font-size:20px" > Back </p> </button>
-				</form:form>	
 		
+				<a href="${pageContext.request.contextPath}/home">back</a>
+ 	
+
 		
 			
 				<form:form  action="${pageContext.request.contextPath}/logout" 

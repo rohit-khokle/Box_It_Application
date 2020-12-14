@@ -14,7 +14,9 @@
 		<link type="text/css"
 		rel="stylesheet"
 		href="${pageContext.request.contextPath}/resources/css/add-customer-style.css" />
-	
+	 <style>
+		.error {color:red}
+	</style>
 	
 	
 </head>
@@ -35,7 +37,7 @@
 				<tbody>
 					<tr>
 						<td> <label>Dish Name </label></td>
-						<td><form:input path="dish_name" /></td>
+						<td><form:input path="dish_name" /><form:errors path="dish_name" cssClass="error" /></td>
 					</tr>
 				
 
@@ -54,21 +56,22 @@
 				
 				    <tr>
 						<td> <label> Description </label></td>
-						<td><form:input path="description" /></td>
+													
+						<td><form:input path="description" /><form:errors path="description" cssClass="error" /></td>
 					</tr>
 				
 					<tr>
 						<td> <label> Price </label></td>
-						<td><form:input path="price" /></td>
+						<td><form:input path="price" /><form:errors path="price" cssClass="error" /></td>
 					</tr>	
 					<tr>
 						<td> <label>Calories </label></td>
-						<td><form:input path="calories" /></td>
+						<td><form:input path="calories" /><form:errors path="calories" cssClass="error" /></td>
 					</tr>	
 										
 					<tr>
 						<td> <label>Remarks </label></td>
-						<td><form:input path="remarks" /></td>
+						<td><form:input path="remarks" /><form:errors path="remarks" cssClass="error" /></td>
 					</tr>	
 																
 					<tr>

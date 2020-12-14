@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.info6250.packages.entities.Menu;
 import com.info6250.packages.entities.Restaurant;
 import com.info6250.packages.entities.User;
+import com.info6250.packages.user.BoxItMenu;
 
 @Repository
 public class RestaurantDAOImpl implements RestaurantDAO {
@@ -192,6 +193,36 @@ public class RestaurantDAOImpl implements RestaurantDAO {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Criteria criteriaCount = currentSession.createCriteria(User.class);
 
+		criteriaCount.setProjection(Projections.rowCount());
+		Long count = (Long) criteriaCount.uniqueResult();
+		
+		return count;
+	}
+
+
+
+	@Override
+	public List<User> getAllStaffPagnination(Integer pageNumber, Restaurant restaurant) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Criteria criteria = currentSession. createCriteria(User.class);
+		criteria.add(Restrictions.isNotNull("restaurantName"));
+		criteria.add(Restrictions.eq("restaurantName", restaurant.getName())); 
+		criteria.add(Restrictions.ne("staffRole", "Manager"));
+		criteria.addOrder(Order.asc("staffRole"));
+		criteria.setFirstResult(pageNumber);
+		criteria.setMaxResults(5);
+		List<User> firstPage = criteria.list();
+		return firstPage;
+	}
+
+	@Override
+	public Long getAllStaffCountPagnination(Restaurant restaurant) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Criteria criteriaCount = currentSession.createCriteria(User.class);
+		criteriaCount.add(Restrictions.isNotNull("restaurantName"));
+		criteriaCount.add(Restrictions.eq("restaurantName", restaurant.getName())); 
+		criteriaCount.add(Restrictions.eq("staffRole", "Manager"));
 		criteriaCount.setProjection(Projections.rowCount());
 		Long count = (Long) criteriaCount.uniqueResult();
 		

@@ -24,6 +24,7 @@ import com.info6250.packages.entities.User;
 import com.info6250.packages.service.RestaurantService;
 import com.info6250.packages.service.UserService;
 import com.info6250.packages.user.BoxItEmployee;
+import com.info6250.packages.user.BoxItMenu;
 import com.info6250.packages.user.BoxItUser;
 
 @Controller
@@ -82,7 +83,9 @@ public class SystemController {
 	/*
 	 * 							Menu Management
 	 * */
-
+/*
+ * 
+	
 	@GetMapping("/setup-menu")
 	public String showCurrentMenu(Model theModel) {
 		
@@ -112,6 +115,59 @@ public class SystemController {
 		return "redirect:/systems/setup-menu";
 	}
 
+ */
+	
+	@GetMapping("/setup-menu")
+	public String showCurrentMenu(Model theModel) {
+		
+		// Get Restaurants from the DAO
+		List<Menu> allMenu = restaurantService.getAllMenu();
+
+		// Add the restaurants to the model
+		theModel.addAttribute("allMenu",allMenu);
+		
+		
+		return "setup-menu-view";
+	}
+	
+	@PostMapping("/add-menu")
+	public String showMenuFormForAdd(Model theModel) {
+		
+		BoxItMenu theMenu = new BoxItMenu();
+		theModel.addAttribute("menu", theMenu);
+		return "new-menu";
+	}
+
+	@GetMapping("/showMenuForUpdate")
+	public String showMenuForUpdate(@ModelAttribute("menuID") int theId, Model theModel) {
+		
+//		Menu theMenu = restaurantService.getMenu(theId);
+		
+		BoxItMenu theMenu = restaurantService.getBoxItMenu(theId);
+		
+		//  Set restaurant
+		theModel.addAttribute("menu", theMenu);
+		
+		return "new-menu";
+	}
+	
+	@PostMapping("/saveMenu")
+	public String saveRestaurant(Model theModel, 
+			@Valid @ModelAttribute("menu") BoxItMenu theMenu, 
+			BindingResult theBindingResult
+			){
+		
+		 if (theBindingResult.hasErrors()){
+				return "new-menu";
+	        }
+		
+		
+		restaurantService.saveMenu(theMenu);
+		
+		
+		return "redirect:/systems/setup-menu";
+	}
+	
 	
 	/*
 	 * 							Staff Management

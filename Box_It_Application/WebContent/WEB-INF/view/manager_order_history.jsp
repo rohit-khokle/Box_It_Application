@@ -29,24 +29,22 @@
 
 </head>
 <body>
-<div class="jumbotron" align="center">
-<fmt:formatDate  var="year" value="${now}"  pattern="dd-MM-yyyy" />
-
-
+<div class="p-3 mb-2 bg-light text-dark" align="center" class="p-3 mb-2 bg-light text-dark">
 <h2 class="display-4" align="left"><c:out value="${sessionScope.workspaceRestaurant.name}"/></h2>
 <h4  class="display-5" align="left"><i>${sessionScope.workspaceRestaurant.address}</i></h4> 
 <hr>
 
-<nav aria-label="breadcrumb">
+<nav aria-label="breadcrumb" class="p-3 mb-2 bg-info text-white">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page"><a href="${pageContext.request.contextPath}/home">Home</a></li>
-        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manager/manageStaff">Manage Staff</a></li>
+        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manager/manageStaff?pageCount=0">Manage Staff</a></li>
     <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manager/OrderHistory">Order History</a>
     <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manager/my-Profile">My Profile</a>
     </li>
   </ol>
 </nav>
- <p class="lead"> <u> Past Orders </u></p>
+
+ <p class="lead">  Past Orders </p>
 			<table class="table table-hover">
 			  <thead>
 			    <tr>

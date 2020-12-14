@@ -46,13 +46,13 @@ height:100%;
 <nav aria-label="breadcrumb" class="p-3 mb-2 bg-info text-white">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page"><a href="${pageContext.request.contextPath}/home">Home</a></li>
-        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manager/manageStaff">Manage Staff</a></li>
+        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manager/manageStaff?pageCount=0">Manage Staff</a></li>
     <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manager/OrderHistory">Order History</a>
     <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manager/my-Profile">My Profile</a>
     </li>
   </ol>
 </nav>
- <p class="lead"> <u> Pending Orders </u></p> <h2 align='right'>${year}</h2>
+ <p class="lead">  Pending Orders </p> <h2 align='right'>${year}</h2>
 
  
 			<table class="table table-hover">

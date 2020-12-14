@@ -10,6 +10,7 @@ import com.info6250.packages.dao.RestaurantDAO;
 import com.info6250.packages.entities.Menu;
 import com.info6250.packages.entities.Restaurant;
 import com.info6250.packages.entities.User;
+import com.info6250.packages.user.BoxItMenu;
 
 
 @Service
@@ -116,6 +117,63 @@ public class RestaurantServiceImpl implements RestaurantService {
 	@Transactional
 	public Long getAllStaffCountPagnination() {
 		return restaurantDAO.getAllStaffCountPagnination();
+	}
+
+
+	@Override
+	@Transactional
+	public void saveMenu(BoxItMenu theMenu) {
+		
+		Menu menu = new Menu();
+		
+		
+		menu.setId(theMenu.getId());
+		menu.setDish_name(theMenu.getDish_name());
+		menu.setDish_category(theMenu.getDish_category());
+		menu.setPrice(Double.parseDouble(theMenu.getPrice()));
+		menu.setDescription(theMenu.getDescription());
+		menu.setRemarks(theMenu.getRemarks());
+		menu.setCalories(Double.parseDouble(theMenu.getCalories()));
+		
+		restaurantDAO.saveMenu(menu);
+		
+	}
+
+
+	@Override
+	@Transactional
+	public BoxItMenu getBoxItMenu(int theId) {
+		Menu theMenu = restaurantDAO.getMenu(theId);
+		
+		BoxItMenu menu = new BoxItMenu();
+		
+		
+		menu.setId(theMenu.getId());
+		menu.setDish_name(theMenu.getDish_name());
+		menu.setDish_category(theMenu.getDish_category());
+		menu.setPrice(theMenu.getPrice()+"");
+		menu.setDescription(theMenu.getDescription());
+		menu.setRemarks(theMenu.getRemarks());
+		menu.setCalories(theMenu.getCalories()+"");
+		
+		
+		// TODO Auto-generated method stub
+		return menu;
+	}
+
+
+	@Override
+	@Transactional
+	public List<User> getAllStaffPagnination(Integer pageNumber, Restaurant restaurant) {	
+		return restaurantDAO.getAllStaffPagnination(pageNumber,restaurant);
+	
+	}
+
+
+	@Override
+	@Transactional
+	public Long getRestaurantStaffCountPagnination(Restaurant restaurant) {
+		return restaurantDAO.getAllStaffCountPagnination(restaurant);
 	}
 
 }

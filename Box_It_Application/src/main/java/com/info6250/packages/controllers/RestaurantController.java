@@ -7,10 +7,12 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +26,9 @@ import com.info6250.packages.entities.User_Address;
 import com.info6250.packages.entities.Workspace;
 import com.info6250.packages.service.CustomerService;
 import com.info6250.packages.service.RestaurantService;
+import com.info6250.packages.service.UserService;
 import com.info6250.packages.service.WorkspaceService;
+import com.info6250.packages.user.BoxItEmployee;
 
 /**
  * @author Rohit
@@ -38,6 +42,10 @@ public class RestaurantController {
 	
 	@Autowired
 	WorkspaceService workspaceService;
+	
+	@Autowired
+	UserService userService;
+	
 	
 	@Autowired
 	CustomerService customerService;
@@ -258,6 +266,185 @@ public class RestaurantController {
 		return "manager_order_history";
 	}	
 	
+	
+	/*
+	 * Manage Staff
+	 * 
+	 */
+
+	@GetMapping("/manageStaff")
+	public String showOStaff(HttpSession session,
+			@ModelAttribute("pageCount") Integer pageNumber,
+			Model theModel) {
+		User user;                 
+		Restaurant restaurant;
+		try {
+			 user = (User)session.getAttribute("user");	
+			 restaurant = (Restaurant)restaurantService.getRestaurant(user.getRestaurantName());
+			
+		}
+		catch(Exception e)
+		{
+			return "redirect:/BoxItLoginPage";
+		}
+		
+		
+		// Pagination
+		System.out.println("Page count : "+ pageNumber);	
+		List<User> allStaff = restaurantService.getAllStaffPagnination(pageNumber, restaurant);
+		Long count = restaurantService.getRestaurantStaffCountPagnination(restaurant);
+		
+		
+		
+		// Add the restaurants to the model
+		theModel.addAttribute("allStaff",allStaff);
+		theModel.addAttribute("pageNumber",pageNumber);		
+		theModel.addAttribute("restaurantsCount",count);
+		
+		
+		return "manage-staff-manager";
+	}	
+	
+	@GetMapping("/add-new-staff")
+	public String addNewStaff(Model theModel, HttpSession session) {
+		
+		// Get Restaurants from the DAO
+		
+		Restaurant theRestaurant = (Restaurant) session.getAttribute("workspaceRestaurant");
+		
+		// Add the restaurants to the model
+		theModel.addAttribute("theRestaurant",theRestaurant);
+		
+		BoxItEmployee theEmployee = new BoxItEmployee();
+		
+		theEmployee.setRestaurantName(theRestaurant.getName());
+		
+		theModel.addAttribute("crmUser",theEmployee);
+		
+		return "staff-registration-form-manager";
+	}
+	
+	
+	// Adding new staff member code
+	
+	@PostMapping("/add-staff/processRegistrationForm")
+	public String saveStaffMember( //	@Valid @ModelAttribute("crmUser") BoxItUser theCrmUser, 
+			@Valid @ModelAttribute("crmUser") BoxItEmployee theCrmUser, 
+			BindingResult theBindingResult, 
+			Model theModel) {
+		
+		String userName = theCrmUser.getUserName();
+		
+		// form validation
+		 if (theBindingResult.hasErrors()){
+				// Get Restaurants from the DAO
+				List<String> allRestaurant = restaurantService.getAllRestaurantNames();
+				// Add the restaurants to the model
+				theModel.addAttribute("allRestaurant",allRestaurant);
+			 
+				return "staff-registration-form-manager";
+	        }
+	
+		// check the database if user already exists
+	    User existing = userService.findByUserName(userName);
+	    if (existing != null){
+	    	theModel.addAttribute("crmUser", theCrmUser);
+			theModel.addAttribute("registrationError", "User name already exists.");
+			
+			
+			// Get Restaurants from the DAO
+			List<String> allRestaurant = restaurantService.getAllRestaurantNames();
+			// Add the restaurants to the model
+			theModel.addAttribute("allRestaurant",allRestaurant);
+	
+			return "staff-registration-form-manager";
+	    }
+	
+	    userService.saveStaff(theCrmUser);
+		
+		// Get Restaurants frpom the DAO
+		List<User> allStaff = restaurantService.getAllStaff();
+		theModel.addAttribute("allStaff",allStaff);    
+	   
+	    return "redirect:/manager/manageStaff?pageCount=0";	
+
+	}
+	
+	
+	@GetMapping("/showStaffForUpdate")
+	public String showStaffForUpdate(@ModelAttribute("theId") Long theId, Model theModel) {
+		// Get the restaurant from the service
+		User theUser = userService.getUserById(theId);
+		//  Set restaurant
+	//	BoxItUser theBoxItUser = new BoxItUser();
+		BoxItEmployee theBoxItUser = new BoxItEmployee();
+		
+		theBoxItUser.setId(theUser.getId());
+		theBoxItUser.setEmail(theUser.getEmail());
+		theBoxItUser.setFirstName(theUser.getFirstName());
+		theBoxItUser.setLastName(theUser.getLastName());
+		theBoxItUser.setPassword(theUser.getPassword());
+		theBoxItUser.setRestaurantName(theUser.getRestaurantName());
+		theBoxItUser.setRole(theUser.getStaffRole());
+		theBoxItUser.setUserName(theUser.getUserName());
+		
+		
+		
+		theModel.addAttribute("crmUser", theBoxItUser);
+		theModel.addAttribute("id", theUser.getId());
+	
+		
+		return "staff-update-form-manager";
+	}
+	
+	
+	@PostMapping("/update-staff")
+	public String updateStaff(//@Valid @ModelAttribute("crmUser") BoxItUser theCrmUser,
+			@Valid @ModelAttribute("crmUser") BoxItEmployee theCrmUser,
+			BindingResult theBindingResult, 
+			Model theModel) {
+		
+		String userName = theCrmUser.getUserName();
+		
+		// form validation
+		 if (theBindingResult.hasErrors()){
+			 return "staff-update-form-manager";
+	        }
+	
+		// check the database if user already exists
+	    User userWithId = userService.getUserById(theCrmUser.getId());
+	    User existing = userService.findByUserName(userName);
+	    
+	    if(!(theCrmUser.getUserName().equalsIgnoreCase(userWithId.getUserName())))
+	    {	
+		    
+		    if (existing != null){
+		    	theModel.addAttribute("crmUser", theCrmUser);
+				theModel.addAttribute("registrationError", "User name already exists.");
+
+		    	return "staff-update-form-manager";
+		    }
+	    }
+	    
+	    userService.saveStaff(theCrmUser);
+		
+		// Get Restaurants frpom the DAO
+		List<User> allStaff = restaurantService.getAllStaff();
+		
+		// Add the restaurants to the model
+		theModel.addAttribute("allStaff",allStaff);    
+		
+		
+		return "redirect:/manager/manageStaff?pageCount=0";		
+		
+	}
+	
+	
+	/*
+	 * 
+	 * Delivery Assignment
+	 * 
+	 */
 	@GetMapping("/assignmentDelivery")
 	public String delAssignment(HttpSession session, 
 			@ModelAttribute("orderID") int theId, 

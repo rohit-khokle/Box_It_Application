@@ -2,9 +2,12 @@ package com.info6250.packages.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.info6250.packages.entities.Menu;
 import com.info6250.packages.entities.Restaurant;
 import com.info6250.packages.entities.User;
+import com.info6250.packages.user.BoxItMenu;
 
 public interface RestaurantService {
 
@@ -22,6 +25,9 @@ public interface RestaurantService {
 
 	public Menu getMenu(int theId);
 	
+	public BoxItMenu getBoxItMenu(int theId);
+	
+	
 	public List<User> getAllStaff();
 	
 	public List<String> getAllRestaurantNames();
@@ -33,6 +39,17 @@ public interface RestaurantService {
 	public List<User> getAllStaffPagnination(Integer firstCount);
 	
 	public Long getAllStaffCountPagnination();
+	
+	
+	//  Validation for Save Menu
+
+	public void saveMenu(@Valid BoxItMenu theMenu);
+
+	public List<User> getAllStaffPagnination(Integer pageNumber, Restaurant restaurant);
+
+	public Long getRestaurantStaffCountPagnination(Restaurant restaurant);
+	
+	
 	
 	
 	
