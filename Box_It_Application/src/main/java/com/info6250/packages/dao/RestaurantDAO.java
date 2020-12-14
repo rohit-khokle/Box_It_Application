@@ -26,5 +26,13 @@ public interface RestaurantDAO {
 	public List<String> getAllRestaurantNames();
 
 	public Restaurant getRestaurant(String name);
+
+	public List<Restaurant> getRestaurantNamesPagnination(Integer count);
+
+	public Long getRestaurantCountPagnination();
+
+	public List<User> getAllStaffPagnination(Integer firstCount);
+
+	public Long getAllStaffCountPagnination();
 	
 }

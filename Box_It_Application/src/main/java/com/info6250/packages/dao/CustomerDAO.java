@@ -18,5 +18,5 @@ public interface CustomerDAO {
 	void addAddress(User_Address address);
 	void addPayment(Payment_Details payment);
 	void addToCart(List<Cart_items> cart_list);
-
+	void updateWorkspace(Workspace workspace);
 }

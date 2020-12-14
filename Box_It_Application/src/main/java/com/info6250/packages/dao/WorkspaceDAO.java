@@ -21,5 +21,9 @@ public interface WorkspaceDAO {
 	public void addStatusOnWorkspace(Workspace theWorkspace, String status);
 	public User getCustomer(long customerId);
 	public Workspace getWorkspace(int theId);
+	public List<Workspace> getRestaurantWorkspacesHistory(int id);
+	public List<Workspace> getChefWorkspaces(Long id);
+	public List<Workspace> getDelWorkspaces(Long id);
+	public List<Workspace> getDeliveryHistoryWorkspace(Long id);
 	
 }

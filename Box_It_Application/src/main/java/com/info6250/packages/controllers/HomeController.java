@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.info6250.packages.entities.Payment_Details;
 import com.info6250.packages.entities.Restaurant;
@@ -60,14 +61,32 @@ public class HomeController {
 	
 
 	@GetMapping("/systems")
-	public String showSystems(Model theModel) {
+	public String showSystems(HttpSession session, Model theModel,  @ModelAttribute("pageCount") Integer pageNumber) {
+		
+		User user;
+		try {
+			 user = (User)session.getAttribute("user");		
+		}
+		catch(Exception e)
+		{
+			return "redirect:/BoxItLoginPage";	
+		}
 		
 		
 		// Get Restaurants frpom the DAO
-		List<Restaurant> restaurants = restaurantService.getRestaurants();
+	//	List<Restaurant> restaurants = restaurantService.getRestaurants();
 
+		// Pagination	
+		List<Restaurant> restaurants = restaurantService.getRestaurantNamesPagnination(pageNumber);
+		Long count = restaurantService.getRestaurantCountPagnination();
+		
+		
+		
 		// Add the restaurants to the model
 		theModel.addAttribute("restaurants",restaurants);
+		theModel.addAttribute("pageNumber",pageNumber);		
+		theModel.addAttribute("restaurantsCount",count);
+		
 		
 		return "admins";
 	}

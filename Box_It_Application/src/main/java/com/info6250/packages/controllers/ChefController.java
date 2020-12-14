@@ -31,8 +31,8 @@ import com.info6250.packages.service.WorkspaceService;
  *
  */
 @Controller
-@RequestMapping("/manager")
-public class RestaurantController {
+@RequestMapping("/chef")
+public class ChefController {
 	@Autowired
 	RestaurantService restaurantService;
 	
@@ -43,7 +43,7 @@ public class RestaurantController {
 	CustomerService customerService;
 		
 	
-	@GetMapping("/myworkspace")
+	@GetMapping("/mydashboard")
 	public String showManager(HttpSession session, Model theModel) {
 		User user;
 		Restaurant restaurant;
@@ -51,38 +51,31 @@ public class RestaurantController {
 		try {
 			 user = (User)session.getAttribute("user");	
 			 restaurant = (Restaurant)restaurantService.getRestaurant(user.getRestaurantName());
+			 workspaces = (List<Workspace>)workspaceService.getChefWorkspaces(user.getId()); // getRestaurantWorkspaces(restaurant);
 		}
 		catch(Exception e)
 		{
 			
 			return "redirect:/BoxItLoginPage";
 		}
-		 workspaces = (List<Workspace>)workspaceService.getRestaurantWorkspaces(restaurant);
-		
-	//	"currentRestaurantOrders", allOR	
-	//	
 		
 		theModel.addAttribute("currentRestaurantOrders", workspaces);
 		
 		session.setAttribute("workspaceRestaurant", restaurant);
 		
-		
-		return "manager_home";
+		return "chef_home";
 	}	
 	
 	
-	@GetMapping("/assignment")
+	@GetMapping("/checkOrder")
 	public String staffAssignment(HttpSession session, 
 			@ModelAttribute("orderID") int theId, 
 			Model theModel) {
 		
 		User user; 
-		List<User> chefs;
 		List<Cart_items> orderCart;
 		Workspace theWorkspace;
 		Restaurant restaurant;
-		User_Address address;
-		User customer;
 		
 		try {
 			 user = (User)session.getAttribute("user");	
@@ -90,11 +83,7 @@ public class RestaurantController {
 			 	// Get Workspace
 				theWorkspace = 
 						workspaceService.getWorkspace(theId);
-				
-				// Get Customer details
-				customer = workspaceService.getCustomerDetails(theWorkspace.getCustomer_id());
-				address = customerService.getAddress(customer);
-				
+								
 				// Get Restaurant Details
 				restaurant = 
 						(Restaurant)session.getAttribute("workspaceRestaurant");	
@@ -104,10 +93,6 @@ public class RestaurantController {
 				orderCart = 
 						workspaceService.getMyCart(theId);
 				
-				// Get Chefs
-				chefs = workspaceService.getChefs(restaurant);
-
-
 		
 		}
 		catch(Exception e)
@@ -121,16 +106,63 @@ public class RestaurantController {
 		
 
 		theModel.addAttribute("workspace", theWorkspace);		
-		theModel.addAttribute("customer", customer);
 		theModel.addAttribute("currentCart", orderCart);
-		theModel.addAttribute("chefs", chefs);	
-		theModel.addAttribute("address", address);	
+
 		
 		
-		return "order-assignment";
+		return "chef_work";
+	}	
+
+	
+	
+	@GetMapping("/checkItems")
+	public String checkItems(HttpSession session, 
+			@ModelAttribute("orderID") int theId, 
+			Model theModel) {
+		
+		User user; 
+		List<Cart_items> orderCart;
+		Workspace theWorkspace;
+		Restaurant restaurant;
+		
+		try {
+			 user = (User)session.getAttribute("user");	
+			 
+			 	// Get Workspace
+				theWorkspace = 
+						workspaceService.getWorkspace(theId);
+								
+				// Get Restaurant Details
+				restaurant = 
+						(Restaurant)session.getAttribute("workspaceRestaurant");	
+				
+				
+				// Get Cart
+				orderCart = 
+						workspaceService.getMyCart(theId);
+				
+		
+		}
+		catch(Exception e)
+		{
+			
+			return "redirect:/BoxItLoginPage";
+		}
+
+				
+		System.out.println(" customer id : "+ theWorkspace.getCustomer_id());
+		
+
+		theModel.addAttribute("workspace", theWorkspace);		
+		theModel.addAttribute("currentCart", orderCart);
+
+		
+		
+		return "chef_work_2";
 	}	
 	
-	@GetMapping("/decline")
+	
+	@GetMapping("/prep1")
 	public String declineOrder(HttpSession session, 
 			@ModelAttribute("orderID") int theId, 
 			Model theModel) {
@@ -188,146 +220,30 @@ public class RestaurantController {
 	
 
 	
-	@PostMapping("/AssignChef")
+	@PostMapping("/prep")
 	public String assignChef(HttpSession session, HttpServletRequest request, @RequestParam String workspaceId, Model theModel) {
 		
 		Workspace theWorkspace = (Workspace) 
 						workspaceService.getWorkspace(Integer.parseInt(workspaceId));
 		
-		Long id = Long.parseLong(request.getParameter("staff"));
-		
-		workspaceService.assignToChef(theWorkspace, id);
+		workspaceService.addStatusOnWorkspace(theWorkspace, "PREP"); 
 		
 		return "redirect:/home";
 	}	
 	
 	
 	
-	@GetMapping("/RestaurantStats")
-	public String getRestaurantStats(HttpSession session, HttpServletRequest request, @RequestParam String workspaceId, Model theModel) {
+	@GetMapping("/completeOrder")
+	public String getCompleteOrder(HttpSession session, HttpServletRequest request,@ModelAttribute("orderID") int workspaceId, Model theModel) {
 		
 		Workspace theWorkspace = (Workspace) 
-						workspaceService.getWorkspace(Integer.parseInt(workspaceId));
+				workspaceService.getWorkspace(workspaceId);
 		
-		theWorkspace.setStatus("DECLINED");
-		theWorkspace.setWorkspaceResponse(request.getParameter("declineResponse"));
-		customerService.createWorkspace(theWorkspace);
-		
+		workspaceService.addStatusOnWorkspace(theWorkspace, "BOXED-IT"); 
 		
 		return "redirect:/home";
 	}	
 	
-	
-	@PostMapping("/ProcessDecline")
-	public String declineOrder(HttpSession session, HttpServletRequest request, @RequestParam String workspaceId, Model theModel) {
-		
-		Workspace theWorkspace = (Workspace) 
-				workspaceService.getWorkspace(Integer.parseInt(workspaceId));
-
-		theWorkspace.setStatus("DECLINED");
-		theWorkspace.setWorkspaceResponse(request.getParameter("declineResponse"));
-		customerService.updateWorkspace(theWorkspace);
-		
-		return "redirect:/home";
-	}	
-	
-	@GetMapping("/OrderHistory")
-	public String showOrderHistory(HttpSession session, Model theModel) {
-		User user;
-		Restaurant restaurant;
-		List<Workspace> workspaces;
-		try {
-			 user = (User)session.getAttribute("user");	
-			 restaurant = (Restaurant)restaurantService.getRestaurant(user.getRestaurantName());
-			 workspaces = (List<Workspace>)workspaceService.getRestaurantWorkspacesHistory(restaurant);
-		}
-		catch(Exception e)
-		{
-			
-			return "redirect:/BoxItLoginPage";
-		}
-		
-	//	"currentRestaurantOrders", allOR	
-	//	
-		
-		theModel.addAttribute("currentRestaurantOrders", workspaces);
-		
-		session.setAttribute("workspaceRestaurant", restaurant);
-		
-		
-		return "manager_order_history";
-	}	
-	
-	@GetMapping("/assignmentDelivery")
-	public String delAssignment(HttpSession session, 
-			@ModelAttribute("orderID") int theId, 
-			Model theModel) {
-		
-		User user; 
-		List<User> dels;
-		List<Cart_items> orderCart;
-		Workspace theWorkspace;
-		Restaurant restaurant;
-		User_Address address;
-		User customer;
-		
-		try {
-			 user = (User)session.getAttribute("user");	
-			 
-			 	// Get Workspace
-				theWorkspace = 
-						workspaceService.getWorkspace(theId);
-				
-				// Get Customer details
-				customer = workspaceService.getCustomerDetails(theWorkspace.getCustomer_id());
-				address = customerService.getAddress(customer);
-				
-				// Get Restaurant Details
-				restaurant = 
-						(Restaurant)session.getAttribute("workspaceRestaurant");	
-				
-				
-				// Get Cart
-				orderCart = 
-						workspaceService.getMyCart(theId);
-				
-				// Get Delivery Executives
-				dels = workspaceService.getDeliveryExecs(restaurant);
-
-
-		
-		}
-		catch(Exception e)
-		{
-			
-			return "redirect:/BoxItLoginPage";
-		}
-
-	
-
-		theModel.addAttribute("workspace", theWorkspace);		
-		theModel.addAttribute("customer", customer);
-		theModel.addAttribute("currentCart", orderCart);
-		theModel.addAttribute("dels", dels);	
-		theModel.addAttribute("address", address);	
-		
-		
-		return "delivery-assignment";
-	}	
-	
-	
-	@PostMapping("/AssignDel")
-	public String assignDel(HttpSession session, HttpServletRequest request, @RequestParam String workspaceId, Model theModel) {
-		
-		Workspace theWorkspace = (Workspace) 
-						workspaceService.getWorkspace(Integer.parseInt(workspaceId));
-		
-		Long id = Long.parseLong(request.getParameter("staff"));
-		
-		workspaceService.assignToDelivery(theWorkspace, id);
-		
-		return "redirect:/home";
-	}	
 	
 		
 }

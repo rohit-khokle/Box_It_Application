@@ -89,4 +89,33 @@ public class RestaurantServiceImpl implements RestaurantService {
 		return restaurantDAO.getRestaurant(name);
 	}
 
+
+	@Override
+	@Transactional
+	public List<Restaurant> getRestaurantNamesPagnination(Integer count) {
+		// TODO Auto-generated method stub
+		return restaurantDAO.getRestaurantNamesPagnination(count);
+	}
+
+
+	@Override
+	@Transactional
+	public Long getRestaurantCountPagnination() {
+		return restaurantDAO.getRestaurantCountPagnination();
+	}
+
+
+	@Override
+	@Transactional
+	public List<User> getAllStaffPagnination(Integer firstCount) {
+		return restaurantDAO.getAllStaffPagnination(firstCount);
+	}
+
+
+	@Override
+	@Transactional
+	public Long getAllStaffCountPagnination() {
+		return restaurantDAO.getAllStaffCountPagnination();
+	}
+
 }

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
@@ -15,7 +14,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -27,7 +25,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.info6250.packages.entities.Cart_items;
-import com.info6250.packages.entities.MyCart;
 import com.info6250.packages.entities.Workspace;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
@@ -55,6 +52,7 @@ public class DemoAppConfig  implements WebMvcConfigurer {
 		
 		viewResolver.setPrefix("/WEB-INF/view/");
 		viewResolver.setSuffix(".jsp");
+		
 		
 		return viewResolver;
 	}
@@ -102,8 +100,6 @@ public class DemoAppConfig  implements WebMvcConfigurer {
 		
 		return securityDataSource;
 	}
-	
-	//  helper method
 	
 	private int getIntProperty(String propName) {
 		
@@ -186,7 +182,7 @@ public class DemoAppConfig  implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
           .addResourceHandler("/resources/**")
-          .addResourceLocations("/resources/"); 
+          .addResourceLocations("/resources/");
     }	
     
 
@@ -215,6 +211,5 @@ public class DemoAppConfig  implements WebMvcConfigurer {
 		return cart_list;
 	}
 	
-		
-    
+
 }

@@ -26,4 +26,14 @@ public interface RestaurantService {
 	
 	public List<String> getAllRestaurantNames();
 	
+	public List<Restaurant> getRestaurantNamesPagnination(Integer firstCount);
+	
+	public Long getRestaurantCountPagnination();
+	
+	public List<User> getAllStaffPagnination(Integer firstCount);
+	
+	public Long getAllStaffCountPagnination();
+	
+	
+	
 }

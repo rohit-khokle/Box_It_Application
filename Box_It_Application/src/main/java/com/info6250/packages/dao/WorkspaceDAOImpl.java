@@ -25,7 +25,7 @@ public class WorkspaceDAOImpl implements WorkspaceDAO {
 		Session currentSession = sessionFactory.getCurrentSession();
 		
 		Query<Workspace> theQuery =
-				currentSession.createQuery("from Workspace WHERE status != 'DELIVERED' "
+				currentSession.createQuery("from Workspace WHERE status != 'DELIVERED' AND status != 'DECLINED' "
 						+ "AND customer_id=:cusid", 
 						Workspace.class);
 		theQuery.setParameter("cusid", userid);
@@ -82,12 +82,26 @@ public class WorkspaceDAOImpl implements WorkspaceDAO {
 		Session currentSession = sessionFactory.getCurrentSession();
 		
 		Query<Workspace> theQuery =
-				currentSession.createQuery("from Workspace WHERE restaurant_id=:res_id", 
+				currentSession.createQuery("from Workspace WHERE status NOT IN ('DECLINED', 'DELIVERED') AND restaurant_id=:res_id", 
 						Workspace.class);
 		theQuery.setParameter("res_id", id);
 		List<Workspace> workspaces = theQuery.getResultList();
 		return workspaces;
 	}
+	
+	
+	@Override
+	public List<Workspace> getRestaurantWorkspacesHistory(int id) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<Workspace> theQuery =
+				currentSession.createQuery("from Workspace WHERE status IN ('DECLINED', 'DELIVERED') AND restaurant_id=:res_id", 
+						Workspace.class);
+		theQuery.setParameter("res_id", id);
+		List<Workspace> workspaces = theQuery.getResultList();
+		return workspaces;
+	}
+	
 
 	@Override
 	public List<User> getChefs(Restaurant theRestaurant) {
@@ -109,9 +123,10 @@ public class WorkspaceDAOImpl implements WorkspaceDAO {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Query<User> theQuery =
 				currentSession.createQuery("from User WHERE restaurantName=:name "
-						+ "staffRole='Delivery Executive'", 
+						+ "AND staffRole=:role", 
 						User.class);
 		theQuery.setParameter("name", theRestaurant.getName());
+		theQuery.setParameter("role","Delivery Executive");
 		List<User> delivery_execs = theQuery.getResultList();
 		return delivery_execs;
 	}
@@ -152,4 +167,43 @@ public class WorkspaceDAOImpl implements WorkspaceDAO {
 		Session currentSession = sessionFactory.getCurrentSession();
 		return (Workspace)currentSession.get(Workspace.class, theId);
 	}
+
+	@Override
+	public List<Workspace> getChefWorkspaces(Long id) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<Workspace> theQuery =
+				currentSession.createQuery("from Workspace WHERE status IN ('ACCEPTED',  'PREP') AND assigned_chef=:userid "
+						, 
+						Workspace.class);
+		theQuery.setParameter("userid", id);
+		List<Workspace> workspaces = theQuery.getResultList();
+		return workspaces;
+	}
+	
+	
+	@Override
+	public List<Workspace> getDelWorkspaces(Long id) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<Workspace> theQuery =
+				currentSession.createQuery("from Workspace WHERE status IN ('BOXED-IT', 'PICKED', 'En Route') AND assigned_delivery_exec=:userid "
+						, 
+						Workspace.class);
+		theQuery.setParameter("userid", id);
+		List<Workspace> workspaces = theQuery.getResultList();
+		return workspaces;
+	}
+
+	@Override
+	public List<Workspace> getDeliveryHistoryWorkspace(Long id) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<Workspace> theQuery =
+				currentSession.createQuery("from Workspace WHERE status IN ('DELIVERED') AND assigned_delivery_exec=:userid "
+						, 
+						Workspace.class);
+		theQuery.setParameter("userid", id);
+		List<Workspace> workspaces = theQuery.getResultList();
+		return workspaces;
+	}
+
 }

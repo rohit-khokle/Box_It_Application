@@ -13,36 +13,21 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Allocate Work</title>
-<style>
-html,body, div{
-height:100%;
- min-height:100%; 
-}
-div{
-height:50%;
- min-height:100%; 
-}
-</style>
-	          	
-
-
-
 </head>
 <body>
-<div class="p-3 mb-2 bg-light text-dark" align="center" class="p-3 mb-2 bg-light text-dark">
+
+<div class="jumbotron" align="center">
 <fmt:formatDate  var="year" value="${now}"  pattern="dd-MM-yyyy" />
 
-
 <h2 class="display-4" align="left"><c:out value="${sessionScope.workspaceRestaurant.name}"/></h2>
-<h4  class="display-5" align="left"><i>${sessionScope.workspaceRestaurant.address}</i></h4> 
+<h4  class="display-5" align="left"><i>${sessionScope.workspaceRestaurant.address}</i></h4>
 <hr>
-
-<nav aria-label="breadcrumb" class="p-3 mb-2 bg-info text-white">
+<nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page"><a href="${pageContext.request.contextPath}/home">Home</a></li>
-        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manager/manageStaff">Manage Staff</a></li>
-    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manager/OrderHistory">Order History</a>
-    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manager/my-Profile">My Profile</a>
+        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/checkOrder">Manage Staff</a></li>
+    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/my-Profile">Restaurant Statistics</a>
+    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/my-Profile">My Profile</a>
     </li>
   </ol>
 </nav>
@@ -51,7 +36,7 @@ height:50%;
 <div align="center">
 
 
-<form:form  action="${pageContext.request.contextPath}/manager/AssignChef"  method="POST">
+<form:form  action="${pageContext.request.contextPath}/manager/ProcessDecline"  method="POST">
 					<b> Order Details </b>
 			
 		
@@ -88,28 +73,21 @@ height:50%;
 		  		<b style="text-decoration:underline;"> Address :  </b> - ${address.address} <br>
 		  		<b style="text-decoration:underline;"> Zip :  </b> - ${address.zipCode} <br>		
 		  		<b style="text-decoration:underline;"> Contact :  </b> - ${address.contactInfo} <br>	<br><hr>			
-
-				 <label for="staff"> Chef:</label>
-				 <select name="staff" id="staff">
-				  <c:forEach var="chef" items="${chefs}" >
-					  <option value="${chef.id}">${chef.firstName} ${chef.lastName}</option>
-				  </c:forEach>
-				</select> 
-
 				<input type="hidden" name="workspaceId"  value="${workspace.id}" />
-
- 				<button type="submit"  class="btn btn-info">  Allocate </button>	
+				<b style="text-decoration:underline;"> Reason for declining the order : </b> 
+			<div>	<textarea  name="declineResponse" required="required" ></textarea>
+				</div>
+	<div>		<button type="submit"  class="btn btn-info">  Decline </button>	
+ 		</div>
  				
  				<br><hr>
- 				
- 				<div align="left">
+		
+		</form:form>			
 			
-
-				
- 				
-			</form:form>			
+			</div>
+			<div align="left">
 			
-						<form:form  action="${pageContext.request.contextPath}/home" 
+				<form:form  action="${pageContext.request.contextPath}/home" 
 				 				method="GET">
 				 				<button type="submit"  class="btn btn-outline-warning"> <p style="font-size:20px" > Back </p> </button>
 				</form:form>	
@@ -119,8 +97,7 @@ height:50%;
 				<form:form  action="${pageContext.request.contextPath}/logout" 
 				 				method="POST">
 				 				<button type="submit"  class="btn btn-outline-danger"> <p style="font-size:20px" > Logout </p> </button>
-				</form:form>		
-	</div>	
+				</form:form>	
 			</div>
 </div>
 

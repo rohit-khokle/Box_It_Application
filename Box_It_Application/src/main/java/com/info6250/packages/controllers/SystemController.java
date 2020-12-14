@@ -23,6 +23,7 @@ import com.info6250.packages.entities.Restaurant;
 import com.info6250.packages.entities.User;
 import com.info6250.packages.service.RestaurantService;
 import com.info6250.packages.service.UserService;
+import com.info6250.packages.user.BoxItEmployee;
 import com.info6250.packages.user.BoxItUser;
 
 @Controller
@@ -36,9 +37,7 @@ public class SystemController {
 	private UserService userService;
 	
 	private Logger logger = Logger.getLogger(getClass().getName());
-	
-	
-    
+
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
 		
@@ -47,8 +46,11 @@ public class SystemController {
 		dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
 	}	
 	
-	
-	
+	/*
+	 * 
+	 * 			Restaurant Management
+	 * 
+	 */
 	
 	@GetMapping("/new-restaurant")
 	public String showFormForAdd(Model theModel) {
@@ -57,19 +59,15 @@ public class SystemController {
 		theModel.addAttribute("restaurant", theRestaurant);
 		return "new-restaurant";
 	}
-	
-	
-	
+
 	@PostMapping("/saveRestaurant")
 	public String saveRestaurant(@ModelAttribute("restaurant") Restaurant theRestaurant){
-		
+		theRestaurant.setOrdersServed(0L);
+		theRestaurant.setRevenue(0D);
 		restaurantService.saveRestaurant(theRestaurant);
-		return "redirect:/systems";
+		return "redirect:/systems?pageCount=0";
 	}
-	
-	
-	
-	
+		
 	@GetMapping("/showFormForUpdate")
 	public String showFormForUpdate(@ModelAttribute("restaurantID") int theId, Model theModel) {
 		// Get the restaurant from the service
@@ -79,6 +77,11 @@ public class SystemController {
 		
 		return "new-restaurant";
 	}
+	
+	
+	/*
+	 * 							Menu Management
+	 * */
 
 	@GetMapping("/setup-menu")
 	public String showCurrentMenu(Model theModel) {
@@ -93,8 +96,6 @@ public class SystemController {
 		return "setup-menu-view";
 	}
 	
-	
-
 	@PostMapping("/add-menu")
 	public String showMenuFormForAdd(Model theModel) {
 		
@@ -103,16 +104,42 @@ public class SystemController {
 		return "new-menu";
 	}
 	
+	
+	@PostMapping("/saveMenu")
+	public String saveRestaurant(@ModelAttribute("menu") Menu theMenu){
+		
+		restaurantService.saveMenu(theMenu);
+		return "redirect:/systems/setup-menu";
+	}
 
+	
+	/*
+	 * 							Staff Management
+	 * 
+	 * */
+	
+	
 	@GetMapping("/manage-staff")
-	public String showStaff(Model theModel) {
+	public String showStaff(Model theModel,
+			@ModelAttribute("pageCount") Integer pageNumber) {
 		
 		// Get Restaurants frpom the DAO
-		List<User> allStaff = restaurantService.getAllStaff();
-
+	//	List<User> allStaff = restaurantService.getAllStaff();
+		
+		
+		// Pagination
+		System.out.println("Page count : "+ pageNumber);	
+		List<User> allStaff = restaurantService.getAllStaffPagnination(pageNumber);
+		Long count = restaurantService.getAllStaffCountPagnination();
+		
+		
+		
 		// Add the restaurants to the model
 		theModel.addAttribute("allStaff",allStaff);
+		theModel.addAttribute("pageNumber",pageNumber);		
+		theModel.addAttribute("restaurantsCount",count);
 		
+
 		return "manage-staff";
 	}
 
@@ -124,44 +151,32 @@ public class SystemController {
 
 		// Add the restaurants to the model
 		theModel.addAttribute("allRestaurant",allRestaurant);
-		theModel.addAttribute("crmUser", new BoxItUser());
-		
-		
+	//	theModel.addAttribute("crmUser", new BoxItUser());
+		theModel.addAttribute("crmUser", new BoxItEmployee());
 		
 		return "staff-registration-form";
 	}
 
 	
-		
-	
-	
-	@PostMapping("/saveMenu")
-	public String saveRestaurant(@ModelAttribute("menu") Menu theMenu){
-		
-		restaurantService.saveMenu(theMenu);
-		return "redirect:/systems/setup-menu";
-	}
-	
 
-	
 	// Adding new staff member code
 	
 	@PostMapping("/add-staff/processRegistrationForm")
-	public String saveStaffMember(	@Valid @ModelAttribute("crmUser") BoxItUser theCrmUser,
+	public String saveStaffMember( //	@Valid @ModelAttribute("crmUser") BoxItUser theCrmUser, 
+			@Valid @ModelAttribute("crmUser") BoxItEmployee theCrmUser, 
 			BindingResult theBindingResult, 
 			Model theModel) {
 		
 		String userName = theCrmUser.getUserName();
-		logger.info("Processing registration form for: " + userName);
 		
 		// form validation
 		 if (theBindingResult.hasErrors()){
 				// Get Restaurants from the DAO
 				List<String> allRestaurant = restaurantService.getAllRestaurantNames();
-
 				// Add the restaurants to the model
 				theModel.addAttribute("allRestaurant",allRestaurant);
-			 return "staff-registration-form";
+			 
+				return "staff-registration-form";
 	        }
 	
 		// check the database if user already exists
@@ -169,38 +184,34 @@ public class SystemController {
 	    if (existing != null){
 	    	theModel.addAttribute("crmUser", theCrmUser);
 			theModel.addAttribute("registrationError", "User name already exists.");
+			
+			
 			// Get Restaurants from the DAO
 			List<String> allRestaurant = restaurantService.getAllRestaurantNames();
-
 			// Add the restaurants to the model
 			theModel.addAttribute("allRestaurant",allRestaurant);
 	
-			logger.warning("User name already exists.");
-	    	return "staff-registration-form";
+			return "staff-registration-form";
 	    }
 	
 	    userService.saveStaff(theCrmUser);
 		
 		// Get Restaurants frpom the DAO
 		List<User> allStaff = restaurantService.getAllStaff();
-
-		// Add the restaurants to the model
 		theModel.addAttribute("allStaff",allStaff);    
 	   
-	    
-	    return "manage-staff";		
+	    return "redirect:/systems/manage-staff?pageCount=0";	
 
 	}
-	
-	
-	
-	
+
 	@GetMapping("/showStaffForUpdate")
 	public String showStaffForUpdate(@ModelAttribute("theId") Long theId, Model theModel) {
 		// Get the restaurant from the service
 		User theUser = userService.getUserById(theId);
 		//  Set restaurant
-		BoxItUser theBoxItUser = new BoxItUser();
+	//	BoxItUser theBoxItUser = new BoxItUser();
+		BoxItEmployee theBoxItUser = new BoxItEmployee();
+		
 		theBoxItUser.setId(theUser.getId());
 		theBoxItUser.setEmail(theUser.getEmail());
 		theBoxItUser.setFirstName(theUser.getFirstName());
@@ -221,8 +232,6 @@ public class SystemController {
 		theModel.addAttribute("id", theUser.getId());
 		return "staff-update-form";
 	}
-
-	
 	
 	/*
 	 * Deleting a staff member
@@ -230,20 +239,17 @@ public class SystemController {
 	
 	@GetMapping("/deleteStaff")
 	public String deleteStaff(@RequestParam("theId") long theId) {
-		
-		userService.deleteStaff(theId);
-		
-		
-		return "redirect:/systems/manage-staff";
+		  userService.deleteStaff(theId);
+		  return "redirect:/systems/manage-staff?pageCount=0";	
 	}
 	
 	@PostMapping("/update-staff")
-	public String updateStaff(@Valid @ModelAttribute("crmUser") BoxItUser theCrmUser,
+	public String updateStaff(//@Valid @ModelAttribute("crmUser") BoxItUser theCrmUser,
+			@Valid @ModelAttribute("crmUser") BoxItEmployee theCrmUser,
 			BindingResult theBindingResult, 
 			Model theModel) {
 		
 		String userName = theCrmUser.getUserName();
-		logger.info("Processing registration form for: " + userName);
 		
 		// form validation
 		 if (theBindingResult.hasErrors()){
@@ -276,18 +282,17 @@ public class SystemController {
 		    	return "staff-update-form";
 		    }
 	    }
+	    
 	    userService.saveStaff(theCrmUser);
 		
 		// Get Restaurants frpom the DAO
 		List<User> allStaff = restaurantService.getAllStaff();
-
+		
 		// Add the restaurants to the model
 		theModel.addAttribute("allStaff",allStaff);    
-	   
-	    
-	    return "manage-staff";		
 		
 		
+		return "redirect:/systems/manage-staff?pageCount=0";		
 		
 	}
 	

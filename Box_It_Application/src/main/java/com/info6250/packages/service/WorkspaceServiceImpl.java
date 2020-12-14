@@ -75,6 +75,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
 
 	@Override
+	@Transactional
 	public List<User> getDeliveryExecs(Restaurant theRestaurant) {
 		return workspaceDAO.getDeliveryExecs(theRestaurant);
 	}
@@ -119,7 +120,40 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 		return  workspaceDAO.getWorkspace(theId);
 	}
 
-	
+
+
+	@Override
+	@Transactional
+	public List<Workspace> getRestaurantWorkspacesHistory(Restaurant restaurant) {
+		int id = restaurant.getId();
+		return  workspaceDAO.getRestaurantWorkspacesHistory(id);
+		}
+
+
+
+	@Override
+	@Transactional
+	public List<Workspace> getChefWorkspaces(Long id) {
+		return workspaceDAO.getChefWorkspaces(id);
+	}
+
+
+	@Override
+	@Transactional
+	public List<Workspace> getDelWorkspaces(Long id) {
+		return workspaceDAO.getDelWorkspaces(id);
+	}
+
+
+
+	@Override
+	@Transactional
+	public List<Workspace> getDeliveryHistoryWorkspace(Long id) {
+		return workspaceDAO.getDeliveryHistoryWorkspace(id);
+	}
+
+
+
 	
 	
 }

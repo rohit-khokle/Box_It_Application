@@ -1,6 +1,7 @@
 package com.info6250.packages.user;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.info6250.packages.validation.FieldMatch;
@@ -37,6 +38,7 @@ public class BoxItEmployee {
 	
 
 	@NotNull(message = "is required")
+	@Pattern(regexp = "^(.+)@(.+)$", message="Please enter valid email")
 	private String email;
 
 	

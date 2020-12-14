@@ -14,8 +14,9 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Home</title>
-<style>
 
+
+<style>
 html,body, div{
 height:100%;
  min-height:100%; 
@@ -46,9 +47,8 @@ height:100%;
 <nav aria-label="breadcrumb" class="p-3 mb-2 bg-info text-white">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page"><a href="${pageContext.request.contextPath}/home">Home</a></li>
-        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manager/manageStaff">Manage Staff</a></li>
-    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manager/OrderHistory">Order History</a>
-    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manager/my-Profile">My Profile</a>
+    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/chef/OrderHistory">Work History</a>
+    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/chef/my-Profile">My Profile</a>
     </li>
   </ol>
 </nav>
@@ -60,58 +60,48 @@ height:100%;
 			    <tr>
 			      <th scope="col">#</th>
 			      <th scope="col">Date</th>
-			      <th scope="col">Total Value</th>
 			      <th scope="col">Status</th>
 			      <th scope="col">Actions</th>
+			      
 			    </tr>
 			  </thead>
 			  <tbody>
 			  <c:set var="count" value="1" scope="page" />
 			  <c:forEach var="order" items="${currentRestaurantOrders}" >
-			  <c:url var="acceptOrder" value="manager/assignment">
+			  <c:url var="checkOrder" value="/chef/checkOrder">
 				  	<c:param name = "orderID" value="${order.id}" />
 			  </c:url>
-			 <c:url var="declineOrder" value="/manager/decline">
+			 <c:url var="completeOrder" value="/chef/completeOrder">
 				  	<c:param name = "orderID" value="${order.id}" />
 			  </c:url>
-			 <c:url var="assignDeliveryExecutive" value="manager/assignmentDelivery">
-				  	<c:param name = "orderID" value="${order.id}" />
+			   <c:url var="checkItems" value="/chef/checkItems">
+					  	<c:param name = "orderID" value="${order.id}" />
 			  </c:url>
+
+
+
+			  
 						    <tr>
 						      <th scope="row"><c:out value="${count}" /></th>
 							  <c:set var="date" value="${order.date}"/>  
     						  	<td> ${fn:substring(date,0, 16)}</td>
-						      <td>${order.total_value}</td>
-						      <td>${fn:toLowerCase(order.status)}</td> 
-						      
-						      <c:if test="${order.status eq 'ORDER PLACED'}">
-									<td>
-									 <a href="${acceptOrder}">Accept Order</a>  |  <a href="${declineOrder}"	
-								  		onclick="if(!(confirm('Are you sure you want to decline this order?'))) return false"> Decline Order</a>
-								  	</td>
-														  	  
-						  	  </c:if>
+						      <td>${fn:toUpperCase(order.status)}</td> 
+					
 						  	  <c:if test="${order.status eq 'ACCEPTED'}">
 								<td>
-									Assigned	
+									<a href="${checkOrder}">Check Order</a>
 						  	  	</td>
 						  	  </c:if>
-						  	  <c:if test="${order.status eq 'PREPARING'}">
+						  	  <c:if test="${order.status eq 'PREP'}">
 								<td>
-									Preparing	
+									<a href="${completeOrder}" onclick="if(!(confirm('Is the order complete?'))) return false">
+									Completed?</a>
 						  	  	</td>
+						  	  	<td>
+									  <a href="${checkItems}">Check Items</a> 
+								</td>	
 						  	  </c:if>
-
-						  	  <c:if test="${order.status eq 'BOXED-IT'}">
-									<td>
-										 <a href="${assignDeliveryExecutive}">Assign Delivery Executive</a> 
-								  	</td>			
-						  	  </c:if>
-						  	  <c:if test="${order.status eq 'En Route'}">
-									<td>
-									 En Route
-								  	</td>			
-						  	  </c:if>
+						  	  
 						    </tr>
 						    	<c:set var="count" value="${count + 1}" scope="page"/>	  	
 				</c:forEach>

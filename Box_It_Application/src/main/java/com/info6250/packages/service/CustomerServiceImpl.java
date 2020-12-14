@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.info6250.packages.dao.CustomerDAO;
 import com.info6250.packages.entities.Cart_items;
 import com.info6250.packages.entities.Payment_Details;
+import com.info6250.packages.entities.Restaurant;
 import com.info6250.packages.entities.User;
 import com.info6250.packages.entities.User_Address;
 import com.info6250.packages.entities.Workspace;
@@ -62,7 +63,14 @@ public class CustomerServiceImpl implements CustomerService {
 		customerDAO.addToCart(cart_list);
 		
 	}
-	
+
+	@Override
+	@Transactional
+	public void updateWorkspace(Workspace workspace) {
+		customerDAO.updateWorkspace(workspace);
+	}
+
+
 
 	
 	

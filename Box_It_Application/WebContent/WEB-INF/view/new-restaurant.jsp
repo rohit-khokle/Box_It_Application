@@ -29,7 +29,7 @@
 		<div id="container">
 			<h3> Restaurant details </h3>
 			<form:form action="saveRestaurant" modelAttribute="restaurant" method="POST">
-			<!--  associate the data with customer id -->
+			
 			<form:hidden path="id" />
 			<table>
 				<tbody>
@@ -77,10 +77,10 @@
 
 
 <span>
-<form:form  action="${pageContext.request.contextPath}/systems" 
- 				method="GET">
- 				<button type="submit"  class="btn btn-outline-warning"> Back </button>
-</form:form>
+
+<a href="${pageContext.request.contextPath}/systems?pageCount=0" >Back </a>
+
+
 <form:form  action="${pageContext.request.contextPath}/logout" 
  				method="POST">
  				<button type="submit"  class="btn btn-outline-danger"> Logout </button>

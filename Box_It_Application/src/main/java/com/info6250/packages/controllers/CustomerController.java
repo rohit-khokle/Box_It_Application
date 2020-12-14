@@ -3,12 +3,13 @@ package com.info6250.packages.controllers;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -49,7 +50,7 @@ public class CustomerController {
 	
 	
 	@GetMapping("/home")
-	public String showCustomerWorkspace( HttpSession session, Model theModel) {
+	public String showCustomerWorkspace( HttpSession session,  @ModelAttribute("pageCount") Integer pageNumber ,  Model theModel) {
 		User_Address address;
 		Payment_Details payment;
 		User user;
@@ -100,10 +101,21 @@ public class CustomerController {
 		}
 		
 		// Get Restaurants fpom the DAO
-		List<Restaurant> restaurants = restaurantService.getRestaurants();
-	
+	//	List<Restaurant> restaurants = restaurantService.getRestaurants();
+		
+		
+		// Pagination
+		System.out.println("Page count : "+ pageNumber);	
+		List<Restaurant> restaurants = restaurantService.getRestaurantNamesPagnination(pageNumber);
+		Long count = restaurantService.getRestaurantCountPagnination();
+		
+		
+		
 		// Add the restaurants to the model
 		theModel.addAttribute("restaurants",restaurants);
+		theModel.addAttribute("pageNumber",pageNumber);		
+		theModel.addAttribute("restaurantsCount",count);
+		
 		
 		
 		return "home";
@@ -127,7 +139,7 @@ public class CustomerController {
 	
 	@GetMapping("/my-Profile")
 	public String showMyProfile(
-			HttpSession session,  
+			HttpSession session, 
 			Model theModel) {
 		User_Address address;
 		Payment_Details payment;
@@ -444,8 +456,10 @@ public class CustomerController {
 	    	Restaurant theRestaurant = (Restaurant)session.getAttribute("selectedRestaurant");
 	    	myCart.setRestaurantName(theRestaurant.getName());
 	    	myCart.setCustomer_id(user.getId());
-	    	myCart.setAssigned_chef(0);
-	    	myCart.setAssigned_delivery_exec(0);
+//	    	myCart.setAssigned_chef();
+//	    	myCart.setAssigned_delivery_exec();
+	    	myCart.setWorkspaceRequest("");
+	    	myCart.setWorkspaceResponse("");
 	    	myCart.setStatus("ORDER PLACED"); 	
     	}
     	catch(Exception e) {

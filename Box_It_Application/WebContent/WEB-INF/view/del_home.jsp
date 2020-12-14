@@ -46,13 +46,20 @@ height:100%;
 <nav aria-label="breadcrumb" class="p-3 mb-2 bg-info text-white">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page"><a href="${pageContext.request.contextPath}/home">Home</a></li>
-        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manager/manageStaff">Manage Staff</a></li>
-    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manager/OrderHistory">Order History</a>
-    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manager/my-Profile">My Profile</a>
+    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/delivery/OrderHistory">Work History</a>
+    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/delivery/my-Profile">My Profile</a>
     </li>
   </ol>
 </nav>
- <p class="lead"> <u> Pending Orders </u></p> <h2 align='right'>${year}</h2>
+
+<!--  Dashboard name -->
+ <p class="lead"> 
+<b> ${sessionScope.user.firstName}'s Dashboard</b>  
+</p>
+
+ <b> Pending Deliveries </b> <h2 align='right'>${year}</h2>
+
+
 
  
 			<table class="table table-hover">
@@ -60,63 +67,54 @@ height:100%;
 			    <tr>
 			      <th scope="col">#</th>
 			      <th scope="col">Date</th>
-			      <th scope="col">Total Value</th>
 			      <th scope="col">Status</th>
 			      <th scope="col">Actions</th>
+			      
 			    </tr>
 			  </thead>
 			  <tbody>
 			  <c:set var="count" value="1" scope="page" />
 			  <c:forEach var="order" items="${currentRestaurantOrders}" >
-			  <c:url var="acceptOrder" value="manager/assignment">
+			  <c:url var="pickOrder" value="/delivery/picked">
 				  	<c:param name = "orderID" value="${order.id}" />
 			  </c:url>
-			 <c:url var="declineOrder" value="/manager/decline">
+			 <c:url var="deliveredOrder" value="/delivery/delivered">
 				  	<c:param name = "orderID" value="${order.id}" />
 			  </c:url>
-			 <c:url var="assignDeliveryExecutive" value="manager/assignmentDelivery">
-				  	<c:param name = "orderID" value="${order.id}" />
-			  </c:url>
+
 						    <tr>
 						      <th scope="row"><c:out value="${count}" /></th>
 							  <c:set var="date" value="${order.date}"/>  
     						  	<td> ${fn:substring(date,0, 16)}</td>
-						      <td>${order.total_value}</td>
 						      <td>${fn:toLowerCase(order.status)}</td> 
 						      
-						      <c:if test="${order.status eq 'ORDER PLACED'}">
+							  <c:if test="${order.status eq 'PICKED'}">
 									<td>
-									 <a href="${acceptOrder}">Accept Order</a>  |  <a href="${declineOrder}"	
-								  		onclick="if(!(confirm('Are you sure you want to decline this order?'))) return false"> Decline Order</a>
-								  	</td>
-														  	  
-						  	  </c:if>
-						  	  <c:if test="${order.status eq 'ACCEPTED'}">
-								<td>
-									Assigned	
-						  	  	</td>
-						  	  </c:if>
-						  	  <c:if test="${order.status eq 'PREPARING'}">
-								<td>
-									Preparing	
-						  	  	</td>
-						  	  </c:if>
-
-						  	  <c:if test="${order.status eq 'BOXED-IT'}">
-									<td>
-										 <a href="${assignDeliveryExecutive}">Assign Delivery Executive</a> 
+										 <a href="${pickOrder}">Check Details?</a> 
 								  	</td>			
 						  	  </c:if>
 						  	  <c:if test="${order.status eq 'En Route'}">
 									<td>
-									 En Route
-								  	</td>			
+										 <a href="${deliveredOrder}">Delivered?</a> 
+								  	</td>		
 						  	  </c:if>
+						  	  <c:if test="${order.status eq 'DELIVERED'}">
+									<td>
+										Order Complete 
+								  	</td>		
+						  	  </c:if>
+						  	  <c:if test="${order.status eq 'ORDER PLACED'}">
+									<td>
+										Order Placed 
+								  	</td>		
+						  	  </c:if>						  	  
 						    </tr>
 						    	<c:set var="count" value="${count + 1}" scope="page"/>	  	
 				</c:forEach>
 			 </tbody>
 			</table>
+
+
 
 
 

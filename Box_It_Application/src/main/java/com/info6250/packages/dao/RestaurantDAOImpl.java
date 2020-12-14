@@ -2,9 +2,13 @@ package com.info6250.packages.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -134,10 +138,68 @@ public class RestaurantDAOImpl implements RestaurantDAO {
 		// Execute query and get result list
 		
 		List<String> restaurants = query.getResultList();
-		System.out.println("got result");
 		// Return the results			
 		
 		return restaurants;
 	}
 
+	
+	
+	@Override
+	public List<Restaurant> getRestaurantNamesPagnination(Integer count) {
+		
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Criteria criteria = currentSession.createCriteria(Restaurant.class);
+		criteria.setFirstResult(count);
+		criteria.setMaxResults(5);
+		List<Restaurant> firstPage = criteria.list();
+		
+			
+		return firstPage;
+	}
+	
+
+	
+	@Override
+	public Long getRestaurantCountPagnination() {
+	
+		Session currentSession = sessionFactory.getCurrentSession();
+		Criteria criteriaCount = currentSession.createCriteria(Restaurant.class);
+		criteriaCount.setProjection(Projections.rowCount());
+		Long count = (Long) criteriaCount.uniqueResult();
+		
+		return count;
+	}
+
+	@Override
+	public List<User> getAllStaffPagnination(Integer firstCount) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Criteria criteria = currentSession.createCriteria(User.class);
+		criteria.add(Restrictions.isNotNull("restaurantName"));
+		criteria.addOrder(Order.desc("restaurantName"));
+		criteria.setFirstResult(firstCount);
+		criteria.setMaxResults(5);
+		List<User> firstPage = criteria.list();
+	
+		return firstPage;
+	}
+
+	@Override
+	public Long getAllStaffCountPagnination() {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Criteria criteriaCount = currentSession.createCriteria(User.class);
+
+		criteriaCount.setProjection(Projections.rowCount());
+		Long count = (Long) criteriaCount.uniqueResult();
+		
+		return count;
+	}
+	
+	
+	
+	
+	
 }

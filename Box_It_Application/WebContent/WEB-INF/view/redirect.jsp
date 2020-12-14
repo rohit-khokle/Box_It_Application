@@ -13,13 +13,13 @@
 </head>
 <body>
 <security:authorize access="hasRole('ADMIN')">
-	<jsp:forward page="/systems"> 
+	<jsp:forward page="/systems?pageCount=0"> 
 		<jsp:param name="username" value="principal.username" />
 		<jsp:param name="role" value="principal.authorities" />
 	</jsp:forward> 
 </security:authorize>
 <security:authorize access="hasRole('CUSTOMER')">
-	<jsp:forward page="/my-box-it/home"> 
+	<jsp:forward page="/my-box-it/home?pageCount=0"> 
 		<jsp:param name="username" value="principal.username" />
 		<jsp:param name="role" value="principal.authorities" />
 	</jsp:forward> 
@@ -33,14 +33,14 @@
 </security:authorize>
 
 <security:authorize access="hasRole('CHEF')">
-	<jsp:forward page="/chef-dashboard"> 
+	<jsp:forward page="/chef/mydashboard"> 
 		<jsp:param name="username" value="principal.username" />
 		<jsp:param name="role" value="principal.authorities" />
 	</jsp:forward> 
 </security:authorize>
 
 <security:authorize access="hasRole('DELIVERY_EXECUTIVES')">
-	<jsp:forward page="/delivery-exe-dashboard"> 
+	<jsp:forward page="/delivery/mydashboard"> 
 		<jsp:param name="username" value="principal.username" />
 		<jsp:param name="role" value="principal.authorities" />
 	</jsp:forward> 

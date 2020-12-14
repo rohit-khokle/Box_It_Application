@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.info6250.packages.dao.UserDao;
 import com.info6250.packages.entities.Role;
 import com.info6250.packages.entities.User;
+import com.info6250.packages.user.BoxItEmployee;
 import com.info6250.packages.user.BoxItUser;
 
 
@@ -124,6 +125,46 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public void deleteStaff(long theId) {
 		 userDao.deleteStaff(theId);
+		
+	}
+
+	@Override
+	@Transactional
+	public void saveStaff(BoxItEmployee boxItUser) {
+		User user = new User();
+		
+		if(boxItUser.getId() != 0)
+			user.setId(boxItUser.getId());
+		
+		user.setUserName(boxItUser.getUserName());
+		user.setPassword(passwordEncoder.encode(boxItUser.getUserName()));
+		user.setFirstName(boxItUser.getFirstName());
+		user.setLastName(boxItUser.getLastName());
+		user.setEmail(boxItUser.getEmail());
+		user.setRestaurantName(boxItUser.getRestaurantName());
+		String roleType = boxItUser.getRole();
+		
+		/*
+		 * Manager, Chef, Delivery Executive
+		 * */
+		
+		if(roleType.equalsIgnoreCase("Manager"))
+			{
+			user.setStaffRole("Manager");
+			user.setRoles(Arrays.asList(new Role("ROLE_MANAGER"), new Role("ROLE_EMPLOYEE")));
+			}
+		else if(roleType.equalsIgnoreCase("Chef"))
+			{
+			user.setStaffRole("Chef");
+			user.setRoles(Arrays.asList(new Role("ROLE_CHEF"), new Role("ROLE_EMPLOYEE")));
+			
+			
+			}else if(roleType.equalsIgnoreCase("Delivery Executive")) {
+				user.setStaffRole("Delivery Executive");
+				user.setRoles(Arrays.asList(new Role("ROLE_DELIVERY_EXECUTIVES"), new Role("ROLE_EMPLOYEE")));			
+			
+			}
+		userDao.save(user);
 		
 	}
 	

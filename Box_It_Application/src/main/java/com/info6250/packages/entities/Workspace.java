@@ -23,13 +23,13 @@ public class Workspace {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private int id;
+	private Integer id;
 	
 	@Column(name = "restaurant_id")
-	private int restaurant_id;
+	private Integer restaurant_id;
 	
 	@Column(name = "customer_id")
-	private long customer_id;
+	private Long customer_id;
 	
 	@Column(name = "total_value")
 	private Double total_value;
@@ -42,13 +42,25 @@ public class Workspace {
 	private String date;
 	
 	@Column(name = "assigned_chef")
-	private long assigned_chef;
+	private Long assigned_chef;
 
 	@Column(name = "assigned_delivery_exec")
-	private long assigned_delivery_exec;
+	private Long assigned_delivery_exec;
 	
 	@Column(name= "restaurant_name")
 	private String restaurantName;
+	
+	
+	@Column(name= "workspace_response")
+	private String workspaceResponse;
+	
+	
+	@Column(name= "workspace_request")
+	private String workspaceRequest;
+	
+	
+	
+	
 	
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
@@ -59,19 +71,19 @@ public class Workspace {
 		
 	}
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public int getRestaurant_id() {
+	public Integer getRestaurant_id() {
 		return restaurant_id;
 	}
 
-	public void setRestaurant_id(int restaurant_id) {
+	public void setRestaurant_id(Integer restaurant_id) {
 		this.restaurant_id = restaurant_id;
 	}
 
@@ -79,7 +91,7 @@ public class Workspace {
 		return customer_id;
 	}
 
-	public void setCustomer_id(long customer_id) {
+	public void setCustomer_id(Long customer_id) {
 		this.customer_id = customer_id;
 	}
 
@@ -108,19 +120,19 @@ public class Workspace {
 	}
 
 
-	public long getAssigned_chef() {
+	public Long getAssigned_chef() {
 		return assigned_chef;
 	}
 
-	public void setAssigned_chef(long assigned_chef) {
+	public void setAssigned_chef(Long assigned_chef) {
 		this.assigned_chef = assigned_chef;
 	}
 
-	public long getAssigned_delivery_exec() {
+	public Long getAssigned_delivery_exec() {
 		return assigned_delivery_exec;
 	}
 
-	public void setAssigned_delivery_exec(long assigned_delivery_exec) {
+	public void setAssigned_delivery_exec(Long assigned_delivery_exec) {
 		this.assigned_delivery_exec = assigned_delivery_exec;
 	}
 
@@ -136,6 +148,22 @@ public class Workspace {
 	
 	
 	
+	public String getWorkspaceResponse() {
+		return workspaceResponse;
+	}
+
+	public void setWorkspaceResponse(String workspaceResponse) {
+		this.workspaceResponse = workspaceResponse;
+	}
+
+	public String getWorkspaceRequest() {
+		return workspaceRequest;
+	}
+
+	public void setWorkspaceRequest(String workspaceRequest) {
+		this.workspaceRequest = workspaceRequest;
+	}
+
 	@Override
 	public String toString() {
 		return "Workspace [id=" + id + ", restaurant_id=" + restaurant_id + ", customer_id=" + customer_id

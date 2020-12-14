@@ -1,4 +1,4 @@
-package com.info6250.packages.entities;
+package com.info6250.packages.user;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +10,7 @@ import javax.persistence.Transient;
 
 @Entity(name = "Restaurant")
 @Table(name = "enterprise")
-public class Restaurant {
+public class BoxItRestaurant {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -96,7 +96,7 @@ public class Restaurant {
 	
 	
 	
-	public Restaurant() {
+	public BoxItRestaurant() {
 
 	}
 

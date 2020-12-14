@@ -13,14 +13,8 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Home</title>
-<style>
+<title>Let's Box-It!</title>
 
-html,body, div{
-height:100%;
- min-height:100%; 
-}
-</style>
 	          	
 		<!-- Reference Bootstrap files -->
 		<link rel="stylesheet"
@@ -35,7 +29,7 @@ height:100%;
 
 </head>
 <body>
-<div class="p-3 mb-2 bg-light text-dark" align="center" class="p-3 mb-2 bg-light text-dark">
+<div class="jumbotron" align="center">
 <fmt:formatDate  var="year" value="${now}"  pattern="dd-MM-yyyy" />
 
 
@@ -43,7 +37,7 @@ height:100%;
 <h4  class="display-5" align="left"><i>${sessionScope.workspaceRestaurant.address}</i></h4> 
 <hr>
 
-<nav aria-label="breadcrumb" class="p-3 mb-2 bg-info text-white">
+<nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page"><a href="${pageContext.request.contextPath}/home">Home</a></li>
         <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manager/manageStaff">Manage Staff</a></li>
@@ -52,9 +46,7 @@ height:100%;
     </li>
   </ol>
 </nav>
- <p class="lead"> <u> Pending Orders </u></p> <h2 align='right'>${year}</h2>
-
- 
+ <p class="lead"> <u> Past Orders </u></p>
 			<table class="table table-hover">
 			  <thead>
 			    <tr>
@@ -62,7 +54,7 @@ height:100%;
 			      <th scope="col">Date</th>
 			      <th scope="col">Total Value</th>
 			      <th scope="col">Status</th>
-			      <th scope="col">Actions</th>
+			     
 			    </tr>
 			  </thead>
 			  <tbody>
@@ -74,50 +66,46 @@ height:100%;
 			 <c:url var="declineOrder" value="/manager/decline">
 				  	<c:param name = "orderID" value="${order.id}" />
 			  </c:url>
-			 <c:url var="assignDeliveryExecutive" value="manager/assignmentDelivery">
-				  	<c:param name = "orderID" value="${order.id}" />
-			  </c:url>
 						    <tr>
 						      <th scope="row"><c:out value="${count}" /></th>
 							  <c:set var="date" value="${order.date}"/>  
     						  	<td> ${fn:substring(date,0, 16)}</td>
 						      <td>${order.total_value}</td>
 						      <td>${fn:toLowerCase(order.status)}</td> 
-						      
-						      <c:if test="${order.status eq 'ORDER PLACED'}">
-									<td>
-									 <a href="${acceptOrder}">Accept Order</a>  |  <a href="${declineOrder}"	
-								  		onclick="if(!(confirm('Are you sure you want to decline this order?'))) return false"> Decline Order</a>
-								  	</td>
-														  	  
-						  	  </c:if>
-						  	  <c:if test="${order.status eq 'ACCEPTED'}">
-								<td>
-									Assigned	
-						  	  	</td>
-						  	  </c:if>
-						  	  <c:if test="${order.status eq 'PREPARING'}">
-								<td>
-									Preparing	
-						  	  	</td>
-						  	  </c:if>
-
-						  	  <c:if test="${order.status eq 'BOXED-IT'}">
-									<td>
-										 <a href="${assignDeliveryExecutive}">Assign Delivery Executive</a> 
-								  	</td>			
-						  	  </c:if>
-						  	  <c:if test="${order.status eq 'En Route'}">
-									<td>
-									 En Route
-								  	</td>			
-						  	  </c:if>
-						    </tr>
+						</tr>
 						    	<c:set var="count" value="${count + 1}" scope="page"/>	  	
 				</c:forEach>
 			 </tbody>
 			</table>
+			
+			
+			<hr>
+			
+			<!-- Cart Value -->
+											<c:set var="total" value="${0}"/>
+											<c:forEach var="item" items="${currentRestaurantOrders}">
+													<c:if test="${item.status eq 'DELIVERED'}">
+													    	<c:set var="total" value="${total + item.total_value}" />
+													</c:if>
+											</c:forEach>
+											<div align = "left"  class="font-weight-bold">
+													 Total Restaurant Revenue :  <fmt:formatNumber value = "${total}" type = "currency"/> 
+											</div>		
+<hr>
+											<c:set var="total" value="${0}"/>
+											<c:forEach var="item" items="${currentRestaurantOrders}">
+													<c:if test="${item.status eq 'DECLINED'}">
+													    	<c:set var="total" value="${total + item.total_value}" />
+													</c:if>
+											</c:forEach>
+											<div align = "left"  class="font-weight-bold">
+													 Total Declined Orders :  <fmt:formatNumber value = "${total}" type = "currency"/> 
+											</div>		
 
+
+			
+			
+<h2 align='right'>${year}</h2>
 
 
 

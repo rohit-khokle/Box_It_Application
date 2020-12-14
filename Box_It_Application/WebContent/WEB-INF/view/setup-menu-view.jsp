@@ -15,7 +15,16 @@
 <body>
 
 <hr>
-
+	
+<nav class="p-3 mb-2 bg-info text-info" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page"><a href="${pageContext.request.contextPath}/systems?pageCount=0">Home</a></li>
+    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/systems/manage-staff?pageCount=0">Manage Staff</a>  
+        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/systems/setup-menu">Setup menu</a>
+    </li>
+  </ol>
+</nav>
+<hr>
 
 <p align="center" class="text-monospace"><b> Current Offerings </b></p>
 <table class="table table-hover">
@@ -58,21 +67,32 @@
 </table>
 
 
+
+<div align="center">
 <form:form  action="${pageContext.request.contextPath}/systems/add-menu"  method="POST">
-<button type="submit" class="btn btn-primary btn-lg btn-block">Add a new item</button>
+<button type="submit" class="btn btn-info btn-lg">Add a new item</button>
 </form:form>
 
 
-<span>
-<form:form  action="${pageContext.request.contextPath}/systems" 
- 				method="GET">
- 				<button type="submit" value="Logout"  class="btn btn-outline-warning"> Back </button>
-</form:form>
-<form:form  action="${pageContext.request.contextPath}/logout" 
- 				method="GET">
- 				<button type="submit" value="Logout"  class="btn btn-outline-danger"> Logout </button>
-</form:form>
-</span>
+
+<hr>
+</div>
+
+
+
+<div align="left">
+		<a href="${pageContext.request.contextPath}/systems?pageCount=0" >Back </a>
+
+
+<br>
+
+		<form:form  action="${pageContext.request.contextPath}/logout" 
+		 				method="POST">
+		 				<button type="submit"  class="btn btn-outline-danger"> Logout </button>
+		</form:form>
+</div>
+
+
 
 
 </body>

@@ -44,6 +44,16 @@ public interface WorkspaceService {
 	public User getCustomerDetails(long customerId);
 
 	public Workspace getWorkspace(int theId);
+
+	public List<Workspace> getRestaurantWorkspacesHistory(Restaurant restaurant);
+
+	// public List<Workspace> getMyWorkspaces(Long id);
+
+	public List<Workspace> getChefWorkspaces(Long id);
+	public List<Workspace> getDelWorkspaces(Long id);
+
+	public List<Workspace> getDeliveryHistoryWorkspace(Long id);
+
 	
 	
 }

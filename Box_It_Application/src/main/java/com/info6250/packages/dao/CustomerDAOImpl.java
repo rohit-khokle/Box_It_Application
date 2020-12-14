@@ -28,7 +28,13 @@ public class CustomerDAOImpl implements CustomerDAO {
 		return (Integer) currentSession.save(workspace);
 
 	}
+	
+	@Override
+	public void updateWorkspace(Workspace workspace) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		currentSession.saveOrUpdate(workspace);
 
+	}
 	// addItems can be removed.
 	
 	@Override

@@ -28,7 +28,7 @@
 
 </head>
 <body>
-<div class="jumbotron" align="center">
+<div class="p-3 mb-2 bg-light text-dark" align="center">
 <fmt:formatDate var="year" value="${now}" pattern="dd-MM-yyyy hh:mm" />
 <p align='left'>${year}</p>
 
@@ -74,15 +74,13 @@
 		    </tr>
 		  </thead>
 		  <tbody>
-		  <c:set var="count" value="1" scope="page" />
+		  <c:set var="count" value="${pageNumber}" scope="request" />
 		  <c:forEach var="tempRestaurant" items="${restaurants}" >
 		  <c:url var="selectRestoLink" value="/my-box-it/step-2">
 		  	<c:param name = "restaurantID" value="${tempRestaurant.id}" />
 		  </c:url>
-		  
-		  
 		    <tr>
-		      <th scope="row"><c:out value="${count}" /></th>
+		      <th scope="row"><c:out value="${count + 1}" /></th>
 		      <td>${tempRestaurant.name}</td>
 		      <td>${tempRestaurant.address}</td>
 		      
@@ -91,18 +89,33 @@
 		  	<a href="${selectRestoLink}">Order from here</a>
 		  		</td>
 		    </tr>
-		    <c:set var="count" value="${count + 1}" scope="page"/>
+		    <c:set var="count" value="${count + 1}" scope="request"/>
 		    </c:forEach>
 		  
 		  </tbody>
 		</table>
+		<div align="center">
+			<c:if test="${pageNumber - 6 ge 0}">
+				<a href="${pageContext.request.contextPath}/my-box-it/home?pageCount=${pageNumber - 5}"> Prev </a> | 
+			</c:if>
+			<c:if test="${pageNumber - 6 lt 0}">
+				<a  href="${pageContext.request.contextPath}/my-box-it/home?pageCount=0"> Prev </a> | 
+			</c:if>
+			
+			<c:if test="${pageNumber + 6 gt restaurantsCount}">
+					<a hidden="true" href="${pageContext.request.contextPath}/my-box-it/home?pageCount=${pageNumber+6}"> Next </a>
+			</c:if>
+			<c:if test="${pageNumber + 6 lt restaurantsCount}">
+					<a href="${pageContext.request.contextPath}/my-box-it/home?pageCount=${count}"> Next </a>
+			</c:if>
 
-	
+		</div>
+		<div align="left">
 			<form:form  action="${pageContext.request.contextPath}/logout" 
 			 				method="POST">
 			 				<button type="submit"  class="btn btn-outline-danger"> <p style="font-size:20px"  class="text-muted"> Logout &#128586;</p> </button>
 			</form:form> 
-
+		</div>
 </div>
 </body>
 </html>

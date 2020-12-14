@@ -12,13 +12,32 @@
 <meta charset="ISO-8859-1">
 <title>Manage Staff</title>
 
+<style type="text/css">
+
+html,body{
+height:100%;
+ min-height:100%; 
+}
+
+
+</style>
+
+
 </head>
 <body>
 
-<hr>
+<div class="p-3 mb-2 bg-light text-dark" align="center">
+	
+<nav class="p-3 mb-2 bg-success text-dark" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page"><a href="${pageContext.request.contextPath}/systems?pageCount=0">Home</a></li>
+    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/systems/manage-staff?pageCount=0">Manage Staff</a>  
+        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/systems/setup-menu">Setup menu</a>
+    </li>
+  </ol>
+</nav>
 
 
-<p align="center" class="text-monospace"><b> Manage Staff </b></p>
 <table class="table table-hover">
   <thead>
     <tr>
@@ -34,7 +53,7 @@
     </tr>
   </thead>
   <tbody>
-  <c:set var="count" value="1" scope="page" />
+  <c:set var="count" value="${pageNumber}"  scope="request" />
   <c:forEach var="staff" items="${allStaff}" >
   <c:url var="updateLink" value="/systems/showStaffForUpdate">
   	<c:param name = "theId" value="${staff.id}" />
@@ -45,7 +64,7 @@
   
   
     <tr>
-      <th scope="row"><c:out value="${count}" /></th>
+      <th scope="row"><c:out value="${count + 1}" /></th>
       <td>${staff.userName}</td>
        <td  hidden="TRUE"> ${staff.password}</td> 
       <td>${staff.firstName}</td>
@@ -61,28 +80,51 @@
   	
   		</td>
     </tr>
-    <c:set var="count" value="${count + 1}" scope="page"/>
+    <c:set var="count" value="${count + 1}" scope="request"/>
     </c:forEach>
   
   </tbody>
 </table>
 
+		<div align="center">
+			<c:if test="${pageNumber - 6 ge 0}">
+				<a href="${pageContext.request.contextPath}/systems/manage-staff?pageCount=${pageNumber - 5}"> Prev </a> | 
+			</c:if>
+			<c:if test="${pageNumber - 6 lt 0}">
+				<a  href="${pageContext.request.contextPath}/systems/manage-staff?pageCount=0"> Prev </a> | 
+			</c:if>
+			
+			<c:if test="${pageNumber + 6 gt restaurantsCount}">
+					<a hidden="true" href="${pageContext.request.contextPath}/systems/manage-staff?pageCount=${pageNumber+6}"> Next </a>
+			</c:if>
+			<c:if test="${pageNumber + 6 lt restaurantsCount}">
+					<a href="${pageContext.request.contextPath}/systems/manage-staff?pageCount=${count}"> Next </a>
+			</c:if>
 
+		</div>
+		<hr>
+<div align="center">
 <form:form  action="${pageContext.request.contextPath}/systems/add-new-staff"  method="GET">
-<button type="submit" class="btn btn-success btn-lg btn-block">Add a new staff member</button>
+<button type="submit" class="btn btn-success btn-lg">Add a new staff member</button>
 </form:form>
+<hr>
+</div>
 
 
-<span>
-<form:form  action="${pageContext.request.contextPath}/systems" 
- 				method="GET">
- 				<button type="submit"  class="btn btn-outline-warning"> Back </button>
-</form:form>
-<form:form  action="${pageContext.request.contextPath}/logout" 
- 				method="POST">
- 				<button type="submit"  class="btn btn-outline-danger"> Logout </button>
-</form:form>
-</span>
+
+<div align="left">
+		<a href="${pageContext.request.contextPath}/systems?pageCount=0" >Back </a>
+
+
+<br>
+
+		<form:form  action="${pageContext.request.contextPath}/logout" 
+		 				method="POST">
+		 				<button type="submit"  class="btn btn-outline-danger"> Logout </button>
+		</form:form>
+</div>
+
+</div>
 
 
 
