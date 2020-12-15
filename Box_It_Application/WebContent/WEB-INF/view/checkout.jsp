@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Step 2</title>
+<title>Step 3</title>
 	          	
 		<!-- Reference Bootstrap files -->
 		<link rel="stylesheet"
@@ -25,12 +25,12 @@
 
 </head>
 <body>
-<div class="jumbotron" align="center">
+<div class="p-3 mb-2 bg-light text-dark"  align="center">
 
-<nav aria-label="breadcrumb">
+<nav class="p-3 mb-2 bg-warning text-dark" aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page"><a href="${pageContext.request.contextPath}/home">Home</a></li>
-        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/order-History">My Order</a></li>
+        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/checkOrder">My Order</a></li>
     <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/my-Profile">My Profile</a></li>
   </ol>
 </nav>
@@ -106,7 +106,35 @@
 				    
 			   </c:if>
 
-
+				 <c:if test="${myCart.dish_category eq 'Soup'}">	  
+			  
+				    <tr  class="table-warning">
+						      <th scope="row"><c:out value="${count}" /></th>
+						      <td>${myCart.dish_name}</td>
+	    				      <td>${myCart.dish_category}</td>
+						      <td>${myCart.quantity}</td>
+						      <td>${myCart.price}</td>
+						      <td>${myCart.calories}</td>
+						  	  <td><a href="${refreshCart}"> Remove </a></td> 
+				  	 </tr>
+				    
+			   </c:if>
+				
+			   <c:if test="${myCart.dish_category eq 'Sides'}">	  
+			  
+				    <tr  class="table-light">
+						      <th scope="row"><c:out value="${count}" /></th>
+						      <td>${myCart.dish_name}</td>
+	    				      <td>${myCart.dish_category}</td>
+						      <td>${myCart.quantity}</td>
+						      <td>${myCart.price}</td>
+						      <td>${myCart.calories}</td>
+						  	  <td><a href="${refreshCart}"> Remove </a></td> 
+				  	 </tr>
+				    
+			   </c:if>
+			  	
+				
 			   
 			    
 			    <c:set var="count" value="${count + 1}" scope="page"/>

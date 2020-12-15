@@ -206,4 +206,35 @@ public class WorkspaceDAOImpl implements WorkspaceDAO {
 		return workspaces;
 	}
 
+	@Override
+	public List<Workspace> getChefHistoryWorkspace(Long id) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<Workspace> theQuery =
+				currentSession.createQuery("from Workspace WHERE status IN ('DELIVERED') AND assigned_chef=:userid "
+						, 
+						Workspace.class);
+		theQuery.setParameter("userid", id);
+		List<Workspace> workspaces = theQuery.getResultList();
+		return workspaces;
+	}
+
+	@Override
+	public Workspace getCurrentOrder(User user) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<Workspace> theQuery =
+				currentSession.createQuery("from Workspace WHERE "
+						+ " customer_id=:cusid ORDER BY date DESC", 
+						Workspace.class);
+		theQuery.setParameter("cusid", user.getId());
+		Workspace workspace = new Workspace();
+		try {
+			workspace = theQuery.getResultList().get(0);
+		}
+		catch(Exception e) {
+			return workspace;
+		}
+		return workspace;
+	}
+
 }

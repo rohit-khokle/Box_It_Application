@@ -154,6 +154,22 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
 
 
+	@Override
+	@Transactional
+	public List<Workspace> getChefHistoryWorkspace(Long id) {
+		return workspaceDAO.getChefHistoryWorkspace(id);
+	}
+
+
+
+	@Override
+	@Transactional
+	public Workspace getCurrentOrder(User user) {
+		return workspaceDAO.getCurrentOrder(user);
+	}
+
+
+
 	
 	
 }

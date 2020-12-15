@@ -1,36 +1,32 @@
 package com.info6250.packages.user;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 
-@Entity(name = "Restaurant")
-@Table(name = "enterprise")
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+
 public class BoxItRestaurant {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "store_id")
+
 	private int id;
 	
-	@Column(name = "store_name")
+	@NotNull(message = "is required")
 	private String name;
 	
-	@Column(name = "zip_code")
-	private Long zipCode;
+	@NotNull(message = "is required")
+	@Pattern(regexp = "^^\\d{5}$", message="Must be five digit")
+	private String zipCode;
 	
-	@Column(name = "manager_username")
+
+	@NotNull(message = "is required")
 	private String manager;
 	
-	
-	@Column(name = "address")
+
+	@NotNull(message = "is required")	
 	private String address;
 	
-	@Column(name = "revenue")
+
 	private Double revenue;
 	
 	
@@ -51,10 +47,11 @@ public class BoxItRestaurant {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Long getZipCode() {
+
+	public String getZipCode() {
 		return zipCode;
 	}
-	public void setZipCode(Long zipCode) {
+	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
 	}
 	public String getManager() {

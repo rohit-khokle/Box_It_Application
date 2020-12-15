@@ -11,6 +11,7 @@ import com.info6250.packages.entities.Menu;
 import com.info6250.packages.entities.Restaurant;
 import com.info6250.packages.entities.User;
 import com.info6250.packages.user.BoxItMenu;
+import com.info6250.packages.user.BoxItRestaurant;
 
 
 @Service
@@ -174,6 +175,32 @@ public class RestaurantServiceImpl implements RestaurantService {
 	@Transactional
 	public Long getRestaurantStaffCountPagnination(Restaurant restaurant) {
 		return restaurantDAO.getAllStaffCountPagnination(restaurant);
+	}
+
+
+	@Override
+	@Transactional
+	public void saveRestaurant(BoxItRestaurant theRestaurant) {
+		Restaurant restaurant = new Restaurant();
+		
+		restaurant.setId(theRestaurant.getId());
+		restaurant.setAddress(theRestaurant.getAddress());
+		restaurant.setManager(theRestaurant.getManager());
+		restaurant.setName(theRestaurant.getName());
+		restaurant.setZipCode(Long.parseLong(theRestaurant.getZipCode()));
+		
+		restaurant.setOrdersServed(0L);
+		restaurant.setRevenue(0D);
+		
+		restaurantDAO.saveRestaurant(restaurant);
+	}
+
+
+	@Override
+	@Transactional
+	public Restaurant findByRestaurantName(String name) {
+		// TODO Auto-generated method stub
+		return restaurantDAO.findByRestaurantName(name);
 	}
 
 }

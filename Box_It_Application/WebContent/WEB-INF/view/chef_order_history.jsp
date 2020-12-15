@@ -45,10 +45,10 @@
 
 <!--  Dashboard name -->
  <p class="lead"> 
-<b> ${sessionScope.user.firstName} ${sessionScope.user.lastName}'s order history</b>  
+<b> ${sessionScope.user.firstName} ${sessionScope.user.lastName}'s completed orders </b>  
 </p>
 
- <b> Completed Deliveries </b> <h2 align='right'>${year}</h2>
+ <h2 align='right'>${year}</h2>
 
 
 			<table class="table table-hover">

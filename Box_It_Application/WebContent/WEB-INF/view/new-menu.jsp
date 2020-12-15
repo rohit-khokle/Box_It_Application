@@ -29,7 +29,6 @@
 			<h2> Add new Item! </h2>
 		</div>	
 		<div id="container">
-			<h3> Restaurant details </h3>
 			<form:form action="saveMenu" modelAttribute="menu" method="POST">
 			<!--  associate the data with customer id -->
 			<form:hidden path="id" />
@@ -47,8 +46,7 @@
 					        <form:option value="Salad" label="Salad"/>  
 					        <form:option value="Beverage" label="Beverage"/>  
 					        <form:option value="Soup" label="Soup"/>  
-					        <form:option value="Sides" label="Sides"/>  									
-					        <form:option value="Breakfast" label="Breakfast"/>
+					        <form:option value="Sides" label="Sides"/>
 						</form:select>
 						</td>
 					</tr>
@@ -100,13 +98,9 @@
 
 
 
+<a href="${pageContext.request.contextPath}/systems/setup-menu">Back</a>
 
 
-
-<form:form  action="${pageContext.request.contextPath}/systems" 
- 				method="GET">
- 				<button type="submit"  class="btn btn-outline-warning"> Back </button>
-</form:form>
 <form:form  action="${pageContext.request.contextPath}/logout" 
  				method="POST">
  				<button type="submit"  class="btn btn-outline-danger"> Logout </button>

@@ -16,12 +16,12 @@
 </head>
 <body>
 
-<div class="jumbotron" align="center">
+<div class="p-3 mb-2 bg-light text-dark"  align="center">
 
-<nav aria-label="breadcrumb">
+<nav  class="p-3 mb-2 bg-warning text-dark"aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page"><a href="${pageContext.request.contextPath}/home">Home</a></li>
-        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/order-History">My Order</a></li>
+        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/checkOrder">My Order</a></li>
     <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/my-Profile">My Profile</a></li>
   </ol>
 </nav>
@@ -63,12 +63,6 @@ Address -> ${currentRestaurant.address}
 				</c:forEach>
 			 </tbody>
 			</table>
-			
-			
-			
-			
-			
-			
 			<form:form  action="${pageContext.request.contextPath}/logout" 
 			 				method="POST">
 			 				<button type="submit"  class="btn btn-outline-danger"> <p style="font-size:20px" > Logout &#128586;</p> </button>

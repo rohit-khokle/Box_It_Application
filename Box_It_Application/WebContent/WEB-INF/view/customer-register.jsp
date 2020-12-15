@@ -29,7 +29,7 @@
 			<div class="panel panel-info">
 
 				<div class="panel-heading">
-					<div class="panel-title">Sign In</div>
+					<div class="panel-title">Login here</div>
 				</div>
 
 				<div style="padding-top: 30px" class="panel-body">

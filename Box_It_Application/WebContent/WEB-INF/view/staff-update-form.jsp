@@ -142,7 +142,7 @@
 								<button type="submit" class="btn btn-primary">Update</button>
 							</div>
 						</div>
-						
+						<a href="${pageContext.request.contextPath}/home" >Back </a>
 					</form:form>
 
 				</div>

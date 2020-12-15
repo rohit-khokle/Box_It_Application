@@ -25,6 +25,7 @@ import com.info6250.packages.service.RestaurantService;
 import com.info6250.packages.service.UserService;
 import com.info6250.packages.user.BoxItEmployee;
 import com.info6250.packages.user.BoxItMenu;
+import com.info6250.packages.user.BoxItRestaurant;
 import com.info6250.packages.user.BoxItUser;
 
 @Controller
@@ -56,11 +57,13 @@ public class SystemController {
 	@GetMapping("/new-restaurant")
 	public String showFormForAdd(Model theModel) {
 		
-		Restaurant theRestaurant = new Restaurant();
+	//	Restaurant theRestaurant = new Restaurant();
+		BoxItRestaurant theRestaurant = new BoxItRestaurant();
+		
 		theModel.addAttribute("restaurant", theRestaurant);
 		return "new-restaurant";
 	}
-
+/*
 	@PostMapping("/saveRestaurant")
 	public String saveRestaurant(@ModelAttribute("restaurant") Restaurant theRestaurant){
 		theRestaurant.setOrdersServed(0L);
@@ -68,13 +71,49 @@ public class SystemController {
 		restaurantService.saveRestaurant(theRestaurant);
 		return "redirect:/systems?pageCount=0";
 	}
+*/
+	@PostMapping("/saveRestaurant")
+	public String saveRestaurant(@Valid @ModelAttribute("restaurant") BoxItRestaurant theRestaurant, 
+			BindingResult theBindingResult, Model theModel){
+		theRestaurant.setOrdersServed(0L);
+		theRestaurant.setRevenue(0D);
+		 if (theBindingResult.hasErrors()){
+				return "new-restaurant";
+	        }
+			// check the database if user already exists
+        Restaurant existing = restaurantService.findByRestaurantName(theRestaurant.getName());
+        if (existing != null){
+        		if(existing.getId() != theRestaurant.getId())
+        		{
+		        	theModel.addAttribute("crmUser", new BoxItUser());
+					theModel.addAttribute("registrationError", "User name already exists.");
 		
+					logger.warning("User name already exists.");
+		        	return "new-restaurant";
+        		}        			
+        }
+	
+		
+		restaurantService.saveRestaurant(theRestaurant);
+		return "redirect:/systems?pageCount=0";
+	}
+	
 	@GetMapping("/showFormForUpdate")
 	public String showFormForUpdate(@ModelAttribute("restaurantID") int theId, Model theModel) {
 		// Get the restaurant from the service
 		Restaurant theRestaurant = restaurantService.getRestaurant(theId);
+		
+		BoxItRestaurant boxItRestaurant = new BoxItRestaurant();
+		
+		boxItRestaurant.setId(theRestaurant.getId());
+		boxItRestaurant.setName(theRestaurant.getName());
+		boxItRestaurant.setAddress(theRestaurant.getAddress());
+		boxItRestaurant.setManager(theRestaurant.getManager());
+		boxItRestaurant.setZipCode(theRestaurant.getZipCode()+"");
+		
+	
 		//  Set restaurant
-		theModel.addAttribute("restaurant", theRestaurant);
+		theModel.addAttribute("restaurant", boxItRestaurant);
 		
 		return "new-restaurant";
 	}

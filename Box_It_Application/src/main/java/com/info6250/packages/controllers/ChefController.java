@@ -7,10 +7,12 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +26,9 @@ import com.info6250.packages.entities.User_Address;
 import com.info6250.packages.entities.Workspace;
 import com.info6250.packages.service.CustomerService;
 import com.info6250.packages.service.RestaurantService;
+import com.info6250.packages.service.UserService;
 import com.info6250.packages.service.WorkspaceService;
+import com.info6250.packages.user.BoxItEmployee;
 
 /**
  * @author Rohit
@@ -41,7 +45,10 @@ public class ChefController {
 	
 	@Autowired
 	CustomerService customerService;
-		
+
+	@Autowired
+	UserService userService;
+	
 	
 	@GetMapping("/mydashboard")
 	public String showManager(HttpSession session, Model theModel) {
@@ -243,7 +250,108 @@ public class ChefController {
 		
 		return "redirect:/home";
 	}	
+	@GetMapping("/OrderHistory")
+	public String showOrderHistory(HttpSession session, Model theModel) {
+		User user;
+		Restaurant restaurant;
+		List<Workspace> workspaces;
+		try {
+			 user = (User)session.getAttribute("user");	
+			 restaurant = 
+					 (Restaurant)restaurantService.getRestaurant(user.getRestaurantName());
+			 
+			 workspaces = 
+					 (List<Workspace>)workspaceService.getChefHistoryWorkspace(user.getId());
+					 //getRestaurantWorkspacesHistory(restaurant);
+					 //(List<Workspace>)workspaceService.getRestaurantWorkspacesHistory(restaurant);
+		}
+		catch(Exception e)
+		{
+			
+			return "redirect:/BoxItLoginPage";
+		}
+			
+		theModel.addAttribute("currentRestaurantOrders", workspaces);
+		
+		session.setAttribute("workspaceRestaurant", restaurant);
+		
+		
+		return "chef_order_history";
+	}	
 	
+
+	@GetMapping("/my-Profile")
+	public String myProfileUpdate(HttpSession session, 
+			Model theModel) {
+		User theUser; 
+
+		try {
+			theUser = (User)session.getAttribute("user");	
+		}
+		catch(Exception e)
+		{
+			
+			return "redirect:/BoxItLoginPage";
+		}
+
+		
+		
+		BoxItEmployee theBoxItUser = new BoxItEmployee();
+		
+		theBoxItUser.setId(theUser.getId());
+		theBoxItUser.setEmail(theUser.getEmail());
+		theBoxItUser.setFirstName(theUser.getFirstName());
+		theBoxItUser.setLastName(theUser.getLastName());
+		theBoxItUser.setPassword(theUser.getPassword());
+		theBoxItUser.setRestaurantName(theUser.getRestaurantName());
+		theBoxItUser.setRole(theUser.getStaffRole());
+		theBoxItUser.setUserName(theUser.getUserName());
+		
+		
+		
+		theModel.addAttribute("crmUser", theBoxItUser);
+		theModel.addAttribute("id", theUser.getId());
 	
 		
+		return "profile-update-manager";
+	}
+	
+	
+	@PostMapping("/profile-staff")
+	public String updateProfile(//@Valid @ModelAttribute("crmUser") BoxItUser theCrmUser,
+			HttpSession session, 
+			@Valid @ModelAttribute("crmUser") BoxItEmployee theCrmUser,
+			BindingResult theBindingResult, 
+			Model theModel) {
+		
+		String userName = theCrmUser.getUserName();
+		
+		// form validation
+		 if (theBindingResult.hasErrors()){
+			 return "profile-update-manager";
+	        }
+	
+		// check the database if user already exists
+//	    User userWithId = userService.getUserById(theCrmUser.getId());
+//	    User existing = userService.findByUserName(userName);
+//	    
+//	    if(!(theCrmUser.getUserName().equalsIgnoreCase(userWithId.getUserName())))
+//	    {	
+//		    
+//		    if (existing != null){
+//		    	theModel.addAttribute("crmUser", theCrmUser);
+//				theModel.addAttribute("registrationError", "User name already exists.");
+//
+//		    	return "staff-update-form-manager";
+//		    }
+//	    }
+	    
+	    userService.saveStaff(theCrmUser);
+		
+	    
+	   session.setAttribute("user", userService.findByUserName(theCrmUser.getUserName())); 
+		
+	   return "redirect:/home";		
+		
+	}		
 }

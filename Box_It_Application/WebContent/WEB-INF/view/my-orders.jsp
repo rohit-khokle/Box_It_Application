@@ -13,20 +13,51 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Order History</title>
+
+	          	
+		<!-- Reference Bootstrap files -->
+		<link rel="stylesheet"
+			 href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+		
+		<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	    
+       </head>
+
+
 </head>
 <body>
 
-<div class="jumbotron" align="center">
+	<!--  AJAX Script -->
+   <script type="text/javascript">
+      function madeAjaxCall(test){
+    	$.ajax({
+        type: "get",
+        url: test+"/my-box-it/getStatus",
+        cache: false,    
+        data: $("#restaurant_id").val() ,
+        success: function(data){
+         $('#result').html(data);
+        },
+        error: function(){      
+         alert('Error while request..');
+        }
+       });
+      }
+   </script>
 
-<nav aria-label="breadcrumb">
+
+<div class="p-3 mb-2 bg-light text-dark"align="center">
+<nav class="p-3 mb-2 bg-warning text-dark" aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page"><a href="${pageContext.request.contextPath}/home">Home</a></li>
-        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/order-History">My Order</a></li>
+        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/checkOrder">My Order</a></li>
     <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/my-Profile">My Profile</a></li>
   </ol>
 </nav>
 		<hr>	
-			<c:if test="${sessionScope.successPrompt eq 1}" >
+			<c:if test="${sessionScope.successPrompt eq '1'}" >
 					<div class="alert alert-Success" role="alert">
 					  Noice! Order placed! Check your order status here.
 					</div>
@@ -34,8 +65,11 @@
 			
 			<h3 class="display-6">
 			<span style="text-decoration:underline;">
-	  					<b>Step 4 - Breath! &#127835; </b> </span></h3>
-	  		<p class="text-muted"> <i> Practice patience &#128170; </i></p>
+	  					<b>Step 4 - Breath! &#128519;  </b> </span>
+	  		</h3>
+	  	
+
+
 			<hr>
 			
 			<p align="center" class="display-5"><b> Current Orders </b></p>

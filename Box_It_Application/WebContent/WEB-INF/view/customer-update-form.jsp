@@ -1,13 +1,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
- 
+
 <!doctype html>
 <html lang="en">
 
 <head>
 	
-	<title>Add new Staff</title>
+	<title>Register New User Form</title>
 	
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -36,18 +35,16 @@
 			<div class="panel panel-primary">
 
 				<div class="panel-heading">
-					<div class="panel-title">Register New Staff Member</div>
+					<div class="panel-title">Update Profile</div>
 				</div>
 
 				<div style="padding-top: 30px" class="panel-body">
 
-					
 					<!-- Registration Form -->
-					<form:form action="${pageContext.request.contextPath}/manager/add-staff/processRegistrationForm" 
+					<form:form action="${pageContext.request.contextPath}/my-box-it/processUpdateForm" 
 						  	   modelAttribute="crmUser"
-						  	   class="form-horizontal"
-						  	   method="POST">
-						  	   <form:hidden path="id" />
+						  	   class="form-horizontal">
+
 					    <!-- Place for messages: error, alert etc ... -->
 					    <div class="form-group">
 					        <div class="col-xs-15">
@@ -65,12 +62,16 @@
 					            </div>
 					        </div>
 					    </div>
-
+					    
+					    
+ 						<form:hidden path="id" />
+						
+						
 						<!-- User name -->
 						<div style="margin-bottom: 25px" class="input-group">
 							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> 
 							<form:errors path="userName" cssClass="error" />
-							<form:input path="userName" placeholder="username (*)" class="form-control" />
+							<form:input readonly="true" path="userName" placeholder="username (*)" class="form-control" />
 						</div>
 
 						<!-- Password -->
@@ -109,29 +110,15 @@
 							<form:input path="email" placeholder="email (*)" class="form-control" />
 						</div>
 						
-						<!-- Restaurant name -->
-						<div style="margin-bottom: 25px" class="input-group">
-						<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> 
-						<form:input path="restaurantName"  readonly="true" />
-						 </div>
 						
-						<!-- Role -->
-						<div style="margin-bottom: 50px" class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> 
-							<form:select path="role">
-					        <form:option value="Chef" label="Chef"/>  
-					        <form:option value="Delivery Executive" label="Delivery Executive"/>  
-						</form:select>
-						</div>
-						
-						
+
 						<!-- Register Button -->
-						<div style="margin-top: 50px" class="form-group">						
+						<div style="margin-top: 10px" class="form-group">						
 							<div class="col-sm-6 controls">
-								<button type="submit" class="btn btn-primary">Register Staff</button>
+								<button type="submit" class="btn btn-primary">Update</button>
 							</div>
 						</div>
-								<a href="${pageContext.request.contextPath}/manager/manageStaff?pageCount=0" >Back</a>		
+						
 					</form:form>
 
 				</div>

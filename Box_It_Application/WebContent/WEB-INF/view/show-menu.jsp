@@ -30,12 +30,12 @@
 
 </head>
 <body>
-<div class="jumbotron" align="center">
+<div class="p-3 mb-2 bg-light text-dark"  align="center">
 
-<nav aria-label="breadcrumb">
+<nav class="p-3 mb-2 bg-warning text-dark" aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page"><a href="${pageContext.request.contextPath}/home">Home</a></li>
-        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/order-History">My Order</a></li>
+        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/checkOrder">My Order</a></li>
     <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/my-Profile">My Profile</a></li>
   </ol>
 </nav>
@@ -72,8 +72,18 @@
 						    <strong>${promptThis.dish_name}</strong> takes care of the thirst. Excellent!
 				  	</div>
  			</c:if> 		
-
-			
+			<c:if test="${promptThis.dish_category eq 'Soup'}" >
+					<div class="alert alert-warning alert-dismissible fade in">
+						    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+						    <strong>${promptThis.dish_name}</strong>  Noice!
+				  	</div>
+ 			</c:if> 
+			<c:if test="${promptThis.dish_category eq 'Sides'}" >
+					<div class="alert alert-info alert-dismissible fade in">
+						    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+						    <strong>${promptThis.dish_name}</strong> Excellent Choice!
+				  	</div>
+ 			</c:if> 			
 			<p align="center" class="display-4"><b> Current Offerings </b></p>
 			<table class="table table-hover">
 			  <thead>

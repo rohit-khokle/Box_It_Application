@@ -516,5 +516,84 @@ public class RestaurantController {
 		return "redirect:/home";
 	}	
 	
+	
+	
+	
+	@GetMapping("/my-Profile")
+	public String myProfileUpdate(HttpSession session, 
+			Model theModel) {
+		User theUser; 
+
+		try {
+			theUser = (User)session.getAttribute("user");	
+		}
+		catch(Exception e)
+		{
+			
+			return "redirect:/BoxItLoginPage";
+		}
+
+		
+		
+		BoxItEmployee theBoxItUser = new BoxItEmployee();
+		
+		theBoxItUser.setId(theUser.getId());
+		theBoxItUser.setEmail(theUser.getEmail());
+		theBoxItUser.setFirstName(theUser.getFirstName());
+		theBoxItUser.setLastName(theUser.getLastName());
+		theBoxItUser.setPassword(theUser.getPassword());
+		theBoxItUser.setRestaurantName(theUser.getRestaurantName());
+		theBoxItUser.setRole(theUser.getStaffRole());
+		theBoxItUser.setUserName(theUser.getUserName());
+		
+		
+		
+		theModel.addAttribute("crmUser", theBoxItUser);
+		theModel.addAttribute("id", theUser.getId());
+	
+		
+		return "profile-update-manager";
+	}
+	
+	
+	@PostMapping("/profile-staff")
+	public String updateProfile(//@Valid @ModelAttribute("crmUser") BoxItUser theCrmUser,
+			HttpSession session, 
+			@Valid @ModelAttribute("crmUser") BoxItEmployee theCrmUser,
+			BindingResult theBindingResult, 
+			Model theModel) {
+		
+		String userName = theCrmUser.getUserName();
+		
+		// form validation
+		 if (theBindingResult.hasErrors()){
+			 return "profile-update-manager";
+	        }
+	
+		// check the database if user already exists
+//	    User userWithId = userService.getUserById(theCrmUser.getId());
+//	    User existing = userService.findByUserName(userName);
+//	    
+//	    if(!(theCrmUser.getUserName().equalsIgnoreCase(userWithId.getUserName())))
+//	    {	
+//		    
+//		    if (existing != null){
+//		    	theModel.addAttribute("crmUser", theCrmUser);
+//				theModel.addAttribute("registrationError", "User name already exists.");
+//
+//		    	return "staff-update-form-manager";
+//		    }
+//	    }
+	    
+	    userService.saveStaff(theCrmUser);
+		
+	    
+	   session.setAttribute("user", userService.findByUserName(theCrmUser.getUserName())); 
+		
+	   return "redirect:/home";		
+		
+	}	
+	
+	
 		
 }

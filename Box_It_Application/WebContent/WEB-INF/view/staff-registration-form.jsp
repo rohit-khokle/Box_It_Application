@@ -129,8 +129,7 @@
 						</form:select>
 						</div>
 						
-																		
-
+							
 						<!-- Register Button -->
 						<div style="margin-top: 50px" class="form-group">						
 							<div class="col-sm-6 controls">
@@ -139,6 +138,9 @@
 						</div>
 						
 					</form:form>
+	<a href="${pageContext.request.contextPath}/systems/manage-staff?pageCount=0" >Back</a>										
+									
+																			
 
 				</div>
 

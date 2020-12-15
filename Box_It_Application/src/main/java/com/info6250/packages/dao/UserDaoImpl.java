@@ -64,4 +64,11 @@ public class UserDaoImpl implements UserDao {
 		theQuery.executeUpdate();	
 	}
 
+	@Override
+	public void update(User user) {
+		Session currentSession = sessionFactory.getCurrentSession();	
+		currentSession.saveOrUpdate(user);
+		
+	}
+
 }

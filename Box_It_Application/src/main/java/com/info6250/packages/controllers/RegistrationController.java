@@ -60,7 +60,6 @@ public class RegistrationController {
 					Model theModel) {
 			
 			String userName = theCrmUser.getUserName();
-			logger.info("Processing registration form for: " + userName);
 			
 	        theCrmUser.setRole("customer");
 	        String restaurantName = "Customer_Restaurant";

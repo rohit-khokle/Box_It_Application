@@ -8,6 +8,7 @@ import com.info6250.packages.entities.Menu;
 import com.info6250.packages.entities.Restaurant;
 import com.info6250.packages.entities.User;
 import com.info6250.packages.user.BoxItMenu;
+import com.info6250.packages.user.BoxItRestaurant;
 
 public interface RestaurantService {
 
@@ -49,7 +50,9 @@ public interface RestaurantService {
 
 	public Long getRestaurantStaffCountPagnination(Restaurant restaurant);
 	
-	
+	public void saveRestaurant(BoxItRestaurant theRestaurant);
+
+	public Restaurant findByRestaurantName(String name);
 	
 	
 	

@@ -21,7 +21,14 @@ height:100%;
 
 
 </style>
-
+		<!-- Reference Bootstrap files -->
+		<link rel="stylesheet"
+			 href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+		
+		<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	    
 
 </head>
 <body>
@@ -35,8 +42,8 @@ height:100%;
         <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/systems/setup-menu">Setup menu</a>
     </li>
   </ol>
-</nav>
-
+</nav> <hr>
+<p align="center" class="text-monospace"><b> Manage Staff </b></p>
 
 <table class="table table-hover">
   <thead>

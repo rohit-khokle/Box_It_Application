@@ -6,18 +6,22 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.info6250.packages.entities.Cart_items;
 import com.info6250.packages.entities.Menu;
@@ -28,7 +32,10 @@ import com.info6250.packages.entities.User_Address;
 import com.info6250.packages.entities.Workspace;
 import com.info6250.packages.service.CustomerService;
 import com.info6250.packages.service.RestaurantService;
+import com.info6250.packages.service.UserService;
 import com.info6250.packages.service.WorkspaceService;
+import com.info6250.packages.user.BoxItEmployee;
+import com.info6250.packages.user.BoxItUser;
 import com.info6250.packages.user.BoxItUserAddress;
 import com.info6250.packages.user.BoxitPaymentDetails;
 
@@ -48,6 +55,8 @@ public class CustomerController {
 	@Autowired
 	private WorkspaceService workspaceService;
 	
+	@Autowired
+	UserService userService;
 	
 	@GetMapping("/home")
 	public String showCustomerWorkspace( HttpSession session,  @ModelAttribute("pageCount") Integer pageNumber ,  Model theModel) {
@@ -372,6 +381,8 @@ public class CustomerController {
     	}
     	else
     	{
+    		Cart_items item = selectedItem.convertIntoCartItems(new Cart_items());
+    		item.setQuantity(1);		
     		checkCart.add(selectedItem.convertIntoCartItems(new Cart_items()));  // addItemInCart(selectedItem);
     		session.setAttribute("checkCart", checkCart);
     	}
@@ -449,32 +460,51 @@ public class CustomerController {
     	System.out.println("My Cart items are : "+myCart);
     	System.out.println("Selected Restaurant : "+selectedRestaurant);
     	System.out.println("The logged in user : "+user);
-    
-    	try {
-	    	// Fill in workspace object..    	
-	    	myCart.setRestaurant_id(selectedRestaurant.getId());
-	    	Restaurant theRestaurant = (Restaurant)session.getAttribute("selectedRestaurant");
-	    	myCart.setRestaurantName(theRestaurant.getName());
-	    	myCart.setCustomer_id(user.getId());
-//	    	myCart.setAssigned_chef();
-//	    	myCart.setAssigned_delivery_exec();
-	    	myCart.setWorkspaceRequest("");
-	    	myCart.setWorkspaceResponse("");
-	    	myCart.setStatus("ORDER PLACED"); 	
+    	
+    	if(myCart != null) {
+	    	try {
+		    	// Fill in workspace object..    	
+		    	myCart.setRestaurant_id(selectedRestaurant.getId());
+		    	Restaurant theRestaurant = (Restaurant)session.getAttribute("selectedRestaurant");
+		    	myCart.setRestaurantName(theRestaurant.getName());
+		    	myCart.setCustomer_id(user.getId());
+		    	myCart.setWorkspaceRequest("");
+		    	myCart.setWorkspaceResponse("");
+		    	myCart.setStatus("ORDER PLACED"); 	
+	    	}
+	    	catch(Exception e) {
+	    		return "redirect:/BoxItLoginPage";		
+	    	}
     	}
-    	catch(Exception e) {
-    		return "redirect:/BoxItLoginPage";		
+    	else {
+    		
+    		theModel.addAttribute("restaurantID", selectedRestaurant.getId());
+    		return "redirect:/my-box-it/step-2";
     	}
+    	
     	
     	
       	Double total_value = 0.0;   	
       	for(Cart_items temp : myCart.getCartItems()) {
      		total_value = total_value+ temp.getPrice();
-    	} 
+    	}
+
+      	
+      	
       	myCart.setTotal_value(total_value);
+ 
+      	if(myCart.getTotal_value() == 0.0) {
+      		theModel.addAttribute("restaurantID", selectedRestaurant.getId());
+      		theModel.addAttribute("emptyCart", "emptyCart");
+    		return "redirect:/my-box-it/step-2";
+    		
+      		
+      	}
       	Date todayDate = new Date();
       	myCart.setDate(todayDate.toString());
+ 
       	
+ 		theModel.addAttribute("emptyCart", "emptyCart");
     	theModel.addAttribute("Total_Value", total_value);
     	
     	
@@ -566,5 +596,136 @@ public class CustomerController {
 		}
 
 	}
+	
+	
+	
+	@RequestMapping(value = "getStatus", method = RequestMethod.GET )
+	public @ResponseBody String getOrderStatus(HttpSession session, 
+			Model theModel) {
+		
+		User user = (User)session.getAttribute("user");
+    	long userid = user.getId();
+    	System.out.println("get status controller called");
+
+		// get current orders
+		Workspace currentOrder = workspaceService.getCurrentOrder(user);	
+		
+		if(currentOrder.getStatus() != null) {
+		
+				
+				
+				if(currentOrder.getStatus().equalsIgnoreCase("order placed")) {
+					
+					return "Hooray! Order is placed. Waiting for order to be accepted.";
+					
+				}
+		
+				if(currentOrder.getStatus().equalsIgnoreCase("DECLINED")) {
+					
+					return "Oh no! Order was declined. We are sorry.";
+					
+				}
+				
+				if(currentOrder.getStatus().equalsIgnoreCase("DELIVERED")) {
+					
+					return "Box-it was delivered! Yum! Yum!";
+					
+				}
+				
+				if(currentOrder.getStatus().equalsIgnoreCase("PREP")) {
+					
+					return "Our Master Chef's working on it!";
+					
+				}
+				
+				if(currentOrder.getStatus().equalsIgnoreCase("ACCEPTED")) {
+					
+					return "Yes! Order is Accepted!";
+					
+				}
+				
+				if(currentOrder.getStatus().equalsIgnoreCase("en route")) {
+					
+					return "Box-it is on the way!";
+					
+				}
+				if(currentOrder.getStatus().equalsIgnoreCase("Boxed-it")) {
+							return "Boxed and ready for pick up!";
+				}
+				if(currentOrder.getStatus().equalsIgnoreCase("Picked")) {
+					return "Picked up! AWESOME!";	
+				}
+		}	
+		return "Uhm...we don't have any order yet.";			
+	}
+
+	
+	/*
+	 *  Update Profile
+	 * 
+	 * 
+	 */
+	
+	
+	@GetMapping("/update-profile")
+	public String showStaffForUpdate(HttpSession session, Model theModel) {
+		
+		User user;
+		long userid = 0;
+		try {
+	    	user = (User)session.getAttribute("user");
+    		userid = user.getId();
+    	}
+    	catch(Exception e) {
+    		return "redirect:/BoxItLoginPage";		
+    	}
+		
+		// Get the restaurant from the service
+		User theUser = userService.getUserById(userid);
+		
+		//  Set restaurant
+		BoxItUser theBoxItUser = new BoxItUser();
+	//	BoxItEmployee theBoxItUser = new BoxItEmployee();
+		
+		theBoxItUser.setId(theUser.getId());
+		theBoxItUser.setEmail(theUser.getEmail());
+		theBoxItUser.setFirstName(theUser.getFirstName());
+		theBoxItUser.setLastName(theUser.getLastName());
+		theBoxItUser.setPassword(theUser.getPassword());
+		theBoxItUser.setRestaurantName(theUser.getRestaurantName());
+		theBoxItUser.setRole("customer");
+		theBoxItUser.setUserName(theUser.getUserName());
+		
+		
+		
+		theModel.addAttribute("crmUser", theBoxItUser);
+	//	theModel.addAttribute("id", theUser.getId());
+	
+		
+		return "customer-update-form";
+	}
+	
+	
+	@PostMapping("/processUpdateForm")
+	public String updateStaff(//@Valid @ModelAttribute("crmUser") BoxItUser theCrmUser,
+			@Valid @ModelAttribute("crmUser") BoxItUser theCrmUser,
+			BindingResult theBindingResult, 
+			Model theModel) {
+		
+		String userName = theCrmUser.getUserName();
+		
+		// form validation
+		 if (theBindingResult.hasErrors()){
+			 return "customer-update-form";
+	        }
+	
+		theCrmUser.setRole("customer");
+	    userService.update(theCrmUser); // save(theCrmUser); // saveStaff(theCrmUser);
+				
+		return "redirect:/my-box-it/my-Profile";		
+		
+	}
+	
+	
 	
 }

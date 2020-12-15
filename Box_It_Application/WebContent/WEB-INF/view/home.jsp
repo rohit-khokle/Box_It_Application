@@ -23,17 +23,35 @@
 		
 		<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	    
-       </head>
+	<!--  AJAX Script -->
+   <script type="text/javascript">
+      function madeAjaxCall(test){
+    	$.ajax({
+        type: "get",
+        url: test+"/my-box-it/getStatus",
+        cache: false,    
+        data: $("#restaurant_id").val() ,
+        success: function(data){
+         $('#result').html(data);
+        },
+        error: function(){      
+         alert('Error while request..');
+        }
+       });
+      }
+   </script>
 
 
 </head>
 <body>
-<div class="p-3 mb-2 bg-light text-dark" align="center">
+<div class="p-3 mb-2 bg-light text-dark"  align="center">
 <fmt:formatDate var="year" value="${now}" pattern="dd-MM-yyyy hh:mm" />
-<p align='left'>${year}</p>
 
 
-<nav aria-label="breadcrumb">
+<!-- <p align='left'>${year}</p> -->
+
+
+<nav class="p-3 mb-2 bg-warning text-dark" aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page"><a href="${pageContext.request.contextPath}/home">Home</a></li>
         <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/checkOrder">My Order</a></li>
@@ -110,12 +128,18 @@
 			</c:if>
 
 		</div>
+		<div align="right">
+			<button type="button"  onclick="madeAjaxCall('${pageContext.request.contextPath}');" class="btn btn-outline-info"> <p style="font-size:20px" >Where's  my order?! &#127775;</p> </button>
+			<div class="alert alert-warning" role="alert" id="result">
+			</div>
+		</div>
 		<div align="left">
 			<form:form  action="${pageContext.request.contextPath}/logout" 
 			 				method="POST">
 			 				<button type="submit"  class="btn btn-outline-danger"> <p style="font-size:20px"  class="text-muted"> Logout &#128586;</p> </button>
 			</form:form> 
 		</div>
+		
 </div>
 </body>
 </html>

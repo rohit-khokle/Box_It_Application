@@ -36,14 +36,14 @@
 			<div class="panel panel-primary">
 
 				<div class="panel-heading">
-					<div class="panel-title">Register New Staff Member</div>
+					<div class="panel-title">Update My Profile Details</div>
 				</div>
 
 				<div style="padding-top: 30px" class="panel-body">
 
 					
 					<!-- Registration Form -->
-					<form:form action="${pageContext.request.contextPath}/manager/add-staff/processRegistrationForm" 
+					<form:form action="${pageContext.request.contextPath}/delivery/profile-staff" 
 						  	   modelAttribute="crmUser"
 						  	   class="form-horizontal"
 						  	   method="POST">
@@ -70,7 +70,7 @@
 						<div style="margin-bottom: 25px" class="input-group">
 							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> 
 							<form:errors path="userName" cssClass="error" />
-							<form:input path="userName" placeholder="username (*)" class="form-control" />
+							<form:input readonly="true" path="userName" placeholder="username (*)" class="form-control" />
 						</div>
 
 						<!-- Password -->
@@ -112,26 +112,28 @@
 						<!-- Restaurant name -->
 						<div style="margin-bottom: 25px" class="input-group">
 						<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> 
-						<form:input path="restaurantName"  readonly="true" />
+						<form:errors path="restaurantName" cssClass="error" />
+						
+						<form:input path="restaurantName" readonly="true" class="form-control" />	
+					
 						 </div>
 						
 						<!-- Role -->
 						<div style="margin-bottom: 50px" class="input-group">
 							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> 
-							<form:select path="role">
-					        <form:option value="Chef" label="Chef"/>  
-					        <form:option value="Delivery Executive" label="Delivery Executive"/>  
-						</form:select>
+							<form:errors var="role" cssClass="error" />
+							<form:input path="role" readonly="true" class="form-control" />							
 						</div>
 						
-						
+																		
+
 						<!-- Register Button -->
 						<div style="margin-top: 50px" class="form-group">						
 							<div class="col-sm-6 controls">
-								<button type="submit" class="btn btn-primary">Register Staff</button>
+								<button type="submit" class="btn btn-primary">Update</button>
 							</div>
 						</div>
-								<a href="${pageContext.request.contextPath}/manager/manageStaff?pageCount=0" >Back</a>		
+						<a href="${pageContext.request.contextPath}/home" >Back </a>
 					</form:form>
 
 				</div>

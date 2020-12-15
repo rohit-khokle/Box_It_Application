@@ -102,24 +102,24 @@ height:100%;
 
 		<div align="center">
 			<c:if test="${pageNumber - 6 ge 0}">
-				<a href="${pageContext.request.contextPath}/systems/manage-staff?pageCount=${pageNumber - 5}"> Prev </a> | 
+				<a href="${pageContext.request.contextPath}/manager/manageStaff?pageCount=${pageNumber - 5}"> Prev </a> | 
 			</c:if>
 			<c:if test="${pageNumber - 6 lt 0}">
-				<a  href="${pageContext.request.contextPath}/systems/manage-staff?pageCount=0"> Prev </a> | 
+				<a  href="${pageContext.request.contextPath}/manager/manageStaff?pageCount=0"> Prev </a> | 
 			</c:if>
 			
 			<c:if test="${pageNumber + 6 gt restaurantsCount}">
-					<a hidden="true" href="${pageContext.request.contextPath}/manager/manage-staff?pageCount=${pageNumber+6}"> Next </a>
+					<a hidden="true" href="${pageContext.request.contextPath}/manager/manageStaff?pageCount=${pageNumber+6}"> Next </a>
 			</c:if>
 			<c:if test="${pageNumber + 6 lt restaurantsCount}">
-					<a href="${pageContext.request.contextPath}/manager/manage-staff?pageCount=${count}"> Next </a>
+					<a href="${pageContext.request.contextPath}/manager/manageStaff?pageCount=${count}"> Next </a>
 			</c:if>
 
 		</div>
 		<hr>
 <div align="center">
 <form:form  action="${pageContext.request.contextPath}/manager/add-new-staff"  method="GET">
-<button type="submit" class="btn btn-success btn-lg">Add a new staff member</button>
+<button type="submit" class="btn btn-info btn-lg">Add a new staff member</button>
 </form:form>
 <hr>
 </div>

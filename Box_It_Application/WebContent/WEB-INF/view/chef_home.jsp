@@ -50,7 +50,10 @@ height:100%;
     </li>
   </ol>
 </nav>
- <p class="lead"> <u> Pending Orders </u></p> <h2 align='right'>${year}</h2>
+ <p class="lead"> 
+<b> ${sessionScope.user.firstName}'s Dashboard</b>  
+</p>
+ <p class="lead">  Pending Orders </p> <h2 align='right'>${year}</h2>
 
  
 			<table class="table table-hover">

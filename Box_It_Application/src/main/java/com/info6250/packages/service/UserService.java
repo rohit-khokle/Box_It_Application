@@ -1,5 +1,7 @@
 package com.info6250.packages.service;
 
+import javax.validation.Valid;
+
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.info6250.packages.entities.User;
@@ -14,4 +16,5 @@ public interface UserService extends UserDetailsService {
 	void saveStaff(BoxItEmployee boxItUser);
 	User getUserById(Long id);
 	void deleteStaff(long theId);
+	void update(BoxItUser theCrmUser);
 }

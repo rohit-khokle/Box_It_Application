@@ -25,11 +25,11 @@
 
 
 
-<div class="jumbotron" align="center">
-<nav aria-label="breadcrumb">
+<div class="p-3 mb-2 bg-light text-dark" align="center">
+<nav class="p-3 mb-2 bg-warning text-dark" aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page"><a href="${pageContext.request.contextPath}/home">Home</a></li>
-        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/order-History">My Order</a></li>
+        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/checkOrder">My Order</a></li>
     <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/my-box-it/my-Profile">My Profile</a>
     </li>
   </ol>
@@ -78,13 +78,13 @@
 <hr>
 
  <form:form  action="${pageContext.request.contextPath}/my-box-it/my-address"  method="GET"> 
-			<button type="submit" class="btn btn-success btn-lg btn-block">Manage My Address Details</button>
+			<button type="submit" class="btn btn-warning btn-lg btn-block">Manage My Address Details</button>
  </form:form>
  <form:form  action="${pageContext.request.contextPath}/my-box-it/my-payment"  method="GET"> 
-			<button type="submit" class="btn btn-success btn-lg btn-block">Manage My Payment Option</button>
+			<button type="submit" class="btn btn-warning  btn-lg btn-block">Manage My Payment Option</button>
  </form:form>
 <form:form  action="${pageContext.request.contextPath}/my-box-it/update-profile"  method="GET">
-<button type="submit" class="btn btn-success btn-lg btn-block">Update my profile</button>
+<button type="submit" class="btn btn-warning  btn-lg btn-block">Update my profile</button>
 </form:form>
 <hr>
 			<form:form  action="${pageContext.request.contextPath}/home" 

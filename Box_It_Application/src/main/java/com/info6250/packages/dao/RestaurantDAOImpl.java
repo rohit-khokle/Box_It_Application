@@ -228,6 +228,26 @@ public class RestaurantDAOImpl implements RestaurantDAO {
 		
 		return count;
 	}
+
+	@Override
+	public Restaurant findByRestaurantName(String name) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<Restaurant> theQuery = currentSession.createQuery("from Restaurant where name=:rName", Restaurant.class);
+		
+		theQuery.setParameter("rName", name);
+		Restaurant theUser = null;
+		try {
+			
+			theUser = theQuery.getSingleResult();
+			
+		} catch(Exception e) {
+			theUser = null;
+			
+		}
+
+		return theUser;
+	}
 	
 	
 	

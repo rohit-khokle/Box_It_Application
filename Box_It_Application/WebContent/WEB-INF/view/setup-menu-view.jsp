@@ -11,11 +11,21 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Manage Franchise Menu</title>
+
+		<!-- Reference Bootstrap files -->
+		<link rel="stylesheet"
+			 href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+		
+		<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	    
+
+
 </head>
 <body>
 
-<hr>
-	
+<div class="p-3 mb-2 bg-light text-dark" align="center">
 <nav class="p-3 mb-2 bg-info text-info" aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page"><a href="${pageContext.request.contextPath}/systems?pageCount=0">Home</a></li>
@@ -92,7 +102,7 @@
 		</form:form>
 </div>
 
-
+</div>
 
 
 </body>

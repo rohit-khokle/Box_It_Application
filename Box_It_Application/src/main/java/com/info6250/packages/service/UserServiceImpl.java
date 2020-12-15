@@ -167,6 +167,25 @@ public class UserServiceImpl implements UserService {
 		userDao.save(user);
 
 	}
+
+	@Override
+	@Transactional
+	public void update(BoxItUser boxItUser) {
+		User user = new User();
+		
+		user.setId(boxItUser.getId());
+		
+		user.setUserName(boxItUser.getUserName());
+		user.setPassword(passwordEncoder.encode(boxItUser.getUserName()));
+		user.setFirstName(boxItUser.getFirstName());
+		user.setLastName(boxItUser.getLastName());
+		user.setEmail(boxItUser.getEmail());
+		user.setRestaurantName(boxItUser.getRestaurantName());
+		user.setRoles(Arrays.asList(new Role("ROLE_CUSTOMER")));	
+
+		userDao.update(user);
+		
+	}
 	
 	
 

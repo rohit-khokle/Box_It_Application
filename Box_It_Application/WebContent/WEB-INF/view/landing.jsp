@@ -20,21 +20,23 @@
   <h1 class="display-4">Welcome to Box-it!</h1>
   <p class="lead"> Healthy yumminess, boxed and delivered at your doorstep! </p>
   <hr class="my-4">
+  
+	    <div align="center">
 	          <form:form action = "${pageContext.request.contextPath}/home"  method="GET" >
 	            <button type="submit" class="btn btn-primary btn-lg">Customer Login</button> 
 	          </form:form>
 	          <p class="text-monospace"><i>Not a customer yet? </i><a href="${pageContext.request.contextPath}/register/showRegistrationForm">Register</a>
 	          </p>
-	            
+	   </div>         
         <div align="right">
           <p class="text-monospace">
            <i> Employee? Login here -></i> <a href="${pageContext.request.contextPath}/home">Employee Login</a>
           </p>
 	          </div>       
-					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+					<div id="#carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 					  <ol class="carousel-indicators">
 					    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-					    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+					    <li data-target="#carouselExampleIndicators" data-slide-to="Second slide"></li>
 					    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
 					    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
 					    <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>

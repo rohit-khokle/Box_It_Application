@@ -40,5 +40,7 @@ public interface RestaurantDAO {
 	public List<User> getAllStaffPagnination(Integer pageNumber, Restaurant restaurant);
 
 	public Long getAllStaffCountPagnination(Restaurant restaurant);
+
+	public Restaurant findByRestaurantName(String name);
 	
 }
