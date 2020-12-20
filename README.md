@@ -43,8 +43,8 @@ Box-It web application is a food delivery system that covers complete cycle of p
 
 
 
-## Roles	Tasks Performed	Example account
-* Customer	Account 
+## Roles Tasks Performed	
+* Customer Account 
   Registration with Validation on fields (unique username constrains maintained)
 	Password encryption on the account passwords	Same password
 	Choose from range of restaurants, pagination on restaurants	 
@@ -112,9 +112,9 @@ Box-It web application is a food delivery system that covers complete cycle of p
 
 ## Roles and Model Diagram
 
-![ScreenShot](https://github.com/rohit-khokle/Medicare/blob/master/Medicare/snaps/Roles.png)
+![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/box-it-snaps/1.png)
 
-![ScreenShot](https://github.com/rohit-khokle/Medicare/blob/master/Medicare/snaps/model.png)
+![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/box-it-snaps/2.png)
 
 
 ## Dashboards for the roles
