@@ -88,62 +88,79 @@ Box-It web application is a food delivery system that covers complete cycle of p
 	Deployed on Cloud
 
 
-### Home Screen
-![ScreenShot](https://github.com/rohit-khokle/Medicare/blob/master/Medicare/snaps/1.PNG)
-
-
-
-## Roles and Capabilities
-* There are six employee roles and one patient role
-* There are also admin roles to manage respective enterprises and one superuser.
-
-### Hospital Enterprise 
-* Doctor Assistant – (DA) role – Approves Doctor appointments
-* Lab Assistant role – Receives Lab requests and updates Lab Reports
-* Doctor role – Processes Patient consultations
-
-### Insurance Enterprise
-* Sales Agent role - Receives buy insurance requests from customers. Processes them and sends them for approval
-* Claims Agent role – Receives claims request for processing (Patient consultations /Lab Test )
-* Manager role – Receives approval requests for buying insurance and Claim requests)
-
-### Customer
-* Patient role – Can take doctor consultation and lab test appointments across the network
-
-## Roles and Model Diagram
-
+### Home Page
 ![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/blob/main/box-it-snaps/1.png)
 
-![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/box-it-snaps/2.png)
+---
+### Customer Screens
+![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/blob/main/box-it-snaps/2.png)
+
+---
+
+![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/blob/main/box-it-snaps/3.png)
+
+---
+
+### Admin 
+
+![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/blob/main/box-it-snaps/4.png)
+
+---
 
 
-## Dashboards for the roles
+![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/blob/main/box-it-snaps/5.png)
 
-### Admin
-![ScreenShot](https://github.com/rohit-khokle/Medicare/blob/master/Medicare/snaps/admin_dashboard.PNG)
+---
 
-### Customer booking doctor's appointments
-![ScreenShot](https://github.com/rohit-khokle/Medicare/blob/master/Medicare/snaps/customer_book_appointment.PNG)
+![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/blob/main/box-it-snaps/6.png)
 
-### Customer buying insurance
+---
 
-![ScreenShot](https://github.com/rohit-khokle/Medicare/blob/master/Medicare/snaps/Customer_buy_insurance.PNG)
+![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/blob/main/box-it-snaps/7.png)
 
-### Messaging service throughout the applications between roles across network
+---
 
-![ScreenShot](https://github.com/rohit-khokle/Medicare/blob/master/Medicare/snaps/customer_messaging.PNG)
+![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/blob/main/box-it-snaps/8.png)
 
+---
 
-### Doctor Dashboard
-
-![ScreenShot](https://github.com/rohit-khokle/Medicare/blob/master/Medicare/snaps/doc_dashboards.PNG)
+![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/blob/main/box-it-snaps/9.png)
 
 
-### Insurance Agent Dashboard
+## Manager, Chef and Delivery Dashboards
+---
 
-![ScreenShot](https://github.com/rohit-khokle/Medicare/blob/master/Medicare/snaps/claims_dashboard.PNG)
+![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/blob/main/box-it-snaps/11.png)
 
+---
 
+![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/blob/main/box-it-snaps/10.png)
+
+---
+
+![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/blob/main/box-it-snaps/12.png)
+
+---
+
+![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/blob/main/box-it-snaps/13.png)
+
+---
+
+![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/blob/main/box-it-snaps/14.png)
+
+---
+
+![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/blob/main/box-it-snaps/15.png)
+
+---
+
+![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/blob/main/box-it-snaps/16.png)
+
+---
+
+![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/blob/main/box-it-snaps/17.png)
+
+---
 
 
 ## License
