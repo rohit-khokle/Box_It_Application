@@ -112,7 +112,7 @@ Box-It web application is a food delivery system that covers complete cycle of p
 
 ## Roles and Model Diagram
 
-![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/box-it-snaps/1.png)
+![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/blob/main/box-it-snaps/1.png)
 
 ![ScreenShot](https://github.com/rohit-khokle/Box_It_Application/box-it-snaps/2.png)
 
