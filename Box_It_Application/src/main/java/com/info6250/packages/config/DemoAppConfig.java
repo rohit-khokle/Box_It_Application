@@ -22,8 +22,10 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import com.info6250.packages.controllers.UserPDFView;
 import com.info6250.packages.entities.Cart_items;
 import com.info6250.packages.entities.Workspace;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
@@ -44,14 +46,14 @@ public class DemoAppConfig  implements WebMvcConfigurer {
 	// Setup a logger	
 	private Logger logger = Logger.getLogger(getClass().getName());
 	
-	@Bean
+	@Bean 
 	public ViewResolver viewResolver() {
 		
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 		
 		
 		viewResolver.setPrefix("/WEB-INF/view/");
-		viewResolver.setSuffix(".jsp");
+		viewResolver.setSuffix("order-assignment.jsp");
 		
 		
 		return viewResolver;
@@ -211,5 +213,18 @@ public class DemoAppConfig  implements WebMvcConfigurer {
 		return cart_list;
 	}
 	
+	@Bean
+	@Autowired
+	public UserPDFView userPDFView() {		
+		UserPDFView userPDFView = new UserPDFView();
+		return userPDFView;
+	}
+	
+	 @Bean
+	 public ViewResolver beanViewResolver() {
+	  BeanNameViewResolver beanResolver = new BeanNameViewResolver();
+	  beanResolver.setOrder(1);
+	  return beanResolver;
+	 }
 
 }

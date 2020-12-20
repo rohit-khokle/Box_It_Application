@@ -39,7 +39,7 @@ public class WorkspaceDAOImpl implements WorkspaceDAO {
 		Session currentSession = sessionFactory.getCurrentSession();
 		
 		Query<Workspace> theQuery =
-				currentSession.createQuery("from Workspace WHERE status = 'DELIVERED' " 
+				currentSession.createQuery("from Workspace WHERE status IN('DELIVERED','DECLINED') " 
 						+ "AND customer_id=:cusid", 
 						Workspace.class);
 		theQuery.setParameter("cusid", userid);
@@ -235,6 +235,18 @@ public class WorkspaceDAOImpl implements WorkspaceDAO {
 			return workspace;
 		}
 		return workspace;
+	}
+
+	@Override
+	public List<Workspace> getAllWorkspaceDetails() {
+Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<Workspace> theQuery =
+				currentSession.createQuery("from Workspace WHERE status IN ('DELIVERED','DECLINED')", 
+						Workspace.class);
+		List<Workspace> workspaces = theQuery.getResultList();
+		
+		return workspaces;
 	}
 
 }

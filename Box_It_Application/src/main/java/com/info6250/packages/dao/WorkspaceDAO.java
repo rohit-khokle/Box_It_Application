@@ -27,5 +27,6 @@ public interface WorkspaceDAO {
 	public List<Workspace> getDeliveryHistoryWorkspace(Long id);
 	public List<Workspace> getChefHistoryWorkspace(Long id);
 	public Workspace getCurrentOrder(User user);
+	public List<Workspace> getAllWorkspaceDetails();
 	
 }

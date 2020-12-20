@@ -58,6 +58,8 @@ public interface WorkspaceService {
 
 	public Workspace getCurrentOrder(User user);
 
+	public List<Workspace> getAllWorkspaceDetails();
+
 	
 	
 }

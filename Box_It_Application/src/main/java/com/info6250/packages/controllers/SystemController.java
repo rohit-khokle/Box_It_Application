@@ -1,6 +1,8 @@
 package com.info6250.packages.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.validation.Valid;
@@ -17,17 +19,23 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.info6250.packages.entities.Menu;
 import com.info6250.packages.entities.Restaurant;
 import com.info6250.packages.entities.User;
+import com.info6250.packages.entities.Workspace;
 import com.info6250.packages.service.RestaurantService;
 import com.info6250.packages.service.UserService;
+import com.info6250.packages.service.WorkspaceService;
 import com.info6250.packages.user.BoxItEmployee;
 import com.info6250.packages.user.BoxItMenu;
 import com.info6250.packages.user.BoxItRestaurant;
 import com.info6250.packages.user.BoxItUser;
-
+/**
+ * @author Rohit
+ *
+ */
 @Controller
 @RequestMapping("/systems")
 public class SystemController {
@@ -37,6 +45,12 @@ public class SystemController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	WorkspaceService workspaceService;
+	
+	@Autowired
+	private UserPDFView userPDF;
 	
 	private Logger logger = Logger.getLogger(getClass().getName());
 
@@ -392,4 +406,21 @@ public class SystemController {
 	}
 	
 	
+	@GetMapping("/reportGenerate")
+	public ModelAndView reportGenerate() {
+		
+		      //user data
+		      Map<String,String> userData = new HashMap<String,String>();
+		      
+		     List<Workspace> workspaces = workspaceService.getAllWorkspaceDetails();
+		     Map<String, List<Workspace>> theModel = new HashMap<String, List<Workspace>>();
+		    
+		     
+		     
+		    	 	theModel.put("1", workspaces);
+		     
+		     
+		      return new ModelAndView("userPDFView","userData",theModel);
+		   }
+
 }

@@ -170,6 +170,14 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
 
 
+	@Override
+	@Transactional
+	public List<Workspace> getAllWorkspaceDetails() {
+		return workspaceDAO.getAllWorkspaceDetails();
+	}
+
+
+
 	
 	
 }

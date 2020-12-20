@@ -46,7 +46,7 @@ public class RestaurantDAOImpl implements RestaurantDAO {
 		Session currentSession = sessionFactory.getCurrentSession();
 		
 		SQLQuery<User> theQuery =
-				currentSession.createSQLQuery("SELECT * FROM USER WHERE restaurant_name IS NOT NULL ORDER BY restaurant_name");
+				currentSession.createSQLQuery("SELECT * FROM user WHERE restaurant_name IS NOT NULL ORDER BY restaurant_name");
 
 		theQuery.addEntity(User.class);
 //				currentSession.createQuery("from User u WHERE u.restaurantName IS NOT :temp", 

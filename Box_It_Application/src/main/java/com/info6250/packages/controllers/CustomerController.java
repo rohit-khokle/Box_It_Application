@@ -579,8 +579,16 @@ public class CustomerController {
 		try {
 			if(workspaceService.checkValidity(user.getId(), checkCartId))
 			{
-				Restaurant theRestaurant = restaurantService.getRestaurant(checkCartId);
+				
+				
 				List<Cart_items> theCart =workspaceService.getMyCart(checkCartId);
+				
+				Workspace theWorkspace = (Workspace) 
+						workspaceService.getWorkspace(checkCartId);
+				
+		//		Cart_items oneCartItem = theCart.get(0);
+		//		Workspace workspace = oneCartItem.getWorkspace_id();
+				Restaurant theRestaurant = restaurantService.getRestaurant(theWorkspace.getRestaurant_id());
 				theModel.addAttribute("currentCart", theCart);
 				theModel.addAttribute("currentRestaurant", theRestaurant);
 				
