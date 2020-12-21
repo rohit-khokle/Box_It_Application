@@ -1,7 +1,7 @@
 # Box-It Web-Application
 ## Project Brief
 
-Box-It web application is a food delivery system that covers complete cycle of purchasing meals online. The web-app also takes restaurant, staff as well as menu management into account. The web-app is based on an enterprise eco-system, wherein an enterprise contains many restaurants and each restaurant has its own staff. Customer can place multiple orders from their choice of restaurant. The aim of the web-app is to make the enterprise management easy and order place seamless. 
+Box-It web application is a food delivery system that covers complete cycle of purchasing meals online. The web-app also takes restaurant, staff as well as menu management into account. The web-app is based on an enterprise eco-system, wherein an enterprise contains many restaurants and each restaurant has its own staff. Customer can place multiple orders from their choice of restaurant. The aim of the web-app is to make the enterprise management easy and order placement seamless. 
 
 ## Functionalities
 
